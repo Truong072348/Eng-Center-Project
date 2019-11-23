@@ -1,0 +1,464 @@
+.content-show {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	margin: 10px;
+	margin-top: 1px;
+	-ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+	/*min-height: 100vh;*/
+	box-sizing: border-box;
+}
+
+.box {
+	width: calc(100%/4 - 10px);
+	padding: 1em 2em;
+	background-color: #fff;
+	margin: 10px 5px;
+	box-sizing: border-box;
+}
+
+.box-img {
+	display: flex;
+	height: 100px;
+}
+
+.img {
+	width: 80%;
+}
+
+.img img {
+	width: 100px;
+	height: 100%;
+	border-radius: 50%;
+}
+
+/*@keyframes imgZoom {
+	from {
+		background-position: 0%;
+	} to {
+		background-position: 50%;
+		}
+}*/
+
+.img img:hover {
+
+}
+
+.social-wr {
+	width: 20%;
+}
+
+.social {
+	list-style: none;
+}
+
+
+.social li{
+	padding: 5px;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	transition: .8s;
+}
+
+.social li img {
+	width: 100%;
+}
+
+.social li:hover {
+	cursor: pointer;
+
+}
+
+.box-body {
+	margin: 20px 0;
+	position: relative;
+	height: 161px;
+}
+
+.box-body p {
+	color: grey;
+	display: inline-block;
+	width: 100%;
+
+}
+
+.box-body a {
+	display: inline-block;
+	margin-top: 10px;
+	width: 100%;
+	text-transform: capitalize;
+	text-decoration: none;
+	color: #0E3BFC;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+
+#name-teacher {
+	font-weight: 900;
+	color: #000;
+	font-size: 16px;
+	text-transform: capitalize;
+	letter-spacing: 1px;
+}
+
+.box-desc {
+	font-size: 14px;
+	max-height: 36px;
+	margin: 10px 0;
+	display: block;
+	overflow: hidden;
+}
+
+#short-intro {
+	color: #000;
+}
+
+.alert {
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(100% - 10px);
+}
+
+@media screen and (max-width: 991px){
+	.box {
+		width: calc(100%/2 - 10px);
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.box {
+		width: 100%;
+		border-bottom: 1px solid rgb(0,0,0,.09);
+	}
+	/*.content-show {
+		margin: 0;
+	}*/
+
+}
+
+
+/*edit teacher page*/
+.content-show {
+	background-color: #fff;
+}
+
+.content-show fieldset {
+	margin: 1em;
+	width: 100%;
+	border: 1px solid #f1f1f1;
+	box-sizing: border-box;
+}
+
+.content-show legend {
+	font-size: 24px;
+	text-transform: capitalize;
+	padding: 0 10px;
+	/*text-shadow: 0 2px 4px rgb(0,0,0,.2);*/
+}
+
+.form-submit {
+	padding: 2em 4em;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+}
+
+.form-left, .form-right {
+	width: calc(50% - 10px);
+}
+
+/*form-left*/
+.form-left {
+	margin-right: 10px;
+}
+
+.form-right {
+	margin-left: 10px;
+}
+
+.form-group {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.form-group input {
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	border: 1px solid #d1ccc0;
+}
+
+.input-group {
+	position: relative;
+	text-align: center;
+	font-weight: 700;
+	color: #84817a;
+	letter-spacing: 1px;
+	font-size: 13px;
+	border: 2px dotted  #d1ccc0;
+	padding: 1em;
+	padding-bottom: 4em;
+	box-sizing: border-box;
+}
+
+.input-group label {
+	z-index: -1;
+}
+
+.input-group input {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	height: 100%;
+	cursor: pointer;
+}
+
+.input-group img {
+	width: 25px;
+	height: 25px;
+	display: block;
+	margin: 0 auto;
+}
+
+
+/*form-right*/
+select {
+  /*for firefox*/
+  -moz-appearance: none;
+  /*for chrome*/
+  -webkit-appearance:none;
+  appearance: none;
+}
+
+/*for IE10+*/
+select::-ms-expand {
+    display: none;
+}
+
+.form-group select {
+	padding: 9.5px 10px;
+	border: 1px solid #d1ccc0;
+	width: 100%;
+	background-color: #fff;
+	box-sizing: border-box;
+}
+
+.select-style  {
+	position: relative;
+	overflow: hidden;
+}
+
+.select-style i{
+	position: absolute;
+	top: 40%;
+	right: 3%;
+	font-size: 12px;
+}
+
+
+.form-group textarea {
+	border: 1px solid #d1ccc0;
+	width: 100%;
+	min-height: 150px;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+
+.account-w {
+	margin: 20px 0;
+}
+
+/*.account-w h3 {
+	margin-bottom: 20px;
+}
+*/
+
+.btn-group {
+	width: 15%;
+	margin: 0 auto;
+	margin-top: 30px;
+}
+
+.btn-group button {
+	width: 100%;
+	height: 30px;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 14px;
+	background-color: #3c40c6;
+	border: none;
+	cursor: pointer;
+}
+
+.btn-group button:hover {
+	background-color: #575fcf;
+}
+
+/*change-password*/
+.check-container{
+	float: left;
+	display: inline-block;
+	width: 100%;
+	position: relative;
+	cursor: pointer;
+	font-size: 14px;
+ 	-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  	user-select: none;
+  	padding-left: 35px;
+  	margin-bottom: 20px;
+  	height: 25px;
+
+}
+
+.check-container span {
+	line-height: 25px;
+}
+.check-container input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #000;
+  cursor: pointer;
+}
+
+/*avatar information*/
+.img-wr {
+	height: 100px;
+	margin-bottom: 20px;
+	display: flex;
+	box-sizing: border-box;
+}
+.img-wr-left{
+	width: 20%;
+	padding-right: 2em;
+}
+
+.img-wr-left img {
+	width: 100px;
+	height: 100%;
+	background-position: center;
+	background-size: cover;
+	object-fit: cover;
+}
+.img-wr-right {
+	width: 70%;
+	padding: 5px 0;
+}
+
+.img-wr-right p {
+	padding: 3px;
+	color: #192a56;
+	font-weight: 600;
+
+}
+
+.img-wr-right p a {
+	text-decoration: none;
+	font-weight: 100;
+	margin-left: 10px;
+	color: #3498db;
+}
+
+.img-wr-right p a:hover{
+	text-decoration: underline;
+}
+
+.img-wr-right span {
+	font-weight: 100;
+	color: #000;
+}
+
+/*table course*/
+.i_crs, .status, .f_crs, .code {
+	text-align: center;
+}
+
+.code {
+	width: 5%;
+}
+
+.i_crs, .status{
+	width: 10%;
+}
+
+.d_crs {
+	width: 25%;
+}
+
+
+.n_crs {
+	width: 40%;
+}
+
+.f_crs {
+	width: 10%;
+}
+
+.table-body {
+	max-height: 150px;
+	overflow-y: scroll;
+}
+/*********************************/
+
+#img-view {
+	display: flex;
+}
+
+#img-view .img-preview {
+	width: 25%;
+}
+#img-view .img-preview img {
+	width: 100%;
+}
+
+#img-view .input-group {
+	width: 75%;
+	height: 130px;
+	box-sizing: border-box;
+	margin-left: 10px;
+}
+
+
+@media screen and (max-width: 991px){
+	.box {
+		height: 350px;
+	}
+
+	.form-left, .form-right {
+		width: 100%;
+		margin: 0;
+	}
+}
+
+@media screen and (max-width: 767px){
+	.form-left, .form-right {
+		width: 100%;
+		margin: 0;
+	}
+
+	.form-submit {
+		padding: 10px;
+	}
+
+	.img-wr-left{
+		padding-right: 3em;
+	}
+
+	.content-show {
+		margin: 5px;
+	}
+
+}

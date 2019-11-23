@@ -1,0 +1,294 @@
+/*course list page*/
+.c_t, .c_cate, .c_n_s, .c_n_t, .c_n_e, .c_action {
+
+}
+
+.c_t {
+}
+
+.c_cate {
+	width: 10%;
+	text-align: center;
+}
+
+.c_n_s {
+	width: 18%;
+	text-align: center;
+} 
+
+.c_n_e {
+	width: 20%;
+	text-align: center;
+}
+.c_n_t{
+	width: 14%;
+	text-align: center;
+}
+
+.c_action {
+	width: 10%;
+	text-align: center;
+}
+
+.c_action a {
+	padding-right: 0;
+}
+
+/*course add page*/
+.form-group label {
+	font-size: 13px;
+	margin-bottom: 10px;
+	display: inline-block;
+	font-weight: 600;
+	text-transform: capitalize;
+	letter-spacing: 0.75px;
+	color: #84817a;
+}
+
+.form-left {
+	width: 57%;
+	box-sizing: border-box;
+}
+
+.form-right {
+	width: 40%;
+	box-sizing: border-box;
+}
+
+.teacher-wr {
+	width: 100%;
+	margin-top: 10px;
+}
+
+.table-wr {
+	width: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	box-sizing: border-box;
+	max-height: 250px;
+}
+
+
+.table-wr th {
+	background-color: #7f8c8d;
+	color: #ecf0f1;
+}
+
+.work {
+	/*text-align: center;*/
+	width: 10%;
+}
+
+.work span {
+	width: 100%;
+	display: inline-block;
+}
+
+.action {
+	text-align: center;
+	width: 7%;
+}
+
+.de {
+	width: 15%;
+}
+
+.cr {
+	width: 41%;
+}
+
+.cr ul {
+	padding-left: 20px;
+}
+
+
+
+/*action select*/
+.select-name {
+	cursor: pointer;
+	color: #2980b9;
+}
+
+.select-name:hover{
+	text-decoration: underline;
+}
+
+.code {
+	display: none;
+}
+
+.n a {
+	text-decoration: none;
+}
+
+.work span {
+  height: 5px;
+  width: 5px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+  border-radius: 50%;
+  display: inline-block;
+ 	
+}
+
+
+/*lesson page*/
+.url-table td {
+	border: none;
+	width: 100%;
+}
+
+.form-right .video{
+	width: 100%;
+}
+
+.video video {
+	width: 100%;
+	height: 218px;
+	background-color: #000;
+}
+
+.row_q {
+	width: 100%;	
+	display: inline-block;
+	margin-top: 20px;
+}
+
+.type_c {
+	float: right;
+	width: 200px;
+}
+
+.type_c span {
+	display: block;
+}
+
+#select-type {
+	display: block;
+	border: 0;
+	padding: 3px;
+	border-bottom: 1px solid #16a085;
+	margin: 0 5px;
+}
+
+#select-type .dropdown-child {
+	z-index: 10;
+}
+
+#select-type .dropdown-child ul li {
+	text-align: left;
+}
+
+#select-type .menu-dropdown:hover .dropdown-child{
+	display: block;
+}
+
+
+/*lesson page*/
+.ltitle {
+	width: 20%;
+}
+
+/*.lvideo, .ldoc {
+	width: 20%;
+}
+*/
+
+.laction {
+	width: 10%;
+	text-align: center;
+}
+
+.img-wr-right {
+	width: 100%;
+}
+
+.img-wr-right img {
+	width: 50%;
+	height: 200px;
+	background-size: cover;
+	background-position: center;
+	object-fit: cover;
+}
+
+.show-link {
+	color: #F63131;
+	padding-top: 10px;
+	padding-left: 10px;
+}
+
+.row_q {
+	margin-bottom: 10px;
+}
+
+.active-course {
+	padding: 10px 40px;
+}
+
+.active-course  a {
+	border: 1px dotted #e84118; 
+	color: #e84118;
+	font-weight: 500;
+	text-decoration: none;
+	font-size: 14px;
+	line-height: 
+	letter-spacing: 0.5px;
+	padding: 5px 10px;
+}
+
+
+.active-course span {
+	border: 1px dotted #e84118; 
+	color: #e84118;
+	font-weight: 500;
+	text-decoration: none;
+	font-size: 14px;
+	line-height: 
+	letter-spacing: 0.5px;
+	padding: 5px 10px;
+}
+
+#ex5, #ex6 {
+	width: 220px;
+	border-radius: 0;
+	padding: 20px 30px;
+}
+
+
+
+#ex7, #ex8 {
+	width: 220px;
+	padding: 10px 30px;
+	border-radius: 0;
+}
+@media screen and (max-width: 991px){
+
+	.form-left, .form-right {
+		width: 100%;
+	}
+
+	.work {
+		display: none;
+	}
+
+	.cr ul {
+		padding-left: 10px;
+	}
+}
+
+@media screen and (max-width: 767px){
+	.cr ul {
+		list-style: none;
+	}
+
+	.c_n_t, .c_n_s {
+		display: none;
+	}
+}
+
+
+
+/*page list course*/
+.lav, .ln, .laction, .ltime, .ltype, .lteacher {
+
+}

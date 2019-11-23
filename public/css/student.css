@@ -1,0 +1,187 @@
+.avatar, .n, .mail, .date, .action, .enroll {
+	box-sizing: border-box;
+}
+
+.av {
+	width: 5%;
+}
+
+.n, .mail {
+	width: 17.5%;
+}
+.dateadd {
+	width: 20%;
+}
+
+.action {
+	width: 15%;
+	text-align: center;
+}
+
+.action a {
+	padding-right: 0;
+}
+
+.enrol {
+	width: 30%;
+
+}
+
+.enrol ul {
+	margin-left: 10px;
+}
+
+
+.av {
+	position: relative;
+	padding: 10px;
+}
+
+.av img {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-position: center;
+    background-size: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
+    display: block;
+}
+
+
+/*profile student add page*/
+.profile-wr {
+	display: flex;
+	flex-wrap: wrap;
+	box-sizing: border-box;
+}
+
+.profile-wr-left {
+	width: 25%;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.profile-img {
+	width: 100%;
+}
+
+.profile-img img {
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	width: 150px;
+	height: 150px;
+	/*border-radius: 50%;*/
+	background-size: cover;
+	background-position: center;
+	object-fit: cover;
+}
+
+.profile-intro {
+	text-align: center;
+}
+
+.profile-intro p {
+	margin-bottom: 5px;
+}
+
+.profile-wr-right {
+	width: 74%;
+	margin: 20px 0;
+	border-left: 1px solid rgb(0,0,0,.09);
+	box-sizing: border-box;
+}
+
+.profile-wr-right table, .profile-wr-right td {
+	border: none;
+}
+
+.pro-t {
+	padding-right: 6em;
+	font-weight: 700;
+	letter-spacing: 0.6px;
+}
+
+.profile-wr-right td {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 50px;
+}
+
+.profile-intro a {
+	text-decoration: none;
+	color: #0984e3;
+	margin-top: 10px;
+	display: inline-block;
+}
+
+.profile-intro a:hover { 
+	text-decoration: underline;
+}	
+
+@media screen and (max-width: 991px){
+	.action {
+		text-align: center;
+	}
+
+	.action a {
+		padding: 0;
+	}
+
+	.profile-wr-left {
+		width: 35%;
+	}
+	.profile-wr-right {
+		width: 55%;
+	}
+}
+
+@media screen and (max-width: 767px){
+	.mail {
+		display: none;
+	}
+
+	.av {
+		width: 5%;
+		padding: 5px;
+		text-align: center;
+	}
+
+	.dateadd, .n {
+		width: 15%;
+		padding-right: 10px;
+	}
+
+	.action {
+		width: 7%;
+	}
+
+	.action a {
+		padding: 0;
+	}
+
+	.enrol {
+		width: 48%;
+		padding-left: 20px;
+		padding-right: 0;
+	}
+
+	.profile-wr-right, .profile-wr-left {
+		width: 100%;
+	}
+
+	.profile-wr-right table {
+		align-items: center;
+		margin: 0 auto;
+	}
+
+
+	.profile-wr-left {
+		padding: 20px 0;
+	}
+
+	.profile-wr-right td {
+		padding: 10px;
+	}
+}

@@ -1,0 +1,13 @@
+.correct {
+	color: #4cd137;
+	font-size: 12px;
+	margin-top: 10px;
+}
+
+.correct-answer {
+	background-color:#ddffdd;
+}
+
+.error {
+	background-color: #ffdddd;
+}

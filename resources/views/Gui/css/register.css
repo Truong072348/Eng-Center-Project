@@ -1,0 +1,148 @@
+
+.content {
+	padding: 30px 0;
+	background-color: #f1f1f1;
+	margin-top: 0;
+	background-image: -webkit-linear-gradient(right, #485460, #1B1464);
+	background-image: linear-gradient(-90deg, #485460, #1B1464);
+}
+
+
+.lg-col-span-4 > p {
+	letter-spacing: 1px;
+	font-size: 13px;
+	margin-top: 20px;
+}
+
+
+.logo-sm {
+	margin-bottom: 25px;
+	display: none;
+}
+
+.logo-sm img {
+	width: 200px;
+}
+
+h2 {
+	text-align: center;
+	font-size: 27px;
+}
+
+
+.register-wrapper {
+	background-color: #fff;
+	padding: 15px;
+	
+}
+
+.register-wrapper p {
+	padding-left: 10px;
+}
+
+.nav-left {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	height: 700px;
+	text-shadow: 0 2px 4px rgb(0,0,0,.2);
+	color: #fff;
+}
+
+.nav-intro-left {
+	margin: 0 auto;
+	max-width: 400px;
+}
+
+.nav-intro-left p,
+.link-login {
+	text-align: center;
+	line-height: 1.5;
+}
+
+
+.nav-intro-left p {
+	margin: 20px 0;
+}
+
+.nav-intro-left h3 {
+	text-shadow: 0 2px 2px rgb(0,0,0,.2);
+}
+
+.nav-intro-img {
+	width: 100px;
+	height: auto;
+	margin: 0 auto;
+	/*background-color: #fff;*/
+}
+
+
+.link-login, .introduce {
+	margin-top: 25px;
+}
+
+.link-login {
+	box-sizing: border-box;
+	padding: 10px;
+	border-radius: 15px;
+	/*background-color: #1019D9;*/
+	background-color: transparent;
+	width: 8em;
+	margin: 0 auto;
+	margin-top: 50px;
+	cursor: pointer;
+	border: 2px solid #fff;
+
+}
+.link-login a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 24px;
+	box-sizing: border-box;
+	text-transform: uppercase;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+
+@media screen and (max-width: 767px){
+	.content {
+		padding: 0;
+	}
+
+	.nav-left {
+		display: none;
+	}
+
+	.logo-sm {
+		display: block;
+	}
+
+	form {
+		min-height: 428px;
+	}
+
+	.logo-sm img {
+		display: block;
+		margin-top: 15px;
+	}
+
+	.lg-col-span-4 h2 {
+		
+	}
+
+	h2 {
+		text-align: left;
+	}
+
+	.register-wrapper {
+		border-left: 0;
+	}
+}

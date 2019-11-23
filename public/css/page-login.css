@@ -1,0 +1,137 @@
+.modal {
+	max-width: 900px;
+	margin: 60px 0;
+	border-radius: 5px;
+	padding: 0;
+}
+
+.modal .content {
+	display: flex;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.intro-left {
+	width: 30%;
+	padding: 45px 30px;
+}
+
+.form-l{
+	width: 70%;
+	padding: 15px;
+	background-color: #f1f2f6;
+}
+
+.form-l form {
+	margin-top: 0;
+}
+
+.form-login {
+	background-color: #fff;
+	padding: 35px 27px;
+}
+
+.form-group-l {
+	margin-bottom: 15px;
+}
+
+.form-group-l label {
+	display: block;
+	float: left;
+	width: 90px;
+	text-transform: capitalize;
+	color: rgb(120, 120, 120);
+	font-size: 12px;
+}
+
+.form-group-l label p {
+	line-height: 34px;
+}
+
+.form-group-l input {
+	border: 1px solid #95a5a6 !important;
+	border-radius: 3px;
+	width: calc(100% - 90px);
+	height: 34px;
+	box-sizing: border-box;
+	padding-left: 10px;
+}
+
+.btn-group-l {
+	padding-left: 90px;
+}
+.btn-group-l button {
+	width: 100%;
+	height: 40px;
+	background-color: #fed330;
+	color: #000;
+	border-radius: 3px;
+	border: 0;
+	cursor: pointer;
+}
+
+.btn-group-l button:hover {
+	background-color: #f1c40f;
+}
+
+.btn-group-l .links {
+	margin: 20px 0;
+	font-size: 12px;
+}
+
+.btn-group-l .links a {
+	text-decoration: none;
+	color: #4b7bec;
+}
+
+/******************/
+
+.intro-left .intro {
+	position: relative;
+	top: 10%;
+	left: 5%;
+	transform: translate(-50% -50%);
+}
+
+.intro-left .img-modal {
+	position: relative;
+	width: 100%;
+	top: 20%;
+	left: 5%;
+}
+.img-modal img {
+	width: 170px;
+}
+
+/******************/
+.tabs-group {
+	width: 100%;
+	border-bottom: 1px solid rgb(244, 244, 244);
+    overflow: hidden;
+    display: block;
+    background-color: #fff;
+}
+
+.tabs-lg, .tabs-rg {
+	float: left;
+	font-size: 16px;
+	text-transform: capitalize;
+	margin-left: 20px;
+	width: 150px;
+	font-weight: 300;
+	padding: 15px 5px 7px;
+	cursor: pointer;
+	border-bottom: 2px solid #4522F8;
+	color:#4522F8; 
+}
+
+.tabs-lg.inactive, .tabs-rg.inactive {
+	color: rgb(120, 120, 120);
+	border-bottom-color: #fff;
+}
+
+#intro {
+	font-size: 12px;
+	margin-bottom: 20px;
+	color: #a4b0be;
+}

@@ -1,0 +1,189 @@
+.wr {
+	height: 550px;
+	margin-bottom: 20px;
+}
+
+.paywr {
+	width: 100%;
+	padding: 0 10%;
+	margin: 0 auto;
+	height: 230px;
+	box-sizing: border-box;
+	background-color: #343a40;
+}
+
+
+.pay-head {
+	float: left;
+	width: 70%;
+	color: #fff;
+}
+
+.payment {
+	width: 30%;
+	float: right;
+	margin-top: 2em;
+	background-color: #fff;
+	border-radius: 5px;
+	border: 1.5px solid #e1e8ed;
+	box-sizing: border-box;
+}
+
+.pay {
+}
+
+.img-course {
+	padding: 5px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.img-course img {
+	height: 300px;
+	background-position: center;
+	background-size: cover;
+	object-fit: cover;
+}
+
+.img-course a {
+	color: #2980b9;
+	text-decoration: none;
+	text-transform: capitalize;
+}
+/**/
+.course-content-wr {
+	padding: 10px;
+	padding-top: 2em;
+}
+.course-t {
+	text-align: left;
+}
+
+#form-payment {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	min-height: 0 !important;
+}
+
+#form-payment button {
+	background-color: transparent;
+	border: 0;
+	color: #fff;
+	font-weight: 700;
+	height: 27px;
+	cursor: pointer;
+	display: inline-block;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.course-hp {
+	display: inline-block;
+	padding-left: 10px;
+	padding-right: 10px;
+	box-sizing: border-box;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+
+.course-buy {
+	border-radius: 2px;
+	box-sizing: border-box;
+	margin: 10px;
+	width: calc(100% - 20px);
+	text-align: center;
+}
+
+.course-buy a {
+	font-weight: 700;
+}
+
+.sale {
+	padding: 0 10%;
+	text-transform: capitalize;
+}
+
+.sale .notify-error {
+	padding-left: 90px;
+	margin: 10px 0;
+}
+
+.sale form input {
+	width: 20%;
+	border: 1px solid #718093 !important;
+	padding: 3px;
+	border-radius: 2px;
+}
+
+.sale form {
+	width: 63%;
+	padding: 2em 1em;
+	border: 1px solid #dcdde1;
+	min-height: 0 !important;
+	margin: 20px 10px;
+	border-radius: 5px;
+}
+
+.form-group-1 label {
+	padding-right: 5px;
+}
+
+.btn-group-1 {
+	margin-top: 10px;
+	margin-left: 13%;
+}
+
+.btn-group-1 button {
+	width: 10%;
+	padding: 3px;
+	border-radius: 3px;
+	border: 0;
+	background-color: #0c2461;
+	color: #fff;
+	cursor: pointer;
+}
+
+.btn-group-1 button:hover {
+	background-color: #1e3799;
+}
+
+#sale, #total {
+	margin-left: 10px;
+	margin-right: 10px;
+	color: #222f3e;
+}
+
+#total {
+	font-size: 18px;
+	font-weight: 700;
+	border-top: 1px solid #c8d6e5;
+	padding: 10px 0;
+
+}
+
+#total span, #price, #sale span {
+	float: right;
+}
+
+#total span::after, .course-hp span::after {
+	content: 'đồng';
+	font-size: 13px;
+	font-weight: 300;
+	margin-left: 8px;
+}
+
+#sale span {
+	color: #c0392b;
+}
+
+.alert {
+	margin: 1em 0 0 0.9em;
+	width: 65.6%;
+}
+
+#ex4 {
+	width: 300px;
+	border-radius: 0;
+	padding: 20px;
+}

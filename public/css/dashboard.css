@@ -1,0 +1,98 @@
+.count-wr {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.count-student, .count-teacher, .count-class, .count-document {
+	width: 25%;
+	box-sizing: border-box;
+	min-height: 100px;
+	-webkit-transition: .8;
+	transition: .8;
+	cursor: pointer;
+	margin-left: 20px;
+	border-radius: 3px;
+	padding: 10px;
+	border: 1px solid;
+}
+
+.count-student {
+	margin-left: 10px;
+	background-color: #e74c3c;
+	border: 1px solid #c0392b;
+}
+
+.count-teacher {
+	background-color: #3498db;
+	border: 1px solid #2980b9;
+}
+
+.count-class {
+	background-color: #1abc9c;
+	border-color: #16a085;
+}
+
+.count-document {
+	background-color: #34495e;
+	border-color: #2c3e50;
+}
+
+[class *= 'count-']:hover {
+	
+}
+
+.count {
+	display: block;
+	color: #fff;
+	font-size: 30px;
+	font-weight: 300;
+	letter-spacing: 1px;
+	width: 100%;
+}
+
+.name {
+	text-transform: capitalize;
+	color: grey;
+	font-weight: 300;
+	display: inline-block;
+	font-size: 14px;
+	color: #fff;
+}
+.info {
+	float: left;
+}
+
+.desc img {
+	height: 100px;
+	height: 90px;
+	background-position: center;
+	background-size: cover;
+	object-fit: cover;
+	float: right;
+}
+
+/*chart*/
+.container-chart {
+	width: 100%;
+	background-color: #fff;
+	min-height: 500px;
+	padding: 50px 20px;
+	box-sizing: border-box;
+}
+
+
+@media screen and (max-width: 767px){
+	.count-wr {
+		flex-wrap: wrap;
+	}
+
+	[class *= 'count-'] {
+		width: 100%;
+		margin-left: 0;
+		margin-bottom: 10px;
+	}
+}
