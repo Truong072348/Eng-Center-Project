@@ -65,4 +65,5 @@
 		</div>
 	</div>
 </footer>
-<script src="{{ secure_asset('js/jquery-3.4.0.min.js') }}"></script>
+<!-- <script src="{{ secure_asset('js/jquery-3.4.0.min.js') }}"></script> -->
+<script src="js/jquery-3.4.0.min.js"></script>

@@ -528,15 +528,15 @@ $(document).ready(function(){
         //     $('.container').fadeIn(2000);
         // }
 
-		if(x > 500) {
+		if(x > 400) {
 			$('.container-service').fadeIn(2000);
 		}
 
-		if (x > 1000) {
+		if (x > 900) {
 			$('.container-counter').fadeIn(1000);
 		}
 
-        if(x > 1200){
+        if(x > 1000){
             $('.container-course').fadeIn(1000);
         }
 

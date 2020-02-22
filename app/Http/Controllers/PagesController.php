@@ -254,7 +254,7 @@ class PagesController extends Controller
         $student->address = $request->address;
         $student->birthday = '1970-01-01';
         $student->gender = 'Nam';
-        $student->avatar = 'male-define.jpg';
+        $student->avatar = 'male-define_iogxda';
         $student->save();
 
         return redirect()->back()->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);   
