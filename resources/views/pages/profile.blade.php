@@ -1,6 +1,6 @@
 @extends('pages.index')
 @section('style')
-<link rel="stylesheet" type="text/css" href="css/page-account.css">
+<link rel="stylesheet" type="text/css" href="/css/page-account.css">
 @endsection
 @section('content')
 <div class="wrapper">
