@@ -29,7 +29,7 @@
 				<ul class="link-under-banner clear-fix">
 					<li><a href="profile/{{Auth::user()->id}}">Thông tin cá nhân</a></li>
 					<li><a href="account/{{Auth::user()->id}}">Thông tin tài khoản</a></li>
-					<li><a href="#">Trợ giúp</a></li>
+					<li><a >Trợ giúp</a></li>
 				</ul>
 			</nav>
 		</div>

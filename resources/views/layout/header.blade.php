@@ -224,5 +224,5 @@
 			</div>
 		</div>
 	</div>
-	<a href="#" class="scrollTop"><i class="fas fa-angle-up"></i></a>
+	<a class="scrollTop"><i class="fas fa-angle-up"></i></a>
 </header>
