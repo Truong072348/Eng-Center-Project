@@ -48,7 +48,7 @@
 	line-height: 34px;
 }
 
-.form-group-l input {
+.form-group-l > input {
 	border: 1px solid #95a5a6 !important;
 	border-radius: 3px;
 	width: calc(100% - 90px);
@@ -134,4 +134,17 @@
 	font-size: 12px;
 	margin-bottom: 20px;
 	color: #a4b0be;
+}
+
+/*--------------------------*/
+
+/*.form-group-l .radio-button {
+	width: 50%;
+}*/
+
+
+.form-group-l .radio-button input {
+	width: 50% !important;
+	float: left;
+	height: 20px;
 }

@@ -104,8 +104,13 @@
 							<div class="select-style">
 								<i class="fas fa-chevron-down"></i>
 								<select name="sex" id="sex">
+								@if($student->gender == 'Nam')
 									<option value="0">Nam</option>
 									<option value="1">Nữ</option>
+								@else
+									<option value="1">Nữ</option>
+									<option value="0">Nam</option>
+								@endif
 								</select>
 							</div>
 						</div>
@@ -132,6 +137,11 @@
 								<p>Số điện thoại</p>
 							</label>
 							<input type="tel" name="phone" value="{{$student->phone}}">
+							@if($errors->has('phone'))
+							<div class="notify-error">
+								{{$errors->first('phone')}}
+							</div>
+							@endif
 						</div>
 						@if($type->id_utype == 3)
 						<div class="btn-group sm-col-span-12 lg-col-span-4">
@@ -147,6 +157,7 @@
 					</form>
 					@elseif($page == 2)
 					<div class="change-pass">
+						
 						@if(session('passerror'))
 						<div class="alert alert-error">
 							{{session('passerror')}}

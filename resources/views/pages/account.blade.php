@@ -24,7 +24,7 @@
 						Số dư trong tài khoản <span>{{$price}}</span> VND
 					</div>
 					<div class="accout-recharge">
-						<a href="#">Nạp tiền vào tài khoản</a>
+						<button>Nạp tiền vào tài khoản</button>
 					</div>
 				</div>
 				@elseif($page == 2)

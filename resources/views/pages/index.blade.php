@@ -10,7 +10,7 @@
 				<img src="./Images/banner-1.png">
 				<div class="slidecontent active">
 					<h1>Học tiếng anh online hiệu quả!</h1>
-					<p><a href="register">Register Now</a></p>
+					<p><a href="#ex1" rel="modal:open">Register Now</a></p>
 				</div>
 			</div>
 			<div class="slide two">
@@ -19,14 +19,14 @@
 					<h1>
 						Website Học Tiếng Anh online số 1 tại Việt Nam
 					</h1>
-					<p><a href="register">Register Now</a></p>
+					<p><a href="#ex1" rel="modal:open">Register Now</a></p>
 				</div>
 			</div>
 			<div class="slide three">
 				<img src="./Images/banner-3.png">
 				<div class="slidecontent">
 					<h1>Gần 5.000 từ vựng, 50.000 cặp câu luyện nói tiếng anh</h1>
-					<p><a href="register">Register Now</a></p>
+					<p><a href="#ex1" rel="modal:open">Register Now</a></p>
 				</div>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 						<div class="box-intro box-third">
 							<div class="intro">
 								<h3>Khóa học online sale 50%</h3><span>You will improve your knowledge of the English test.</span></br>
-								<p><a href="#">Xem thêm</a></p>
+								<!-- <p><a href="#">Xem thêm</a></p> -->
 							</div>
 						</div>
 					</div>
@@ -139,7 +139,7 @@ Truy cập ngay với 99.000 VNĐ / 1 năm, học Tiếng Anh online thoải má
 								<img src="./Images/document.png">
 							</span>
 							<div class="desc">
-								<h3><a href="">Document</a></h3>
+								<h3><a href="list/Document">Document</a></h3>
 								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
 							</div>
 						</div>

@@ -7,7 +7,9 @@
 			<div class="avatar">
 				<div id="circle">
 					<!-- <input type="file" name="file" accept="*/"> -->
-					<img src="./Images/{{$student->avatar}}">
+					
+					<img src="{{$student->img}}">
+					
 					<!-- <div id="overlay"></div>	 -->
 				</div>		
 			</div>

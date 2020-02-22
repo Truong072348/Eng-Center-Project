@@ -3,15 +3,15 @@
 		<div class="row">
 			<div class="sm-col-span-12 lg-col-span-4">
 				<div class="nav-header-wr">
-					<div class="header-top">
+					<div class="header-top" id="top">
 						<ul class="nav-top clear-fix">
 							<li><i class="fas fa-phone"></i>Hotline: 123.456.789</li>
 							<li><i class="fas fa-envelope"></i>abc@gmail.com</li>
-							<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-							<li><a href="#"><i class="fab fa-youtube"></i></a></li>
-							<li><a href="#reg" rel="modal:open">Giúp đỡ</a></li>
-							<li><a href="#">Về chúng tôi</a></li>
+							<li><a href="https://www.facebook.com/PainLe12" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+							<li><a><i class="fab fa-twitter"></i></a></li>
+							<li><a><i class="fab fa-youtube"></i></a></li>
+							<li><a href="help" rel="modal:open">Giúp đỡ</a></li>
+							<li><a href="about">Về chúng tôi</a></li>
 							@if(Auth::check())
 							<li class="dropdown-acc">
 								<a>Hello, {{Auth::user()->username}} <img src="Images/user-w.png"></a>
@@ -104,6 +104,7 @@
 											</div>
 											@endif
 										</div>
+									
 										<div class="form-group-l">
 											<label>
 												<p>SĐT</p>
@@ -159,6 +160,7 @@
 											</div>
 											@endif
 										</div>
+
 										
 										<div class="btn-group-l">
 											<button type="submit">Tạo tài khoản</button>
@@ -189,20 +191,20 @@
 								<li>
 									<h3>Giáo viên</h3>
 									<ul class="basic-dropdown-child">
-										<li><a href="#">Thông tin giáo viên</a></li>
+										<li><a>Thông tin giáo viên</a></li>
 									</ul>
 								</li>
 								<li>
 									<h3>Học phí</h3>
 									<ul class="basic-dropdown-child">
-										<li><a href="#">Khuyến mãi</a></li>
+										<li><a>Khuyến mãi</a></li>
 									</ul>
 								</li>
 								<li>
 									<h3>Phòng thi</h3>
 									<ul class="basic-dropdown-child">
-										<li><a href="#">Tự luyện</a></li>
-										<li><a href="#">Đánh giá năng lực</a></li>
+										<li><a>Tự luyện</a></li>
+										<li><a>Đánh giá năng lực</a></li>
 									</ul>
 								</li>
 							</ul>

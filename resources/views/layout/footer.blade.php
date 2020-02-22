@@ -18,9 +18,9 @@
 						<i class="fas fa-angle-down"></i>
 						</button>
 						<ul class="footer-menu clear-fix">
-							<li><a href="#">Điều khoản sử dụng</a></li>
-							<li><a href="#">Chính sách riêng tư</a></li>
-							<li><a href="#">Bản quyền và chính sách nội dụng</a></li>
+							<li><a>Điều khoản sử dụng</a></li>
+							<li><a>Chính sách riêng tư</a></li>
+							<li><a>Bản quyền và chính sách nội dụng</a></li>
 						</ul>
 					</div>
 				</div>
@@ -31,9 +31,9 @@
 						<i class="fas fa-angle-down"></i>
 						</button>
 						<ul class="footer-menu clear-fix">
-							<li><a href="#">Luyện thi Tiếng Anh</a></li>
-							<li><a href="#">Đăng ký khóa học</a></li>
-							<li><a href="#">Trao đổi tin tức</a></li>
+							<li><a>Luyện thi Tiếng Anh</a></li>
+							<li><a>Đăng ký khóa học</a></li>
+							<li><a>Trao đổi tin tức</a></li>
 						</ul>
 					</div>
 				</div>
@@ -44,9 +44,9 @@
 						<i class="fas fa-angle-down"></i>
 						</button>
 						<ul class="footer-menu clear-fix">
-							<li><a href="#">Thủ Đức, Tp HCM </a></li>
-							<li><a href="#">Về DLD</a></li>
-							<li><a href="#">Email: abc@gmail.com</a></li>
+							<li><a>Thủ Đức, Tp HCM </a></li>
+							<li><a>Về DLD</a></li>
+							<li><a>Email: abc@gmail.com</a></li>
 						</ul>
 					</div>
 				</div>
@@ -56,9 +56,9 @@
 				<span>Demo Images <a href="https://www.designevo.com/logo-make">Logo Market</a><a href="https://www.pexels.com/">Pexels</a> </span>
 				<div class="icon-group">
 					<ul>
-						<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-						<li><a href="#"><i class="fab fa-google"></i></a></li>
-						<li><a href="#"><i class="fab fa-youtube"></i></i></a></li>
+						<li><a><i class="fab fa-facebook-f"></i></a></li>
+						<li><a><i class="fab fa-google"></i></a></li>
+						<li><a><i class="fab fa-youtube"></i></i></a></li>
 					</ul>
 				</div>
 			</div>

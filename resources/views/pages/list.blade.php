@@ -10,7 +10,7 @@
 			<div class="breadcrumb-wr">
 				<nav>
 					<ul class="breadcrumb clear-fix">
-						<li><a href="#"><i class="fas fa-home"></i> Trang chủ</a></li>
+						<li><a href="index"><i class="fas fa-home"></i> Trang chủ</a></li>
 						<li>Khóa học</li>
 					</ul>
 				</nav>
@@ -18,7 +18,9 @@
 		</div>
 		<div class="row">
 			<div class="total-wr">
-				<h1>Course</h1><p>({{$courseList->count()}} Courses)</p> 
+				<h1>Course</h1>
+
+				<p> ( {{count($courseList)}} Courses)</p> 
 				<span id="keyword"> 
 					@if(isset($name))
 						{{$name->name}} :
@@ -32,6 +34,7 @@
 					@endif
 					@endforeach
 				</span>
+
 			</div>
 			<div class="sm-col-span-3 menu-left">
 				<nav class="nav-menu-left">
@@ -80,7 +83,7 @@
 				<div class="container-course-wr">
 					<p class="view">View 
 						<span id="current">
-							@if($courseList->count() > 0)
+							@if(count($courseList) > 0)
 							{{$courseList->firstItem()}}
 							@else 
 								0
@@ -89,7 +92,7 @@
 						<span class="divider">|</span> 
 						
 						<span>
-							@if($courseList->count() > 0)
+							@if(count($courseList) > 0)
 								{{$courseList->lastItem()}}
 							@else 
 								0
@@ -98,6 +101,7 @@
 
 					</p>
 					<div class="course-wr">
+						@if(count($courseList) > 0)
 						@foreach($courseList as $course)
 						
 						<div class="course">
@@ -117,14 +121,17 @@
 						</div>
 				
 						@endforeach
+						@endif
 						
 					</div>
 				</div>
+				@if(count($courseList) > 0)
 				<div class="sm-col-span-12 lg-col-span-4">
 					<div class="pagination-wr">
 						{{$courseList->links()}}
 					</div>
 				</div>
+				@endif
 				@endif
 			</div>
 		</div>

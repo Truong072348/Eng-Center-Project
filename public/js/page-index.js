@@ -545,19 +545,21 @@ $(document).ready(function(){
 
 
     // Scroll top event
-    $(window).scroll(function(){
-        if($(this).scrollTop() > 100){
-            $('.scrollTop').fadeIn();
-        }else{
-            $('.scrollTop').fadeOut();
-        }
-    });
+    $(document).ready(function (){
+        $(window).scroll(function(){
+            if($(this).scrollTop() > 100){
+                $('.scrollTop').fadeIn();
+            }else{
+                $('.scrollTop').fadeOut();
+            }
+        });
 
-    $('.scrollTop').click(function(){
-        $('html, body').animate({scrollTop : 0}, 600);
-        return false;
+        $('.scrollTop').click(function(){
+            $('html, body').animate({
+                scrollTop : $("#top").offset().top
+            }, 2000);
+        });
     });
-
 
     //Event click outside menu
     var $window = $(window);

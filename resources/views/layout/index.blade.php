@@ -67,9 +67,6 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				// $('.tabs:not(:first)').addClass('inactive');
-				// $('.tab-form').hide();
-				// $('.tab-form:first').show();
 				$(document).on('click', '.tabs', function(){
 					var t = $(this).attr('id');
 					if($(this).hasClass('inactive')){

@@ -192,13 +192,12 @@ Route::get('overview/{id}', 'PagesController@getOverview')->name('overview');
 Route::get('test/{id}', ['as'=>'getTest', 'uses'=>'PagesController@getTest']);
 Route::post('postQuiz/{id}', 'PagesController@postQuiz');
 
-Route::get('profile/{id}', 'PagesController@getProfile');
+Route::get('profile/{id}', 'PagesController@getProfile')->name('getProfile');
 Route::post('profile/{id}','PagesController@postProfile');
 Route::post('changepassword/{id}', 'PagesController@postChangePass');
 
 Route::get('account/{id}', 'PagesController@getAccount');
 Route::post('account/{id}','PagesController@postAccount');
-
 Route::post('search', 'PagesController@postSearch');
-
 Route::get('review/{id}', 'PagesController@getReview');
+Route::post('recharge/{id}','PagesController@rechargeAccount');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\updateProfileRequest;
+use App\Http\Requests\changePasswordRequest;
 use App\Category;
 use App\CategoryType;
 use App\Course;
@@ -27,6 +29,8 @@ use App\QuestionDetail;
 use App\StudyTest;
 use App\StudyTestDetail;
 use Hash;
+use Cloudder;
+use Validator;
 
 class PagesController extends Controller
 {
@@ -55,10 +59,15 @@ class PagesController extends Controller
 
     function getCourse($keyword){
         $key = $keyword;
-        $courseList = Course::where('status' , 'opening')->where(function($q) use ($key){
-            $q->where('name', 'like', "%$key%")->orWhere('description', 'like', "$key")->orWhere('short_description', 'like', "%$key%");
-        })->paginate(9);
+        $courseList = null;
+        if(Course::where('status' , 'opening')->where(function($q) use ($key){
+            $q->where('name', 'like', "%$key%")->orWhere('description', 'like', "$key")->orWhere('short_description', 'like', "%$key%"); })->exists()) {
 
+            $courseList = Course::where('status' , 'opening')->where(function($q) use ($key){
+                $q->where('name', 'like', "%$key%")->orWhere('description', 'like', "$key")->orWhere('short_description', 'like', "%$key%");
+            })->paginate(9);
+
+        }
     	return view('pages.list', ['courseList'=>$courseList, 'key'=>$keyword]);
     }
 
@@ -815,6 +824,10 @@ class PagesController extends Controller
         $user = User::find($id);
         if(Student::where('id', $id)->exists()){
             $student = Student::find($id);
+
+            $img = Cloudder::show('english-Center/avatar/'.$student->avatar, array("width" => 250, "height" => 250, "crop" => "fill")); 
+            $student->setAttribute('img', $img);
+
         } else {
              $student = Teacher::find($id);
         }
@@ -826,32 +839,23 @@ class PagesController extends Controller
         return view('pages.profile', ['student'=>$student, 'page'=>$page, 'type'=>$user]);
     }
 
-    function postProfile(Request $request, $id){
-         $validator = \Validator::make($request->all(),[
-            'name'=>'required|min: 2',
-            'address'=>'required',
-            'phone'=>'required|min: 9|max: 11'
-          
-        ], 
-        [
-            'name.required'=>'Họ tên không được để trống',
-            'name.min'=>'Tên quá ngắn',
-            'address.required'=>'Vui lòng nhập địa chỉ',
-            'phone.required'=>'Vui lòng nhập số điện thoại',
-            'phone.min'=>'Số điện thoại không hợp lệ',
-            'phone.max'=>'Số điện thoại không hợp lệ'
-        ]);
+    function postProfile(updateProfileRequest $request, $id){
+        
 
-        if ($validator->fails())
-        {
-            return redirect()->back()->with(['errors'=>$validator->errors()]);
-        }
 
         if(Student::where('id', $id)->exists()){
             $student = Student::find($id);
             $student->name = $request->name;
             $student->birthday = $request->date;
             $student->gender = $request->sex == 0 ? 'Nam' : 'Nữ';
+            
+            if($student->gender == 'Nữ' && $student->avatar == 'male-define_iogxda') {
+                $student->avatar = 'female-define_dkudqx';
+            }
+            if ($student->gender == 'Nam' && $student->avatar == 'female-define_dkudqx') {
+               $student->avatar = 'male-define_iogxda';
+            } 
+
             $student->address = $request->address;
             $student->phone = $request->phone;
             $student->save();
@@ -864,12 +868,18 @@ class PagesController extends Controller
     }
 
     function getAccount(Request $request, $id){
+
         $user = User::find($id);
         if(Student::where('id', $id)->exists()){
             $student = Student::find($id);
+
+            $img = Cloudder::show('english-Center/avatar/'.$student->avatar, array("width" => 250, "height" => 250, "crop" => "fill")); 
+            $student->setAttribute('img', $img);
+
         } else {
-             $student = Teacher::find($id);
+             // $student = Teacher::find($id);
         }
+      
         
         $register = Register::where('id_student', $student->id)->get();
         $course = Course::all();
@@ -884,26 +894,28 @@ class PagesController extends Controller
     }
 
     function postChangePass(Request $request, $id){
+
+        $page = 2;
+        
         $validator = \Validator::make($request->all(),[
             'pass'=>'required',
             'newpass'=>'required',
-            'cfpass'=>'required|same:newpass'
+            'cfpass'=>'required|same:newpass',
         ], 
         [
            'pass.required'=>'Vui lòng nhập mật khẩu',
-           'newpass.required'=>'Vui lòng nhập mật khẩu mới',
-           'cfpass.required'=>'Vui lòng xác nhận lại mật khẩu',
-           'cfpass.same'=>'Mật khẩu không chính xác'
+            'newpass.required'=>'Vui lòng nhập mật khẩu mới',
+            'cfpass.required'=>'Vui lòng xác nhận lại mật khẩu',
+            'cfpass.same'=>'Mật khẩu không chính xác'
         ]);
 
-        $page = 2;
         if ($validator->fails())
         {
             return redirect()->back()->with(['errors'=>$validator->errors(), 'page'=>$page]);
         }
 
         $user = User::find($id);
-    
+        
         if (Hash::check($request->pass, $user->password)){
             $user->password = bcrypt($request->pass);
             $user->save();
@@ -913,5 +925,15 @@ class PagesController extends Controller
         }
 
 
+    }
+
+    public function rechargeAccount($id) {
+        if(User::find($id)->exists()) {
+            $user = User::find($id);
+            $user->balance_account =  $user->balance_account + 100000;
+            $user->save();
+        }   
+        
+        return redirect()->back();
     }
 }

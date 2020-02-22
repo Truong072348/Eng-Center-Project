@@ -9,6 +9,7 @@ use App\User;
 use App\UserType;
 use App\Teacher;
 use App\Student;
+use Validator;
 
 
 class AccountController extends Controller
@@ -49,16 +50,9 @@ class AccountController extends Controller
     }
 
     public function postLoginAdmin(Request $request){
-        $this->validate($request, [
-            'username'=>'required',
-            'password'=>'required'
-        ], 
-        [
-            'username.required'=>'Vui lòng nhập username',
-            'password.required'=>'Vui lòng nhập password'
-
-        ]);
-
+        
+        Validator::SignupRequest($request)
+        
         $user = User::where('username', $request->username)->first();
 
         if($user->id_utype == 2 || $user->id_utype == 1){
@@ -77,4 +71,5 @@ class AccountController extends Controller
         $search = $request->search;
         return redirect()->route('listUser', ['keyword'=>$search]);
     }
+
 }
