@@ -1,6 +1,6 @@
 @extends('pages.index')
 @section('style')
-<link rel="stylesheet" type="text/css" href="css/page-intro.css">
+<link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-intro.css') }}">
 @endsection
 @section('content')
 @if(isset($intro))
@@ -410,5 +410,5 @@
 		$('#ex1').modal('open');
 	});
 </script>
-<script src="js/page-index.js"></script>
+<script src="{{ secure_asset('js/page-index.js') }}"></script>
 @endsection

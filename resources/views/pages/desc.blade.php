@@ -1,7 +1,7 @@
 @extends('pages.index')
 @section('style')
-<link rel="stylesheet" type="text/css" href="css/page-intro.css">
-<link rel="stylesheet" type="text/css" href="css/page-desc.css">
+<link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-intro.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-desc.css') }}">
 @endsection
 @section('content')
 <div class="wrapper">
@@ -390,19 +390,7 @@
 	});
 </script>
 @if($registered == true)
-<!-- <script>
-	$('.st-cr-study').each(function(){
-			var $watch = '<div class="watch">'+
-						 '<a href="lesson/{{$lesson->id}}">Watch</a>'+
-					     '</div>'
-			if($(this).find('.watched').length){
-
-			} else {
-				$(this).append($watch);
-			}
-		});
-</script> -->
 @endif
 
-<script src="js/page-index.js"></script>
+<script src="{{ secure_asset('js/page-index.js') }}"></script>
 @endsection

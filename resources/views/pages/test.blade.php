@@ -1,6 +1,6 @@
 @extends('pages.index')
 @section('style')
-<link rel="stylesheet" type="text/css" href="css/overview.css">
+<link rel="stylesheet" type="text/css" href="{{ secure_asset('css/overview.css') }}">
 @endsection
 @section('content')
 <div class="wrapper">
@@ -351,18 +351,18 @@
 			}
 		});
 </script>
-			<script src="js/page-index.js"></script>
-			<script>
-				$(document).ready(function($) {
-				if (window.history && window.history.pushState) {
-				window.history.pushState('forward', null, './#forward');
-				$(window).on('popstate', function() {
-					$('#ex2').modal('open');
-					$(document).on('click', '#autoSubmit', function(){
-						$('#form-answer').submit();
-					});
-				});
-				}
-				});
-			</script>
-			@endsection
+<script src="{{ secure_asset('js/page-index.js') }}"></script>
+<script>
+	$(document).ready(function($) {
+	if (window.history && window.history.pushState) {
+	window.history.pushState('forward', null, './#forward');
+	$(window).on('popstate', function() {
+		$('#ex2').modal('open');
+		$(document).on('click', '#autoSubmit', function(){
+			$('#form-answer').submit();
+		});
+	});
+	}
+	});
+</script>
+@endsection

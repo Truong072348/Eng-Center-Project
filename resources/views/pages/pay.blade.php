@@ -1,7 +1,7 @@
 @extends('pages.index')
 @section('style')
-<link rel="stylesheet" type="text/css" href="css/page-intro.css">
-<link rel="stylesheet" type="text/css" href="css/page-pay.css">
+<link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-intro.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-pay.css') }}">
 @endsection
 @section('content')
 <div class="wr">
@@ -120,5 +120,5 @@
 
 	});
 </script>
-<script src="js/page-index.js"></script>
+<script src="{{ secure_asset('js/page-index.js') }}"></script>
 @endsection
