@@ -23,9 +23,12 @@
 						@php($price = number_format(Auth::user()->account_balance, 0, '', '.'))
 						Số dư trong tài khoản <span>{{$price}}</span> VND
 					</div>
+					<form action="" method="post">
 					<div class="accout-recharge">
+
 						<button>Nạp tiền vào tài khoản</button>
 					</div>
+					</form>
 				</div>
 				@elseif($page == 2)
 				<div class="acc-info-right">
