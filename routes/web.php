@@ -12,14 +12,19 @@
 */
 
 Route::get('/', function () {
-    return view('index');
+    return redirect()->route('index');
 });
 
-Route::get('admin/login', 'AccountController@getLoginAdmin');
-Route::post('admin/login', 'AccountController@postLoginAdmin');
-Route::get('admin/index', 'PagesController@getAdminIndex');
 
-Route::group(['prefix'=>'admin'],function(){
+
+//Login admin
+Route::get('admin/login', 'Auth\LoginController@getLoginAdmin');
+Route::post('admin/login', 'Auth\LoginController@postLoginAdmin');
+Route::get('admin/logout', ['as'=>'logoutAdmin', 'uses'=>'Auth\LogoutController@getAdminLogout']);
+
+Route::get('admin/dashboard', 'PagesController@getAdminIndex')->middleware('checkadmin');
+
+Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 	Route::group(['prefix'=>'teacher'], function(){
 		Route::get('list','TeacherController@getList')->name('listTeacher');
@@ -169,35 +174,52 @@ Route::group(['prefix'=>'admin'],function(){
 
 });
 
-Route::get('index', 'PagesController@getIndex');
-Route::get('list/{keyword}', 'PagesController@getCourse')->name('list');
-Route::get('category/{keyword}', 'PagesController@getCourseType');
+Route::get('Home', 'PagesController@getIndex')->name('index');
 
-Route::get('course/{id}', 'PagesController@getIntro');
+//CategoryController
+Route::get('Danh-sach/{keyword}', 'CategoryController@getCourse')->name('list');
+Route::get('Danh-muc/{categoryType}', 'CategoryController@getCourseType');
+
+Route::get('course/{course}', 'PagesController@getIntro')->name('courseintro');
 Route::get('lesson/{id}', 'PagesController@getDesc');
 Route::get('download/{name}', 'PagesController@fileDownload');
-Route::get('payment/{id}', 'PagesController@payment');
-Route::post('payment/{id}', 'PagesController@postPayment');
-Route::post('login', 'PagesController@postLogin');
-Route::get('logout', 'PagesController@getLogout');
-Route::post('register', 'PagesController@postRegister');
+
+//PaymentController
+Route::get('payment/{id}', 'PaymentController@payment');
+Route::post('payment/{id}', 'PaymentController@postPayment');
+Route::post('discount', 'PaymentController@postDiscount');
+
+Route::get('login', function () {
+    return redirect()->route('index')->with(['openLogin' => true, 'regSuccess'=>'Vui lòng đăng nhập']);
+})->name('login');
+
+
+Route::post('login', ['as'=>'login', 'uses'=>'Auth\LoginController@postLogin']);
+Route::get('logout', ['as'=>'logout', 'uses'=>'Auth\LogoutController@getLogout']);
+
+Route::post('register', ['as'=>'register','uses'=>'Auth\RegisterController@register']);
+
 Route::post('comment', 'PagesController@postComment');
 
 Route::post('replay/{id}', 'PagesController@postReplay');
 Route::post('replayCourse/{id}', 'PagesController@postReplayCourse');
 
-Route::post('discount', 'PagesController@postDiscount');
 Route::post('studylesson', 'PagesController@postStudyLesson');
 Route::get('overview/{id}', 'PagesController@getOverview')->name('overview');
 Route::get('test/{id}', ['as'=>'getTest', 'uses'=>'PagesController@getTest']);
 Route::post('postQuiz/{id}', 'PagesController@postQuiz');
 
-Route::get('profile/{id}', 'PagesController@getProfile')->name('getProfile');
+Route::get('profile/{id}', 'PagesController@getProfile')->middleware('auth')->name('getProfile');
 Route::post('profile/{id}','PagesController@postProfile');
+
+Route::get('danh-sach-giao-vien','PagesController@listTeacher');
+Route::get('giao-vien/{teacher}','PagesController@showTeacher')->middleware('auth');
+
 Route::post('changepassword/{id}', 'PagesController@postChangePass');
 
-Route::get('account/{id}', 'PagesController@getAccount');
+Route::get('account/{id}', 'PagesController@getAccount')->middleware('auth');
 Route::post('account/{id}','PagesController@postAccount');
 Route::post('search', 'PagesController@postSearch');
 Route::get('review/{id}', 'PagesController@getReview');
-Route::post('recharge/{id}','PagesController@rechargeAccount');
+
+Route::post('nap-tien/{id}','PagesController@rechargeAccount')->middleware('auth');

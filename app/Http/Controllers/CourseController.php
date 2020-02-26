@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\addCourseRequest;
 use App\Category;
 use App\CategoryType;
 use App\Teacher;
@@ -15,6 +16,9 @@ use App\Register;
 use App\Comment;
 use App\StudyLesson;
 use App\StudyTest;
+use Cloudder;
+use Validator;
+
 class CourseController extends Controller
 {
     public function getAdd(){
@@ -26,73 +30,34 @@ class CourseController extends Controller
     }
 
 
-    public function postAdd(Request $request){
-    	$this->validate($request, 
-            [
-                'name'=>'required|min:2|max:100',
-                'shortdesc'=>'required',
-                'txtContent'=>'required',
-                'fee'=>'required|numeric',
-                'avatar'=>'required',
-                'start'=>'required',
-                'idteacher'=>'required' 
-                
-            ], 
-            [
-                'name.required'=>'Vui lòng nhập tên khóa học',
-                'name.min'=>'Tên khóa học quá ngắn',
-                'name.max'=>'Tên khóa học quá dài',
-                'shortdesc.required'=>'Vui lòng nhập thông tin',
-                'txtContent.required'=>'Vui lòng nhập thông tin',
-                'fee.required'=>'Vui lòng nhập học phí',
-                'fee.numeric'=>'Học phí phải là số',
-                'avatar.required'=>'Vui lòng chọn ảnh khóa học',
-                'start'=>'Vui lòng chọn ngày bắt đầu',
-                'idteacher'=>'Vui lòng chọn giáo viên'
-            ]);
+    public function postAdd(addCourseRequest $request){
 
-    		$course = new Course;
-    		$course->id = mt_rand(1000,9999);
-    		while (Course::where('id', $course->id)->exists()) {
-             	$course->id = mt_rand(100000,999999);
-        	}
+        $id = mt_rand(1000,9999);
+		while (Course::where('id', $id)->exists()) {
+         	$id = mt_rand(100000,999999);
+    	}
 
-        	if($request->hasFile('avatar')){
-	            $file = $request->file('avatar');
-	            $name = $file->getClientOriginalName();
-	            
-	            $img = str_random(5)."_".$name;
-	            while (file_exists("Images/".$img)) {
-	                $img = str_random(5)."_".$name;
-	            }
+        $data = request()->all();
+        $data->status = 'watting';
+        $data->id = $id;
 
-	            $file->move("Images", $img);
-
-	            $course->image = $img;
-	        }
-
-        	$course->name = $request->name;
-        	$course->price = $request->fee;
-        	$course->date_start = $request->start;
-        	$course->date_finish = $request->finish;
-        	$course->short_description = $request->shortdesc;
-        	$course->description = $request->txtContent;
-        	$course->status = 'waiting';
-        	$course->id_ctype = $request->level;
-        	$course->id_teacher = $request->idteacher;
-
-            $register = new Register;
-            $register->id = mt_rand(100000,999999);
-            while (Register::where('id', $register->id)->exists()) {
-                $register->id = mt_rand(100000,999999);
-            }
+    	if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $name = $file->getClientOriginalName();
             
-            $register->price = 0;
-            $register->id_student = $request->idteacher;
-            $register->id_course = $course->id;
+            $img = str_random(5)."_".$name;
+            Cloudder::upload($file, 'english-Center/course-image/'.$img);
+            $data->image = $img;
+        } else {
+            $data->image = 'hahaha';
+        }
 
-        	$course->save();
-            $register->save();
+    	Course::create($data);
+        
+        $register->tuition = null;
+        $register->id_student = $request->idteacher;
+        $register->id_course = $id;
+        $register->save();
 
     	return redirect('admin/course/add')->with(['notify'=>'Successfully Added']);
     }

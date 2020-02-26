@@ -1,17 +1,16 @@
 .wr {
-	height: 550px;
+	height: auto;
 	margin-bottom: 20px;
 }
 
 .paywr {
 	width: 100%;
-	padding: 0 10%;
+	padding: 10px 10%;
 	margin: 0 auto;
-	height: 230px;
+	height: 18.5em;
 	box-sizing: border-box;
 	background-color: #343a40;
 }
-
 
 .pay-head {
 	float: left;
@@ -27,9 +26,6 @@
 	border-radius: 5px;
 	border: 1.5px solid #e1e8ed;
 	box-sizing: border-box;
-}
-
-.pay {
 }
 
 .img-course {
@@ -102,6 +98,7 @@
 .sale {
 	padding: 0 10%;
 	text-transform: capitalize;
+	display: block;
 }
 
 .sale .notify-error {
@@ -110,7 +107,7 @@
 }
 
 .sale form input {
-	width: 20%;
+	width: 10em;
 	border: 1px solid #718093 !important;
 	padding: 3px;
 	border-radius: 2px;
@@ -123,6 +120,7 @@
 	min-height: 0 !important;
 	margin: 20px 10px;
 	border-radius: 5px;
+	display: block;
 }
 
 .form-group-1 label {
@@ -131,11 +129,11 @@
 
 .btn-group-1 {
 	margin-top: 10px;
-	margin-left: 13%;
+	margin-left: 6.3em;
 }
 
 .btn-group-1 button {
-	width: 10%;
+	width: 3em;
 	padding: 3px;
 	border-radius: 3px;
 	border: 0;
@@ -186,4 +184,95 @@
 	width: 300px;
 	border-radius: 0;
 	padding: 20px;
+}
+
+.info-sale {
+	padding: 10px;
+	line-height: 1.5;
+	margin-bottom: 4em;
+}
+
+.info-sale h3 {
+	margin-bottom: 1.5em;
+	font-size: 20px;
+}
+
+.info-sale span {
+	font-style: italic;
+	font-size: 13px;
+	text-transform: capitalize;
+}
+
+table tr {
+	width: 20%;
+}
+
+.tr-h img {
+	width: 1.4em;
+	margin-right: 5px;
+}
+
+table tr td {
+	padding: 3px 0px 10px;
+}
+
+.tr-h {
+	text-align: left;
+	padding-right: 10px;
+}
+
+
+@media screen and (max-width: 991px){
+
+	.pay-head {
+		float: none;
+		width: 100%;
+	
+	}
+
+	.payment {
+		display: block;
+		width: 100%;
+		float: none;
+		margin-top: 2em;
+		background-color: #fff;
+		border-radius: 5px;
+		border: 1px solid #e1e8ed;
+		box-sizing: border-box;
+	}
+
+	.img-course {
+		box-sizing: border-box;
+	}
+
+	.img-course img {
+		height: 20em;
+	}
+	
+	.container {
+		height: 55em;
+	}
+
+	.sale form {
+		width: 100%;
+		padding: 10px;
+		height: 7em;
+		border: 1px solid #dcdde1;
+		min-height: 0 !important;
+		margin: 15px 0;
+		border-radius: 5px;
+		box-sizing: border-box;
+		display: block;
+	}
+}
+
+@media screen and (max-width: 768px){
+	.paywr {
+		height: 30em;
+	}
+
+	.container {
+		height: 63em;
+	}
+
 }

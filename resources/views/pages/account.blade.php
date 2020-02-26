@@ -1,7 +1,7 @@
 @extends('pages.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-account.css') }}">
-<link rel="stylesheet" type="text/css" href="css/page-account.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/page-account.css"> -->
 @endsection
 @section('content')
 <div class="wrapper">
@@ -64,7 +64,7 @@
 								@endif
 								@endforeach
 								<div class="cr-rg-price">
-									@php($price = number_format($re->price, 0, '', '.'))
+									@php($price = number_format($re->tuition, 0, '', '.'))
 									Học phí: <span>{{$price}}</span><sup> đồng</sup>
 								</div>
 							</div>
@@ -89,40 +89,40 @@
 			</div>
 		</div>
 	</div>
-	@endsection
-	@section('script')
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$(document).on('click', '.page', function(){
-				$('.page').parent().removeClass('active');
-				$(this).parent().addClass('active');
-				var $type = $(this).parent().attr('id');
-				if($type == 'page1'){
-					var $page = 1;
-				} else {
-					var $page = 2;
-				}
+@endsection
+@section('script')
+<script type="text/javascript">
+$(document).ready(function(){
+	$(document).on('click', '.page', function(){
+		$('.page').parent().removeClass('active');
+		$(this).parent().addClass('active');
+		var $type = $(this).parent().attr('id');
+		if($type == 'page1'){
+			var $page = 1;
+		} else {
+			var $page = 2;
+		}
 
-				var $id = $('input[name=id]').val();
-				$.ajax({
-				url: 'account/' + $id,
-				type: 'get',
-				data: {
-					_type: $page,
-				},
-				
-				success: function(data){
-					var $content = $(data).find('.acc-info-right').html();
-					$('.acc-info-right').empty().html($content);
-				},
-				error: function(e){
-					$('.acc-info-right').html('<p>Load Error!!!<p>');
-											console.log(e.message);
-										}
-								});
-							});
+		var $id = $('input[name=id]').val();
+		$.ajax({
+		url: 'account/' + $id,
+		type: 'get',
+		data: {
+			_type: $page,
+		},
+		
+		success: function(data){
+			var $content = $(data).find('.acc-info-right').html();
+			$('.acc-info-right').empty().html($content);
+		},
+		error: function(e){
+			$('.acc-info-right').html('<p>Load Error!!!<p>');
+									console.log(e.message);
+								}
 						});
-		</script>
-		<script src="{{ secure_asset('js/page-index.js') }}"></script>
-		<script src="js/page-index.js"></script>
-		@endsection
+					});
+				});
+</script>
+<script src="{{ secure_asset('js/page-index.js') }}"></script>
+<!-- <script src="js/page-index.js"></script> -->
+@endsection

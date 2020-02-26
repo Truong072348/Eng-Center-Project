@@ -17,6 +17,8 @@ class CreateCategoryTypeTable extends Migration
             Schema::create('category_type', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('id_category');
+                $table->string('level');
+                $table->string('slug');
                 $table->foreign('id_category')->references('id')->on('category');
             });
         }

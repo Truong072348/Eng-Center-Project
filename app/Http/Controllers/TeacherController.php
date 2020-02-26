@@ -3,16 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\updateTeacherRequest;
 use App\Teacher;
 use App\User;
 use App\Course;
 use App\CategoryType;
 use App\Category;
 use Hash;
+use Cloudder;
+use Validator;
 
 
 class TeacherController extends Controller
 {
+    public function __construct() {
+        return $this->middleware('auth');
+    }
+
     public function getList(Request $request){
         if($request->query('keyword')){
             $keyword = $request->query('keyword');
@@ -55,37 +62,8 @@ class TeacherController extends Controller
     }
 
 
-    public function postEdit(Request $request, $id){
-         $validator = \Validator::make($request->all(),[
-                'name'=>'required|min:2|max:100',
-                'tel'=>'required|min:9|max:11',
-                'birth'=>'required',
-                'address'=>'required',
-                'cfpass'=>'same:pass',
-                'degree'=>'required'          
-                
-            ], 
-            [
-                'name.required'=>'Vui lòng nhập thông tin',
-                'name.min'=>'Tên quá ngắn',
-                'name.max'=>'Tên quá dài',
-                'tel.required'=>'Vui lòng nhập số điện thoại',
-                'tel.min'=>'Số điện thoại không hợp lệ',
-                'tel.max'=>'Số điện thoại không hợp lệ',
-                'birth.required'=>'Vui lòng nhập thông tin',
-                'address.required'=>'Vui lòng nhập địa chỉ',
-                'cfpass.same'=>'Xác nhận lại mật khẩu',
-                'degree.required'=>'Vui lòng nhập thông tin'
-            ]);
-
-        if ($validator->fails())
-        {
-            if($request->pass != '' || $request->pass != '' || $request->cfpass != ''){
-                return redirect()->back()->with(['errors'=>$validator->errors(), 'passerr'=>true]);
-            } else {
-                 return redirect()->back()->with(['errors'=>$validator->errors()]);
-            }
-        }
+    public function postEdit(updateTeacherRequest $request, $id){
+        
 
         $passerr = 1;
         $user = User::find($id);
@@ -126,9 +104,8 @@ class TeacherController extends Controller
             } else {
                 return redirect('admin/teacher/edit/'.$id)->with(['errorpass'=>'Mật khẩu không chính xác', 'passerr'=>true]);
             }
-        }
 
-        else {
+        }else {
 
             $teacher = Teacher::find($id);
             $teacher->name = $request->name;

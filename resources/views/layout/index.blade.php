@@ -33,14 +33,6 @@
 		</script>
 		@endif
 
-		@if (session('openRegister'))
-		<script>
-			$('#ex1').modal('open');
-			$('.tab-form').hide();
-    		$('#id2C').fadeIn('fast');
-		</script>
-		@endif
-
 		@if(session('openSuccessReg'))
 			<script>
 				$('#ex1').modal('open');
@@ -85,6 +77,16 @@
 		@if(session('refail'))
 		<script>
 			$('.tabs').addClass('inactive');
+		</script>
+		@endif
+
+		@if (session('openRegister'))
+		<script>
+			$('#ex1').modal('open');
+			$('#tab1C').hide();
+    		$('#tab2C').show();
+    		$('.tabs-lg').addClass('inactive');	
+    		$('.tabs-rg').removeClass('inactive');
 		</script>
 		@endif
 	</body>

@@ -1,7 +1,7 @@
 @extends('pages.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-account.css') }}">
-<link rel="stylesheet" type="text/css" href="css/page-account.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/page-account.css"> -->
 @endsection
 @section('content')
 <div class="wrapper">
@@ -216,6 +216,7 @@
 			}
 			var $id = $('input[name=id]').val();
 			console.log($page);
+			
 			$.ajax({
 			url: 'profile/' + $id,
 			type: 'get',
@@ -229,12 +230,12 @@
 			},
 			error: function(e){
 				$('.acc-info-right').html('<p>Load Error!!!<p>');
-									console.log(e.message);
-								}
-						});
+								console.log(e.message);
+							}
 					});
 				});
-	</script>
-	<script src="{{ secure_asset('js/page-index.js') }}"></script>
-	<script src="secure_asset('js/page-index.js"></script>
-	@endsection
+			});
+</script>
+<script src="{{ secure_asset('js/page-index.js') }}"></script>
+<!-- <script src="js/page-index.js"></script> -->
+@endsection

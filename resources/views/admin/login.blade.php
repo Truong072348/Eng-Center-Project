@@ -19,7 +19,7 @@
 						<h2>Đăng nhập</h2>
 						@if(count($errors) > 0)
 						<div class="alert alert-error">
-							Vui lòng điền đầy đủ thông tin.
+							Tài khoản hoặc mật khẩu không chính xác.
 						</div>
 						@endif
 						@if(session('error'))

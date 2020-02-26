@@ -45,28 +45,6 @@ class AccountController extends Controller
         }
     }
 
-    public function getLoginAdmin(){
-        return view('admin.login');
-    }
-
-    public function postLoginAdmin(Request $request){
-        
-        Validator::SignupRequest($request)
-        
-        $user = User::where('username', $request->username)->first();
-
-        if($user->id_utype == 2 || $user->id_utype == 1){
-            if(Auth::attempt(['username'=>$request->username, 'password'=>$request->password])){
-                return redirect('admin/index');    
-            } else {
-                return redirect('admin/login')->with('error', 'Đăng nhập không thành công. Tên hoặc mật khẩu không đúng');
-            }
-        } else {
-            return redirect('admin/login')->with('error', 'Đăng nhập không thành công. Tên hoặc mật khẩu không đúng');
-        }
-
-    }
-
     public function postSearch(Request $request){
         $search = $request->search;
         return redirect()->route('listUser', ['keyword'=>$search]);

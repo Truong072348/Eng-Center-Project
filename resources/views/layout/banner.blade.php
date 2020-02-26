@@ -15,6 +15,7 @@
 			</div>
 			<div class="name-accout">
 				<span>
+					
 					<a href="profile/{{Auth::user()->id}}">
 						@if(isset($student))
 							{{$student->name}}
@@ -22,14 +23,17 @@
 							{{Auth::user()->username}}
 						@endif
 					</a>
+		
 				</span>
 				<span><a href="#">(ID: {{Auth::user()->id}})</a></span>
 			</div>
 			<nav>
 				<ul class="link-under-banner clear-fix">
+					@if(Auth::user()->id == $student->id)
 					<li><a href="profile/{{Auth::user()->id}}">Thông tin cá nhân</a></li>
 					<li><a href="account/{{Auth::user()->id}}">Thông tin tài khoản</a></li>
 					<li><a >Trợ giúp</a></li>
+					@endif
 				</ul>
 			</nav>
 		</div>

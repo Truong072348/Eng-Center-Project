@@ -6,29 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 
-class RegisterRequest extends FormRequest
+class registerRequest extends FormRequest
 {
     protected function failedValidation(Validator $validator)
     {
-        // throw new HttpResponseException(response()->json($validator->errors(), 422));
-        throw (new ValidationException($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
-    }
 
-    protected function getRedirectUrl()
-    {
-        $url = $this->redirector->getUrlGenerator();
-
-        if ($this->redirect) {
-            return $url->to($this->redirect);
-        } elseif ($this->redirectRoute) {
-            return $url->route($this->redirectRoute);
-        } elseif ($this->redirectAction) {
-            return $url->action($this->redirectAction);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->with(['openRegister'=> true, 'regfail'=>true]);
         }
-
-        return $url->previous();
     }
     /**
      * Determine if the user is authorized to make this request.
@@ -37,7 +22,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -48,37 +33,29 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|min:2|max:100',
-            'phone'=>'required|min:9|max:11',
-            'date'=>'required',
+            'user'=>'required|unique:users,username',
+            'pass'=>'required|min: 3',
+            'name'=>'required',
+            'phone'=>'required|min: 9|max: 11',
             'address'=>'required',
-            'email'=>'required|unique:users',
-            'user'=>'required|min:3|unique:users,username',
-            'pass'=>'required',
-            'cfpass'=>'required|same:pass',
+            'email'=>'required|unique:users,email'
         ];
     }
 
-    public function messages()
+    public function massage()
     {
         return [
-            
-            'name.required'=>'Vui lòng nhập họ tên',
-            'name.min'=>'Tên quá ngắn',
-            'name.max'=>'Tên quá dài',
+            'user.unique'=>'Tên đăng nhập đã tồn tại',
+            'user.required'=>'Vui lòng nhập tên tài khoản',
+            'pass.required'=>'Vui lòng nhập mật khẩu',
+            'pass.min'=>'Mật khẩu quá ngắn',
+            'name.required'=>'Vui lòng nhập tên',
             'phone.required'=>'Vui lòng nhập số điện thoại',
             'phone.min'=>'Số điện thoại không hợp lệ',
             'phone.max'=>'Số điện thoại không hợp lệ',
-            'date.required'=>'Vui lòng nhập thông tin',
-            'email.required'=>'Vui lòng nhập email',
-            'email.unique'=>'Email đã tồn tại',
             'address.required'=>'Vui lòng nhập địa chỉ',
-            'user.required'=>'Vui lòng nhập tên đăng nhập',
-            'user.min'=>'Tên đăng nhập quá ngắn',
-            'user.unique'=>'Tên tài khoản đã tồn tại',
-            'pass.required'=>'Vui lòng nhập mật khẩu',
-            'cfpass.required'=>'Vui lòng xác nhận lại mật khẩu',
-            'cfpass.same'=>'Xác nhận lại mật khẩu',
+            'email.required'=>'Vui lòng nhập email',
+            'email.exists'=>'exists.connection.users.email'
         ];
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\updateProfileRequest;
-use App\Http\Requests\changePasswordRequest;
 use App\Category;
 use App\CategoryType;
 use App\Course;
@@ -54,22 +53,17 @@ class PagesController extends Controller
 
     function getIndex(){
   		$courseList = Course::where('status', '=', 'opening')->paginate(6);
+        if(count($courseList) > 0) {
+            foreach ($courseList as $key) {
+                $course = Course::find($key->id);
+                $img = Cloudder::show('english-Center/course-image/'.$course->image); 
+                $key->setAttribute('img', $img);
+            }
+        } 
+
     	return view('pages.index', ['courseList'=>$courseList]);
     }
 
-    function getCourse($keyword){
-        $key = $keyword;
-        $courseList = null;
-        if(Course::where('status' , 'opening')->where(function($q) use ($key){
-            $q->where('name', 'like', "%$key%")->orWhere('description', 'like', "$key")->orWhere('short_description', 'like', "%$key%"); })->exists()) {
-
-            $courseList = Course::where('status' , 'opening')->where(function($q) use ($key){
-                $q->where('name', 'like', "%$key%")->orWhere('description', 'like', "$key")->orWhere('short_description', 'like', "%$key%");
-            })->paginate(9);
-
-        }
-    	return view('pages.list', ['courseList'=>$courseList, 'key'=>$keyword]);
-    }
 
     function postSearch(Request $request){
         $keyword = $request->search;
@@ -77,41 +71,81 @@ class PagesController extends Controller
         return redirect()->route('list', ['keyword'=>$keyword]);
     }
 
-    function getCourseType($keyword){
-        $courseList = Course::where('id_ctype', $keyword)->where('status', '=', 'opening')->paginate(9);
-        $cate = CategoryType::where('id', $keyword)->first();
-        if(count($cate) > 0){
-            $name = Category::where('id', $cate->id_category)->first();
-            return view('pages.list', ['courseList'=>$courseList, 'key'=>$keyword, 'name'=>$name]);
-        }
-        
-        return view('pages.list', ['courseList'=>$courseList, 'key'=>$keyword, 'cate'=>$cate]);
-    }
+    function getIntro($course){
 
-    function getIntro($id){
-        $courseIntro = Course::find($id);
+        $courseIntro = Course::where('slug', $course)->first();
+        $id = $courseIntro->id;
+        // return json_encode($courseIntro->slug);
         $teacherCourse = Teacher::where('id', $courseIntro->id_teacher)->first();
         $lessonCourse = Lesson::where('id_course', $courseIntro->id)->get();
         $video = Lesson::where('id_course', $courseIntro->id)->first();
         $courseReference = Course::where('id_ctype', $courseIntro->id_ctype)->where('status', '=', 'opening')->orderBy('id', 'DESC')->paginate(5);
         $test = CourseTest::where('id_course', $courseIntro->id)->get();
+
         if(Count($courseReference) <= 1){
             $type = CategoryType::where('id', $courseIntro->id_ctype)->first();
             $courseCate = Category::with(array('course'=>function($q){
                 $q->where('status', '=', 'opening');
             }))->orderBy('id', 'DESC')->paginate(5);
-            
+
             $courseReference = $courseCate[2]['course'];
         }
 
+        foreach ($courseReference as $key) {
+            $img = Cloudder::show('english-Center/course-image/'.$key->image);
+            $key->setAttribute('image', $img);    
+        }
+
         $comment = Comment::where('id_course', $id)->where('local', 0)->orderBy('created_at', 'DESC')->paginate(5);
+
+        if(count($comment) > 0) {
+            foreach ($comment as $key) {
+
+                if(User::where('id', $key->id_user)->exists()){
+                    $user = User::find($key->id_user);
+
+                    if($user->id_utype == 3) {
+                        $student = Student::find($user->id);
+
+                        $img = Cloudder::show('english-Center/avatar/'.$student->avatar); 
+                        $key->setAttribute('img', $img);
+                    } else {
+                        $teacher = Teacher::find($$user->id);
+                        $img = Cloudder::show('english-Center/avatar/'.$teacher->avatar); 
+                        $key->setAttribute('img', $img);
+                    }
+                }   
+            }
+        }
+
+
         $feedback = Feedback::where('local', 0)->get();
+
+        if(count($feedback) > 0) {
+
+            foreach ($feedback as $f) {
+                $type = User::where('id', $f->id_users)->first();
+               
+                if( $type->id_utype == 3) {
+                    $student = Student::find($type->id);
+                    $img = Cloudder::show('english-Center/avatar/'.$student->avatar); 
+                    $f->setAttribute('img', $img);
+                } else {
+                    $teacher = Teacher::find($type->id);
+                    $img = Cloudder::show('english-Center/avatar/'.$teacher->avatar); 
+                    $f->setAttribute('img', $img);
+                }       
+            }
+        }
+
         $register = false;
+
         if(Auth::check()){
             if(Register::where('id_student', Auth::user()->id)->where('id_course', $id)->exists()){
                 $register = true;
             }
         }
+
 
         // return $courseReference;
         return view('pages.intro', ['intro'=>$courseIntro, 'teacher'=>$teacherCourse, 'lessons'=>$lessonCourse, 'video'=>$video, 'refs'=>$courseReference, 'tests'=>$test, 'comments'=>$comment, 'feedback'=>$feedback,'registered'=>$register]);
@@ -120,6 +154,7 @@ class PagesController extends Controller
     function getDesc($id){
         $lesson = Lesson::find($id);
         $course = Course::where('id', $lesson->id_course)->first();
+
         $lessonList = Lesson::where('id_course', $course->id)->get();
         $teacher = Teacher::where('id', $course->id_teacher)->first();
         $test = CourseTest::where('id_course', $course->id)->get();
@@ -158,108 +193,20 @@ class PagesController extends Controller
         }
     }
 
-    function payment($id){
-        $course = Course::find($id);
-        $teacher = Teacher::where('id', $course->id_teacher)->first();
-        return view('pages.pay', ['course'=>$course, 'teacher'=>$teacher]);
-    }
 
     function getAdminIndex(){
+
+        if(Auth::user()->id_utype == 2) {
+            $account = Teacher::find(Auth::id());
+            $img = Cloudder::show('english-Center/avatar/'.$account->avatar);
+            // $account->setAttribute('img', $img);
+
+            return view('admin.index', ['img'=>$img]);
+        }
+
         return view('admin.index');
     }
 
-    function postLogin(Request $request){
-        $validator = \Validator::make($request->all(),[
-            'username'=>'required',
-            'password'=>'required'
-        ], 
-        [
-            'username.required'=>'Vui lòng nhập tên tài khoản',
-            'password.required'=>'Vui lòng nhập mật khẩu'
-
-        ]);
-
-        if ($validator->fails())
-        {
-            return redirect()->back()->with(['openLogin'=> true, 'errors'=>$validator->errors()]);
-        }
-
-        if(Auth::attempt(['username'=>$request->username, 'password'=>$request->password])){
-            return redirect()->back();    
-        } else {
-            return redirect()->back()->with(['openLogin'=> true,
-                'message'=>'Tên đăng nhập hoặc mật khẩu không đúng'
-            ]);
-        }
-
-    }
-
-
-    function getLogout(){
-        Auth::logout();
-        return redirect('index');
-    }
-
-    function postRegister(Request $request){
-        $validator = \Validator::make($request->all(),[
-
-            'user'=>'required|unique:users,username',
-            'pass'=>'required|min: 3',
-            'name'=>'required',
-            'phone'=>'required|min: 9|max: 11',
-            'address'=>'required',
-            'email'=>'required|unique:users,email'
-        ], 
-        [
-            'user.unique'=>'Tên đăng nhập đã tồn tại',
-            'user.required'=>'Vui lòng nhập tên tài khoản',
-            'pass.required'=>'Vui lòng nhập mật khẩu',
-            'pass.min'=>'Mật khẩu quá ngắn',
-            'name.required'=>'Vui lòng nhập tên',
-            'phone.required'=>'Vui lòng nhập số điện thoại',
-            'phone.min'=>'Số điện thoại không hợp lệ',
-            'phone.max'=>'Số điện thoại không hợp lệ',
-            'address.required'=>'Vui lòng nhập địa chỉ',
-            'email.required'=>'Vui lòng nhập email',
-            'email.exists'=>'exists.connection.users.email'
-        ]);
-
-        if ($validator->fails())
-        {
-            return redirect()->back()->with(['openRegister'=> true, 'errors'=>$validator->errors(), 'regfail'=>true]);
-        }
-
-
-        if(User::where('username', $request->user)->exists()){
-             return redirect()->back()->with(['openRegister', true]);
-        }
-
-        $user = new User;
-        $user->id = mt_rand(100000,999999);
-        while (Hash::check($user->id, $user->password)){
-            $user->id = mt_rand(100000,999999);
-        }
-        $iduser = $user->id;
-        $user->username = $request->user;
-        $user->password = bcrypt($request->pass);
-        $user->email = $request->email;
-        $user->account_balance = 0;
-        $user->id_utype = 3;
-        $user->save();
-
-        $student = new Student;
-        $student->id = $iduser;
-        $student->name = $request->name;
-        $student->phone = $request->phone;
-        $student->address = $request->address;
-        $student->birthday = '1970-01-01';
-        $student->gender = 'Nam';
-        $student->avatar = 'male-define_iogxda';
-        $student->save();
-
-        return redirect()->back()->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);   
-
-    }
 
     function postComment(Request $request){
         
@@ -342,11 +289,15 @@ class PagesController extends Controller
 
     function postDiscount (Request $request){
         $validator = \Validator::make($request->all(),[
-            'coupon'=>'required'
+            'coupon'=>'required|string|min: 3|max: 191'
           
         ], 
         [
-            'coupon.required'=>'Vui lòng nhập mã giảm giá'
+            'coupon.required'=>'Vui lòng nhập mã giảm giá',
+            'coupon.string'=>'Mã giảm giá không hợp lệ',
+            'coupon.min'=>'Mã giảm giá không hợp lệ',
+            'coupon.max'=>'Mã giảm giá không hợp lệ'
+
         ]);
 
         if ($validator->fails())
@@ -370,51 +321,6 @@ class PagesController extends Controller
         } else {
             return redirect()->back()->with(['err'=>'Mã không tồn tại']);
         }
-    }
-
-    function postPayment(Request $request, $id){
-        
-        if(Auth::user()->account_balance < $request->price){
-            return redirect('payment/'.$id)->with(['pushCard'=>true]);
-        }
-
-
-        $register = new Register;
-        $register->id = mt_rand(100000,999999);
-        while (Register::where('id', $register->id)->exists()) {
-            $register->id = mt_rand(100000,999999);
-        }
-        $register->price = $request->price;
-        $register->id_course = $id;
-
-        if(Discount::where('code', $request->idcoupon)->exists()){
-            $coupon = Discount::where('code', $request->idcoupon)->first();
-            $register->id_discount = $coupon->id;
-        }
-
-        $register->id_student = Auth::user()->id;
-        
-        $user = User::find(Auth::user()->id);
-        
-        $cash = $user->account_balance;
-
-        if(Discount::where('code', $request->idcoupon)->exists()){
-            $coupon = Discount::where('code', $request->idcoupon)->first();
-            $coupon->quantity = $coupon->quantity - 1;
-            $pay = $cash - $request->price + $coupon->reduce;
-
-            $coupon->save();
-        } else {
-            $pay = $cash - $request->price;  
-        }
-
-        $user->account_balance = $pay;
-        $user->save();
-
-        $register->save();
-
-        return redirect('course/'.$id)->with(['success'=>'Đăng ký khóa học thành công']);
-
     }
 
     function postStudyLesson(Request $request){
@@ -821,22 +727,42 @@ class PagesController extends Controller
 
 
     function getProfile(Request $request, $id){
-        $user = User::find($id);
-        if(Student::where('id', $id)->exists()){
-            $student = Student::find($id);
+        
+        if(Auth::check()) {
+            
+            
 
-            $img = Cloudder::show('english-Center/avatar/'.$student->avatar, array("width" => 250, "height" => 250, "crop" => "fill")); 
-            $student->setAttribute('img', $img);
+            if(Auth::id() == $id) {
+            
+                if(Auth::user()->id_utype == 3) {
+              
+                    $student = Student::find($id);
+
+                    $img = Cloudder::show('english-Center/avatar/'.$student->avatar); 
+                    $student->setAttribute('img', $img);
+
+                } else {
+
+                    $student = Teacher::find($id);
+                    $img = Cloudder::show('english-Center/avatar/'.$student->avatar); 
+                    $student->setAttribute('img', $img);
+                }
+              
+                $page = 1;
+                if($request->ajax()){
+                    $page = $request->Input('_type');
+                }
+
+                return view('pages.profile', ['student'=>$student, 'page'=>$page, 'type'=>Auth::user()]);
+
+            } else {
+
+                return view('pages.index'); 
+            }
 
         } else {
-             $student = Teacher::find($id);
+            return view('pages.index')->with(['openSuccessReg'=>true, 'regSuccess'=>'Vui lòng đăng nhập']);
         }
-      
-        $page = 1;
-        if($request->ajax()){
-            $page = $request->Input('_type');
-        }
-        return view('pages.profile', ['student'=>$student, 'page'=>$page, 'type'=>$user]);
     }
 
     function postProfile(updateProfileRequest $request, $id){
@@ -873,11 +799,13 @@ class PagesController extends Controller
         if(Student::where('id', $id)->exists()){
             $student = Student::find($id);
 
-            $img = Cloudder::show('english-Center/avatar/'.$student->avatar, array("width" => 250, "height" => 250, "crop" => "fill")); 
+            $img = Cloudder::show('english-Center/avatar/'.$student->avatar); 
             $student->setAttribute('img', $img);
 
         } else {
-             // $student = Teacher::find($id);
+            $student = Teacher::find($id);
+            $img = Cloudder::show('english-Center/avatar/'.$student->avatar); 
+            $student->setAttribute('img', $img);
         }
       
         
@@ -927,13 +855,35 @@ class PagesController extends Controller
 
     }
 
-    public function rechargeAccount($id) {
-        if(User::find($id)->exists()) {
-            $user = User::find($id);
-            $user->balance_account =  $user->balance_account + 100000;
-            $user->save();
-        }   
+    // public function rechargeAccount($id) {
+    //     if(User::find($id)->exists()) {
+    //         $user = User::find($id);
+    //         $user->balance_account =  $user->balance_account + 100000;
+    //         $user->save();
+    //     }   
         
-        return redirect()->back();
+    //     return redirect()->back();
+    // }
+
+    public function showTeacher($id) {
+        $teacher = Teacher::find($id);
+        $img = Cloudder::show('english-Center/avatar/'.$teacher->avatar); 
+        $teacher->setAttribute('img', $img);
+
+        $user = User::where('id', $id)->first();
+        return view('pages.teacher', ['student'=>$teacher, 'user'=>$user]);
+    }
+
+    public function listTeacher() {
+        $lsteacher = Teacher::all();
+        if(count($lsteacher) > 0) {
+            foreach ($lsteacher as $key) { 
+                $img = Cloudder::show('english-Center/avatar/'.$key->avatar); 
+                $key->setAttribute('img', $img);
+            }
+        }
+        
+
+        return view('pages.lsteacher',['lsteacher'=>$lsteacher]);
     }
 }

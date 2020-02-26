@@ -18,7 +18,7 @@ class CreateCommentTable extends Migration
                 $table->bigIncrements('id');
                 $table->mediumText('content');
                 $table->integer('local');
-                $table->unsignedBigInteger('id_users');
+                $table->unsignedBigInteger('id_user');
                 $table->unsignedBigInteger('id_course');
                 $table->foreign('id_users')->references('id')->on('users');
                 $table->foreign('id_course')->references('id')->on('course');

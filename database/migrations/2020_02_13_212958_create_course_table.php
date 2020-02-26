@@ -24,6 +24,7 @@ class CreateCourseTable extends Migration
                 $table->mediumText('description')->nullable();
                 $table->string('image')->nullable();
                 $table->string('status');
+                $table->string('slug');
                 $table->unsignedBigInteger('id_ctype');
                 $table->unsignedBigInteger('id_teacher');
                 $table->foreign('id_ctype')->references('id')->on('category_type');

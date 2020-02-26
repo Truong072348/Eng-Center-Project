@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/Home';
 
     /**
      * Create a new controller instance.
@@ -41,32 +43,81 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
-
-    /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
-        return User::create([
-            'name' => $data['name'],
+
+        $id = mt_rand(100000,999999);
+        while (User::where('id', $id)->exists()){
+            $id = mt_rand(100000,999999);
+        }
+
+        $user = User::create([
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'username' => $data['user'],
+            'password' => Hash::make($data['pass']),
+            'id_utype' => 3,
+            'account_balance' => 0,
+            'id' => $id,
+        ]);
+
+        $student = Student::create([
+            'name' => $data['name'],
+            'phone'=> $data['phone'],
+            'address' => $data['address'],
+            'id' => $id,
+            'gender' => 'Nam',
+            'avatar' => 'male-define_iogxda',
+            'birthday' => Carbon\Carbon::now(),
         ]);
     }
+
+    public function register(Request $request)
+    {
+        // $this->validator($request->all())->validate();
+        
+        $validator = \Validator::make($request->all(),[
+            'user'=>['required','unique:users,username','max:191'],
+            'pass'=>['required','min: 4','max:191'],
+            'name'=>['required','max:191'],
+            'phone'=>['required','min: 9','max: 11'],
+            'address'=>['required','string','max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        ],
+        [
+            'user.unique'=>'Tên đăng nhập đã tồn tại',
+            'user.required'=>'Vui lòng nhập tên tài khoản',
+            'user.max'=>'Tên quá dài',
+            'pass.required'=>'Vui lòng nhập mật khẩu',
+            'pass.min'=>'Mật khẩu quá ngắn',
+            'pass.max'=>'Mật khẩu quá dài',
+            'name.required'=>'Vui lòng nhập tên',
+            'name.max'=>'tên quá dài',
+            'phone.required'=>'Vui lòng nhập số điện thoại',
+            'phone.min'=>'Số điện thoại không hợp lệ',
+            'phone.max'=>'Số điện thoại không hợp lệ',
+            'address.required'=>'Vui lòng nhập địa chỉ',
+            'address.string'=>'',
+            'address.max'=>'Địa chỉ quá dài',
+            'email.required'=>'Vui lòng nhập email',
+            'email.max'=>'Email quá dài',
+            'email.string'=>'',
+            'email.unique'=>'Email đã tồn tại',     
+        ]);
+
+        if ($validator->fails())
+        {
+            return redirect()->back()->with(['openRegister'=> true, 'errors'=>$validator->errors(), 'regfail'=>true]);
+        }
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return redirect($this->redirectPath())->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);
+    }
+
+
 }

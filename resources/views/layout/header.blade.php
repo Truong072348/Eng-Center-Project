@@ -16,9 +16,18 @@
 							<li class="dropdown-acc">
 								<a>Hello, {{Auth::user()->username}} <img src="Images/user-w.png"></a>
 								<ul class="clear-fix dropdown-child-acc">
+									@if(Auth::user()->id_utype == 1)
+									<li><a href="admin/dashboard">Trang quản trị</a></li>
+									@elseif(Auth::user()->id_utype == 2)
 									<li><a href="profile/{{Auth::user()->id}}">Hồ sơ</a></li>
 									<li><a href="account/{{Auth::user()->id}}">Lịch sử giao dịch</a></li>
+									<li><a href="admin/dashboard">Trang quản trị</a></li>
+									@else
+									<li><a href="profile/{{Auth::user()->id}}">Hồ sơ</a></li>
+									<li><a href="account/{{Auth::user()->id}}">Lịch sử giao dịch</a></li>
+									@endif
 									<li><a href="logout">Thoát tài khoản</a></li>
+									
 								</ul>
 							</li>
 							@else
@@ -183,7 +192,7 @@
 									<ul class="basic-dropdown-child">
 										@if(isset($categoryList))
 										@foreach($categoryList as $cate)
-										<li><a href="list/{{$cate->name}}">Khóa học {{$cate->name}}</a></li>
+										<li><a href="Danh-sach/{{$cate->name}}">Khóa học {{$cate->name}}</a></li>
 										@endforeach
 										@endif
 									</ul>
@@ -191,7 +200,7 @@
 								<li>
 									<h3>Giáo viên</h3>
 									<ul class="basic-dropdown-child">
-										<li><a>Thông tin giáo viên</a></li>
+										<li><a href="danh-sach-giao-vien">Thông tin giáo viên</a></li>
 									</ul>
 								</li>
 								<li>
@@ -210,7 +219,7 @@
 							</ul>
 						</div>
 						<div class="logo-center">
-							<a href="index"><img src="./Images/logo-mobile.png"></a>
+							<a href="Home"><img src="./Images/logo-mobile.png"></a>
 						</div>
 						<div class="hr-search">
 							<form class="bs-search-form" method="POST" action="search">

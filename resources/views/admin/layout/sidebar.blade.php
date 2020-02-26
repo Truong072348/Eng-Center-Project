@@ -1,7 +1,7 @@
 <nav class="slidebar">
 	<div class="slidebar-header">
 		<div class="header-logo">
-			<a href="admin.index">
+			<a href="admin/index">
 				<img src="./Images/logo-mobile.png">
 			</a>
 		</div>
@@ -21,7 +21,7 @@
 			<ul class="menu-left clear-fix">
 				@if(Auth::user()->id_utype == 1)
 				<li>
-					<a href="admin/index" class="menu-dr">
+					<a href="admin/dashboard" class="menu-dr">
 						<img src="./Images/home.png">
 						<span>Dashboard</span>
 					</a>

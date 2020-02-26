@@ -1,13 +1,14 @@
 @extends('pages.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-intro.css') }}">
-<link rel="stylesheet" type="text/css" href="css/page-intro.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/page-intro.css"> -->
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-pay.css') }}">
-<link rel="stylesheet" type="text/css" href="css/page-pay.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/page-pay.css"> -->
 @endsection
 @section('content')
 <div class="wr">
-	<div class="paywr">
+	<div class="container">
+		<div class="paywr">
 		<div class="pay-head">
 			<div class="course">
 				<div class="course-content-wr">
@@ -26,7 +27,7 @@
 					</div>
 					<p class="course-intro">{{$course->description}}</p>
 					<div class="course-teacher">
-						Giáo viên: <a href="#">{{$teacher->name}}</a>
+						Giáo viên: <a href="giao-vien/{{$teacher->id}}">{{$teacher->name}}</a>
 					</div>
 				</div>
 			</div>
@@ -34,8 +35,8 @@
 		<div class="payment">
 			<div class="pay">
 				<div class="img-course">
-					<img src="Images/banner-1.png">
-					<a href="course/{{$course->id}}">Review this course</a>
+					<img src="{{$course->img}}">
+					<a href="course/{{$course->slug}}">Review this course</a>
 				</div>
 				<div class="course-t">
 					<form method="POST" action="payment/{{$course->id}}" id="form-payment">
@@ -46,7 +47,7 @@
 						@php($sale = number_format(session('sale'), 0, '', '.'))
 						<p id="sale">Giảm giá: <span>{{$sale}}</span></p>
 						@endif
-						<p id="total">Total: <span></span></p>
+						<p id="total">Tổng: <span></span></p>
 						<input type="hidden" name="price" value="{{$course->price}}">
 						<input type="hidden" name="sale" value="{{session('name')}}">
 						<input type="hidden" name="psale" value="{{session('sale')}}">
@@ -62,6 +63,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<div class="sale">
 		@if(session('sale'))
@@ -96,9 +98,35 @@
 			</div>
 		</form>
 	</div>
+	<div class="sale sale-row-2">
+		<div class="info-sale">
+			<h3>Thông tin khóa học</h3>
+			<table>
+				<tbody>
+					<tr>
+						<td class="tr-h"><img src="Images/lesson-p.png">Số bài giảng:</td>
+						<td>Dang Cap Nhat</td>
+					</tr>
+					<tr>
+						<td class="tr-h"><img src="Images/test-p.png">Số bài kiểm tra:</td>
+						<td>Dang Cap Nhat</td>
+					</tr>
+					<tr>
+						<td class="tr-h"><img src="Images/clock-p.png">Thời gian bắt đầu:</td>
+						<td>{{$course->date_start}}</td>					
+					</tr>
+					<tr>
+						<td class="tr-h"><img src="Images/clock-p.png">Thời gian kết thúc:</td>
+						<td>{{$course->date_finish}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<span>* Thời gian bắt đầu và kết thúc có thể được điều chỉnh cho phù hợp</span>
+		</div>
+	</div>
 	<div class="modal" id="ex4" >
 		<p>Tài khoản không đủ để thanh toán.</p>
-		<a class="out-submit" id="inLogin">Nạp tiền vào tài khoản</a>
+		<a class="out-submit" id="inLogin" href="nap-tien/{{Auth::id()}}">Nạp tiền vào tài khoản</a>
 	</div> 
 </div>
 @endsection
@@ -123,5 +151,5 @@
 	});
 </script>
 <script src="{{ secure_asset('js/page-index.js') }}"></script>
-<script src="js/page-index.js"></script>
+<!-- <script src="js/page-index.js"></script> -->
 @endsection

@@ -22,20 +22,6 @@
 			<div class="total-wr">
 				<h1>Course</h1>
 
-				<p> ( {{count($courseList)}} Courses)</p>
-				<span id="keyword"> 
-					@if(isset($name))
-						{{$name->name}} :
-					@else
-						{{$key}} 
-					@endif
-
-					@foreach($typeCList as $type)
-					@if($type->id == $key)
-						{{$type->level}}
-					@endif
-					@endforeach
-				</span>
 			</div>
 			<div class="sm-col-span-3 menu-left">
 				<nav class="nav-menu-left">
@@ -82,57 +68,12 @@
 					{{$courseSearch}}
 				@else
 				<div class="container-course-wr">
-					<p class="view">View 
-						<span id="current">
-							@if(count($courseList) > 0)
-							{{$courseList->firstItem()}}
-							@else 
-								0
-							@endif
-						</span> 
-						<span class="divider">|</span> 
-						
-						<span>
-							@if(count($courseList) > 0)
-								{{$courseList->lastItem()}}
-							@else 
-								0
-							@endif
-						</span>
-
-					</p>
-					<div class="course-wr">
-						@if(count($courseList) > 0)
-						@foreach($courseList as $course)
-						
-						<div class="course">
-							<div class="course-img">
-								<a href="course/{{$course->slug}}">
-									<img src="{{$course->img}}">
-								</a>
-								@php($price = number_format($course->price, 0, '', '.'))
-								<span class="price">{{$price}}</span>
-							</div>
-							<div class="course-c">
-								<p class="course-title"><span>{{$course->name}}</span></p>
-								
-								<p class="course-desc">{{$course->short_description}}</p>
-								<a href="course-detail.php">Learn more</a>
-							</div>
-						</div>
+					<!-- <p class="view" style="text-align: left; font-size: 16px "> Không tìm thấy khóa học </p> -->
+					<div class="course-wr" style="width: 50%; margin: 0 auto">
+						<img src="./Images/noresults.jpg">
+					</div>
+				</div>
 				
-						@endforeach
-						@endif
-						
-					</div>
-				</div>
-				@if(count($courseList) > 0)
-				<div class="sm-col-span-12 lg-col-span-4">
-					<div class="pagination-wr">
-						{{$courseList->links()}}
-					</div>
-				</div>
-				@endif
 				@endif
 			</div>
 		</div>

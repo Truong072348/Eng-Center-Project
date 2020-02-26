@@ -15,10 +15,11 @@ class CreateCourseRegisterTable extends Migration
     {
         if(!Schema::hasTable('course_register')) {
             Schema::create('course_register', function (Blueprint $table) {
-                $table->float('price');
+                $table->float('tuition');
+                $table->float('course_price');
                 $table->unsignedBigInteger('id_student');
                 $table->unsignedBigInteger('id_course');
-                $table->unsignedBigInteger('id_discount');
+                $table->unsignedBigInteger('id_discount')->nullable();
                 $table->timestamps();
             });
         }

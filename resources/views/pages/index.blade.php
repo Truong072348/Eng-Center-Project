@@ -1,7 +1,7 @@
 @extends('layout.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/index.css') }}">
-<link rel="stylesheet" type="text/css" href="css/index.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/index.css"> -->
 @endsection
 @section('content')
 <div class="wrapper">
@@ -43,7 +43,7 @@
 							</span>
 							<div class="intro">
 								<h3>Khóa học Toeic</h3>
-								<p><a href="list/Toeic">Xem thêm</a></p>
+								<p><a href="Danh-sach/Toeic">Xem thêm</a></p>
 							</div>
 						</div>
 						<div class="box-intro">
@@ -52,7 +52,7 @@
 							</span>
 							<div class="intro">
 								<h3>Khóa học Ielts</h3>
-								<p><a href="list/Ielts">Xem thêm</a></p>
+								<p><a href="Danh-sach/Ielts">Xem thêm</a></p>
 							</div>
 						</div>
 						<div class="box-intro box-third">
@@ -205,8 +205,8 @@ Truy cập ngay với 99.000 VNĐ / 1 năm, học Tiếng Anh online thoải má
 				@foreach($courseList as $course)
 				<div class="course">
 					<div class="course-img">
-						<a href="course/{{$course->id}}">
-							<img src="Images/{{$course->image}}">
+						<a href="course/{{$course->slug}}">
+							<img src="{{$course->img}}">
 						</a>
 						@php($price = number_format($course->price, 0, '', '.'))
 						<span class="price">{{$price}}</span>
@@ -215,7 +215,7 @@ Truy cập ngay với 99.000 VNĐ / 1 năm, học Tiếng Anh online thoải má
 						<p class="course-title"><span>{{$course->name}}</span></p>
 						
 						<p class="course-desc">{{$course->short_description}}</p>
-						<a href="course/{{$course->id}}">Learn more</a>
+						<a href="course/{{$course->slug}}">Learn more</a>
 					</div>
 				</div>
 				@endforeach
@@ -227,7 +227,7 @@ Truy cập ngay với 99.000 VNĐ / 1 năm, học Tiếng Anh online thoải má
 @endsection
 @section('script')
 <script src="{{ secure_asset('js/jquery.simpleslider.js') }}"></script>
-<script src="js/jquery.simpleslider.js"></script>
+<!-- <script src="js/jquery.simpleslider.js"></script> -->
 <script src="{{ secure_asset('js/page-index.js') }} "></script>
-<script src="js/page-index.js"></script>
+<!-- <script src="js/page-index.js"></script> -->
 @endsection

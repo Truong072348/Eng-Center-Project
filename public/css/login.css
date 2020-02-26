@@ -87,8 +87,9 @@ input:-webkit-autofill:active  {
 }
 
 .content {
-	background-image: -webkit-linear-gradient(right,  #1a2a6c, #b21f1f, #fdbb2d);
-	background-image: linear-gradient(-90deg, #1a2a6c, #b21f1f, #fdbb2d);
+	/*background-image: -webkit-linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+	background-image: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);*/
+	background-image: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
 	margin-top: 0;
 	padding: 0;
 	display: flex;

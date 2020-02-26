@@ -421,7 +421,9 @@ footer {
 	}
 
 
-
+	.ac-func-menu-l li p {
+		padding-left: 0;	
+	}
 
 	/*****************/
 }
@@ -462,12 +464,6 @@ footer {
 
 .accout-recharge a:hover {
 	text-decoration: underline;
-}
-
-@media screen and (max-width: 767px){
-	.accout-surplus {
-		font-size: 14px;
-	}
 }
 
 
@@ -530,11 +526,43 @@ footer {
 	text-decoration: underline;
 }
 
+
+
+/*--------------------page change password--------------------*/
+#submit-pass {
+	margin-left: 0;
+}
+
+.ac-func-menu-l li img {
+	width: 20px;
+	margin-right: 5px;
+}
+.ac-func-menu-l li p {
+	padding-left: 30px;	
+}
+
 @media screen and (max-width: 991px){
 	.cr-rg-price {
 		position: relative;
 	}
+
+	.ac-func-menu-l li p {
+		padding-left: 0;	
+	}
+
+	.acc-func-left{
+		width: 36%;
+	}
 }
+
+
+@media screen and (max-width: 767px){
+	.accout-surplus {
+		font-size: 14px;
+	}
+
+}
+
 
 @media screen and (max-width: 480px){
 	.cr-rg-head {
@@ -546,9 +574,8 @@ footer {
 		display: inline-block;
 		width: 100%;
 	}
-}
 
-/*--------------------page change password--------------------*/
-#submit-pass {
-	margin-left: 0;
+	.ac-func-menu-l li p {
+		padding-left: 0;	
+	}
 }

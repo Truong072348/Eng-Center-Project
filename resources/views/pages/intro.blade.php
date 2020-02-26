@@ -1,7 +1,7 @@
 @extends('pages.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-intro.css') }}">
-<link rel="stylesheet" type="text/css" href="css/page-intro.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/page-intro.css"> -->
 @endsection
 @section('content')
 @if(isset($intro))
@@ -9,7 +9,7 @@
 	<div class="row">
 		<nav>
 			<ul class="breadcrumb clear-fix">
-				<li><a href="index"><i class="fas fa-home"></i> Trang chủ</a></li>
+				<li><a href="Home"><i class="fas fa-home"></i> Trang chủ</a></li>
 				<li><a href="#">Khóa học</a></li>
 				<li>{{$intro->name}}</li>
 			</ul>
@@ -37,7 +37,7 @@
 				</div>
 				<p class="course-intro">{{$intro->description}}</p>
 				<div class="course-teacher">
-					Giáo viên: <a href="#">{{$teacher->name}}</a>
+					Giáo viên: <a href="giao-vien/{{$teacher->id}}">{{$teacher->name}}</a>
 				</div>
 			</div>
 		</div>
@@ -80,7 +80,7 @@
 					</div>
 					@endif
 					<div class="course-free">
-						<a href="#lessons">Học thử miễn phí</a>
+						<a href="course/{{$intro->slug}}#lessons">Học thử miễn phí</a>
 					</div>
 					@else
 					<div class="registered">
@@ -235,12 +235,12 @@
 									<div class="comment-acc">
 										@foreach($studentList as $student)
 										@if($student->id == $comment->id_user)
-										<img src="Images/{{$student->avatar}}">
+										<img src="{{$comment->img}}">
 										@endif
 										@endforeach
 										@foreach($teacherList as $teacher)
 										@if($teacher->id == $comment->id_user)
-										<img src="Images/{{$teacher->avatar}}">
+										<img src="{{$comment->img}}">
 										@endif
 										@endforeach
 									</div>
@@ -285,12 +285,12 @@
 											<div class="comment-acc">
 												@foreach($studentList as $student)
 												@if($student->id == $feed->id_users)
-												<img src="Images/{{$student->avatar}}">
+												<img src="{{$feed->img}}">
 												@endif
 												@endforeach
 												@foreach($teacherList as $teacher)
 												@if($teacher->id == $feed->id_users)
-												<img src="Images/{{$teacher->avatar}}">
+												<img src="{{$feed->img}}">
 												@endif
 												@endforeach
 											</div>
@@ -345,11 +345,12 @@
 			<div class="course-ref">
 				<h3>Khóa học liên quan</h3>
 				@if(isset($refs[0]))
+				
 				@foreach($refs as $r=>$ref)
 				
 				<div class="course-ref-content">
 					<div class="course-img">
-						<a href="course/{{$ref->id}}"><img src="Images/{{$ref->image}}"></a>
+						<a href="course/{{$ref->slug}}"><img src="{{$ref->image}}"></a>
 					</div>
 					<div class="course-c">
 						@if($r < 3)
@@ -412,5 +413,5 @@
 	});
 </script>
 <script src="{{ secure_asset('js/page-index.js') }}"></script>
-<script src="js/page-index.js"></script>
+<!-- <script src="js/page-index.js"></script> -->
 @endsection

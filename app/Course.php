@@ -3,12 +3,38 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
 class Course extends Model
 {
     //
+    use Sluggable; 
+
+    public function sluggable() {
+        return [
+            'slug' => [
+                'source' => 'name','id'
+            ]
+        ];
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     protected $table = "course";
+
+    protected $fillable = [
+        'name','price','date_start','date_finish', 'short_description','description','id_ctype','id_teacher'
+    ];
+
+
     public $timestamps = false;
+
+
+
 
     public function comment(){
     	return $this->hasMany('App\Comment','id_course','id');

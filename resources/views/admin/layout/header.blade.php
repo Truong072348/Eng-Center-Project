@@ -9,7 +9,11 @@
 			@if(Auth::check())
 			<li class="account">
 				<div class="menu acount-head">
-					<img src="./Images/my-avatar.jpg">
+					@if(Auth::user()->id_utype == 1)
+						<img src="./Images/my-avatar.jpg">
+					@else
+						<img src="{{$img}}">
+					@endif
 					Hello, <span>{{Auth::user()->username}}</span>
 				</div>
 				<ul class="dr-child child">
@@ -17,7 +21,7 @@
 					<li><a href="admin/teacher/edit/{{Auth::user()->id}}">My Profile</a></li>
 					@endif
 					<li><a href="#">Setting</a></li>
-					<li><a href="admin/login">Logout</a></li>
+					<li><a href="admin/logout">Logout</a></li>
 				</ul>
 			</li>
 			@endif
