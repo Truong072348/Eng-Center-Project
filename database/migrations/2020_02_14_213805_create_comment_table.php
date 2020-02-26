@@ -20,7 +20,7 @@ class CreateCommentTable extends Migration
                 $table->integer('local');
                 $table->unsignedBigInteger('id_user');
                 $table->unsignedBigInteger('id_course');
-                $table->foreign('id_users')->references('id')->on('users');
+                $table->foreign('id_user')->references('id')->on('users');
                 $table->foreign('id_course')->references('id')->on('course');
                 $table->timestamps();
             });
