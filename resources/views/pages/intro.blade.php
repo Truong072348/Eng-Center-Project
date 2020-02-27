@@ -1,7 +1,7 @@
 @extends('pages.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-intro.css') }}">
-<!-- <link rel="stylesheet" type="text/css" href="css/page-intro.css"> -->
+<link rel="stylesheet" type="text/css" href="css/page-intro.css">
 @endsection
 @section('content')
 @if(isset($intro))
@@ -261,7 +261,7 @@
 											<span class="time">
 												@endif
 												@endforeach
-												{{$comment->created_at}}
+												{{$comment->time}}
 											</span>
 										</div>
 										<div class="comment-ques">
@@ -314,7 +314,7 @@
 													</span>
 													@endif
 													@endforeach
-													<span class="time"> {{$feed->created_at}}</span>
+													<span class="time"> {{$feed->time}}</span>
 												</div>
 												<div class="comment-ques">
 													{{$feed->answer}}
@@ -413,5 +413,5 @@
 	});
 </script>
 <script src="{{ secure_asset('js/page-index.js') }}"></script>
-<!-- <script src="js/page-index.js"></script> -->
+<script src="js/page-index.js"></script>
 @endsection

@@ -1,9 +1,9 @@
 @extends('layout.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/index.css') }}">
-<!-- <link rel="stylesheet" type="text/css" href="css/index.css"> -->
+<link rel="stylesheet" type="text/css" href="css/index.css">
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-list.css') }}">
-<!-- <link rel="stylesheet" type="text/css" href="css/page-list.css"> -->
+<link rel="stylesheet" type="text/css" href="css/page-list.css">
 @endsection
 
 @section('content')
@@ -21,8 +21,11 @@
 		<div class="row">
 			<div class="total-wr">
 				<h1>Course</h1>
+				<p> 
+				(@if(!empty($courseList))
+				{{count($courseList)}} @else 0 @endif Courses)
 
-				<p> ( {{count($courseList)}} Courses)</p>
+				</p>
 				<span id="keyword"> 
 					@if(isset($name))
 						{{$name->name}} :
@@ -84,7 +87,7 @@
 				<div class="container-course-wr">
 					<p class="view">View 
 						<span id="current">
-							@if(count($courseList) > 0)
+							@if(isset($courseList))
 							{{$courseList->firstItem()}}
 							@else 
 								0
@@ -93,7 +96,7 @@
 						<span class="divider">|</span> 
 						
 						<span>
-							@if(count($courseList) > 0)
+							@if(isset($courseList) > 0)
 								{{$courseList->lastItem()}}
 							@else 
 								0
@@ -126,7 +129,7 @@
 						
 					</div>
 				</div>
-				@if(count($courseList) > 0)
+				@if(!empty($courseList))
 				<div class="sm-col-span-12 lg-col-span-4">
 					<div class="pagination-wr">
 						{{$courseList->links()}}
@@ -141,5 +144,5 @@
 
 @section('script')
 <script src="{{ secure_asset('js/page-index.js') }}"></script>
-<!-- <script src="js/page-index.js"></script> -->
+<script src="js/page-index.js"></script>
 @endsection

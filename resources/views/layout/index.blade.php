@@ -26,7 +26,8 @@
 
 		@yield('script')
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-		
+	
+
 		@if (session('openLogin'))
 		<script type="text/javascript">
 			$('#ex1').modal('open');

@@ -92,7 +92,11 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
         
         if(Auth::attempt($credentials)) {
-            return redirect()->intended('admin/dashboard');
+            if(Auth::user()->id_utype < 3) {
+                return redirect()->intended('admin/dashboard');
+            }else {
+                return redirect()->back();
+            }
         }
 
     }

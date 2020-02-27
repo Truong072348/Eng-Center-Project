@@ -5,7 +5,7 @@
 				<div class="sm-col-span-3 md-col-span-8 lg-col-span-4">
 					<div class="footer-intro-website">
 						<div class="footer-logo">
-							<img src="./Images/logo-mobile.png">
+							<img src="Images/logo-mobile.png">
 							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
 						</div>
 						<strong>Liên hệ hỗ trợ: 0123456789</strong>

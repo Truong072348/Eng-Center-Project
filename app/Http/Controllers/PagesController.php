@@ -18,7 +18,6 @@ use App\User;
 use App\Feedback;
 use App\Comment;
 use App\Discount;
-use Carbon\Carbon;
 use App\Register;
 use App\StudyLesson;
 use App\TestDetail;
@@ -27,6 +26,8 @@ use App\Question;
 use App\QuestionDetail;
 use App\StudyTest;
 use App\StudyTestDetail;
+use Carbon\Carbon;
+
 use Hash;
 use Cloudder;
 use Validator;
@@ -49,6 +50,8 @@ class PagesController extends Controller
         view()->share('categoryList', $categoryList);
         view()->share('typeCList', $typeCList);
         view()->share('courseTotal', $courseTotal);
+
+        \Carbon\Carbon::setLocale('vi');
     }
 
     function getIndex(){
@@ -97,8 +100,11 @@ class PagesController extends Controller
         }
 
         $comment = Comment::where('id_course', $id)->where('local', 0)->orderBy('created_at', 'DESC')->paginate(5);
+        
+        $now = Carbon::now();
 
-        if(count($comment) > 0) {
+        if(!empty($comment)) {
+           
             foreach ($comment as $key) {
 
                 if(User::where('id', $key->id_user)->exists()){
@@ -114,7 +120,13 @@ class PagesController extends Controller
                         $img = Cloudder::show('english-Center/avatar/'.$teacher->avatar); 
                         $key->setAttribute('img', $img);
                     }
-                }   
+                } 
+              
+                $date = $key->created_at;
+                $time = $date->diffForHumans($now);
+
+                $key->setAttribute('time', $time);
+                
             }
         }
 
@@ -134,7 +146,12 @@ class PagesController extends Controller
                     $teacher = Teacher::find($type->id);
                     $img = Cloudder::show('english-Center/avatar/'.$teacher->avatar); 
                     $f->setAttribute('img', $img);
-                }       
+                } 
+
+                $date = $f->created_at;
+                $time = $date->diffForHumans($now);
+
+                $f->setAttribute('time', $time);      
             }
         }
 
@@ -146,7 +163,7 @@ class PagesController extends Controller
             }
         }
 
-
+       
         // return $courseReference;
         return view('pages.intro', ['intro'=>$courseIntro, 'teacher'=>$teacherCourse, 'lessons'=>$lessonCourse, 'video'=>$video, 'refs'=>$courseReference, 'tests'=>$test, 'comments'=>$comment, 'feedback'=>$feedback,'registered'=>$register]);
     }

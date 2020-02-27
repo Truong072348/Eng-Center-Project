@@ -1,9 +1,9 @@
 @extends('pages.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/overview.css') }}">
-<!-- <link rel="stylesheet" type="text/css" href="css/overview.css"> -->
+<link rel="stylesheet" type="text/css" href="css/overview.css">
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/review.css') }}">
-<!-- <link rel="stylesheet" type="text/css" href="css/review.css"> -->
+<link rel="stylesheet" type="text/css" href="css/review.css">
 @endsection
 @section('content')
 <div class="wrapper">

@@ -670,6 +670,9 @@ form {
 		color: #01447e;
 	}
 
+	.comment-acc {
+		width: 5em;
+	}
 }
 
 
@@ -691,5 +694,9 @@ form {
 
 	.course-intro {
 		font-size: 14px;
+	}
+
+	.comment-acc {
+		display: none;
 	}
 }

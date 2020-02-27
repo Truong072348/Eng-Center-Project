@@ -216,13 +216,47 @@
 										<li><a>Đánh giá năng lực</a></li>
 									</ul>
 								</li>
+								@if(Auth::check())
+								<li>
+									<h3 style="text-transform: capitalize;">Xin chào, {{Auth::user()->username}}</h3>
+									<ul class="basic-dropdown-child">
+										@if(Auth::user()->id_utype == 1)
+										<li><a href="admin/dashboard">Trang quản trị</a></li>
+										@elseif(Auth::user()->id_utype == 2)
+										<li><a href="profile/{{Auth::user()->id}}">Hồ sơ</a></li>
+										<li><a href="account/{{Auth::user()->id}}">Lịch sử giao dịch</a></li>
+										<li><a href="admin/dashboard">Trang quản trị</a></li>
+										@else
+										<li><a href="profile/{{Auth::user()->id}}">Hồ sơ</a></li>
+										<li><a href="account/{{Auth::user()->id}}">Lịch sử giao dịch</a></li>
+										@endif
+										<li><a href="logout">Thoát tài khoản</a></li>
+									</ul>
+								</li>
+								@else
+								<li>
+									<h3>Đăng Nhập</h3>
+									<ul class="basic-dropdown-child">
+										<li><a href="#ex1" rel="modal:open">Đăng nhập/Đăng ký</a></li>
+									</ul>
+								</li>
+								@endif
+
 							</ul>
 						</div>
 						<div class="logo-center">
-							<a href="Home"><img src="./Images/logo-mobile.png"></a>
+							<a href="Home"><img src="Images/logo-mobile.png"></a>
 						</div>
 						<div class="hr-search">
 							<form class="bs-search-form" method="POST" action="search">
+								<input type="hidden" name="_token" value="{{csrf_token()}}">
+								<input type="text" placeholder="Tìm kiếm..." name="search">
+								<button type="submit"><i class="fas fa-search"></i></button>
+							</form>
+							<a href="#exSearch" rel="modal:open"><i class="fas fa-search"></i></a>
+						</div>
+						<div id="exSearch" class="modal">
+							<form  method="POST" action="search">
 								<input type="hidden" name="_token" value="{{csrf_token()}}">
 								<input type="text" placeholder="Tìm kiếm..." name="search">
 								<button type="submit"><i class="fas fa-search"></i></button>

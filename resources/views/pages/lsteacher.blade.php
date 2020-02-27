@@ -1,9 +1,9 @@
 @extends('layout.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/index.css') }}">
-<!-- <link rel="stylesheet" type="text/css" href="css/index.css"> -->
+<link rel="stylesheet" type="text/css" href="css/index.css">
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-list.css') }}">
-<!-- <link rel="stylesheet" type="text/css" href="css/page-list.css"> -->
+<link rel="stylesheet" type="text/css" href="css/page-list.css">
 <style type="text/css">
 	.intro-wr  {
 		margin-top: -30em;
@@ -104,5 +104,5 @@
 
 @section('script')
 <script src="{{ secure_asset('js/page-index.js') }}"></script>
-<!-- <script src="js/page-index.js"></script> -->
+<script src="js/page-index.js"></script>
 @endsection

@@ -4,8 +4,8 @@
 	</div>
 	<div class="info-wr-right">
 		<ul class="dr-menu clear-fix">
-			<li><a href="#"><img src="./Images/mail.png"></a></li>
-			<li><a href="#"><img src="./Images/bell.png"></a></li>
+			<li><a href="#"><img src="Images/mail.png"></a></li>
+			<li><a href="#"><img src="Images/bell.png"></a></li>
 			@if(Auth::check())
 			<li class="account">
 				<div class="menu acount-head">
