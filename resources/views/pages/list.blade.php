@@ -105,7 +105,7 @@
 
 					</p>
 					<div class="course-wr">
-						@if(count($courseList) > 0)
+						@if(!empty($courseList))
 						@foreach($courseList as $course)
 						
 						<div class="course">
