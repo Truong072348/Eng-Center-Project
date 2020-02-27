@@ -1,7 +1,7 @@
 @extends('layout.index')
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/index.css') }}">
-<link rel="stylesheet" type="text/css" href="css/index.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/index.css"> -->
 @endsection
 @section('content')
 <div class="wrapper">
@@ -227,7 +227,7 @@ Truy cập ngay với 99.000 VNĐ / 1 năm, học Tiếng Anh online thoải má
 @endsection
 @section('script')
 <script src="{{ secure_asset('js/jquery.simpleslider.js') }}"></script>
-<script src="js/jquery.simpleslider.js"></script>
 <script src="{{ secure_asset('js/page-index.js') }} "></script>
-<script src="js/page-index.js"></script>
+<!-- <script src="js/page-index.js"></script> -->
+<!-- <script src="js/jquery.simpleslider.js"></script> -->
 @endsection
