@@ -151,10 +151,10 @@
 											<label>
 												<p>Tên đăng nhập</p>
 											</label>
-											<input type="text" name="user" placeholder="Nhập tên đăng nhập">
-											@if($errors->has('user'))
+											<input type="text" name="username" placeholder="Nhập tên đăng nhập">
+											@if($errors->has('username'))
 											<div class="notify-error">
-												{{$errors->first('user')}}
+												{{$errors->first('username')}}
 											</div>
 											@endif
 										</div>
@@ -162,10 +162,10 @@
 											<label>
 												<p>Mật khẩu</p>
 											</label>
-											<input type="password" name="pass" placeholder="Nhập mật khẩu">
-											@if($errors->has('pass'))
+											<input type="password" name="password" placeholder="Nhập mật khẩu">
+											@if($errors->has('password'))
 											<div class="notify-error">
-												{{$errors->first('pass')}}
+												{{$errors->first('password')}}
 											</div>
 											@endif
 										</div>

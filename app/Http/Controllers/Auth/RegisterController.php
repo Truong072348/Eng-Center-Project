@@ -55,20 +55,20 @@ class RegisterController extends Controller
     {
         
         $validator = \Validator::make($request->all(),[
-            'user'=>['required','unique:users,username','max:191'],
-            'pass'=>['required','min: 4','max:191'],
+            'username'=>['required','unique:users','max:191'],
+            'password'=>['required','min: 4','max:191'],
             'name'=>['required','max:191'],
             'phone'=>['required','min: 9','max: 11'],
             'address'=>['required','string','max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         ],
         [
-            'user.unique'=>'Tên đăng nhập đã tồn tại',
-            'user.required'=>'Vui lòng nhập tên tài khoản',
-            'user.max'=>'Tên quá dài',
-            'pass.required'=>'Vui lòng nhập mật khẩu',
-            'pass.min'=>'Mật khẩu quá ngắn',
-            'pass.max'=>'Mật khẩu quá dài',
+            'username.unique'=>'Tên đăng nhập đã tồn tại',
+            'username.required'=>'Vui lòng nhập tên tài khoản',
+            'username.max'=>'Tên quá dài',
+            'password.required'=>'Vui lòng nhập mật khẩu',
+            'password.min'=>'Mật khẩu quá ngắn',
+            'password.max'=>'Mật khẩu quá dài',
             'name.required'=>'Vui lòng nhập tên',
             'name.max'=>'tên quá dài',
             'phone.required'=>'Vui lòng nhập số điện thoại',
@@ -86,34 +86,48 @@ class RegisterController extends Controller
         if ($validator->fails())
         {
             return redirect()->back()->with(['openRegister'=> true, 'errors'=>$validator->errors(), 'regfail'=>true]);
+        }
+
+        if($request->has('username') && $request->has('email') && $request->has('password') && $request->has('name') && $request->has('phone') && $request->has('address')) {
+
+                $id = mt_rand(100000,999999);
+                while (User::where('id', $id)->exists()){
+                    $id = mt_rand(100000,999999);
+                }
+
+                $password = Hash::make($request->password);
+                $id_utype = 3;
+                $account_balance = 0;
+                $gender = 'Nam';
+                $avatar = 'male-define_iogxda';
+                $birthday = Carbon::now();
+                
+                User::create([
+                    'email' => $request->email,
+                    'username' => $request->username,
+                    'password' => $password,
+                    'id_utype' => $id_utype,
+                    'account_balance' => $account_balance,
+                    'id' => $id,
+                ]);
+
+                Student::create([
+                    'name' => $request->name,
+                    'phone'=> $request->phone,
+                    'address' => $request->address,
+                    'id' => $id,
+                    'gender' => $gender,
+                    'avatar' => $avatar,
+                    'birthday' => $birthday,
+                ]);
+
+                return redirect($this->redirectPath())->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);
+
         } else {
 
-            $id = mt_rand(100000,999999);
-            while (User::where('id', $id)->exists()){
-                $id = mt_rand(100000,999999);
-            }
-
-            User::create([
-                'email' => $request->email,
-                'username' => $request->user,
-                'password' => Hash::make($request->pass),
-                'id_utype' => 3,
-                'account_balance' => 0,
-                'id' => $id,
-            ]);
-
-            Student::create([
-                'name' => $request->name,
-                'phone'=> $request->phone,
-                'address' => $request->address,
-                'id' => $id,
-                'gender' => 'Nam',
-                'avatar' => 'male-define_iogxda',
-                'birthday' => Carbon::now(),
-            ]);
-
-            return redirect($this->redirectPath())->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);
+            return redirect()->back()->with(['openRegister'=> true, 'errors'=>$validator->errors(), 'regfail'=>true]);
         }
+                
     }
 
 
