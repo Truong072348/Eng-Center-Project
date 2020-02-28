@@ -50,33 +50,6 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
-    {
-
-        $id = mt_rand(100000,999999);
-        while (User::where('id', $id)->exists()){
-            $id = mt_rand(100000,999999);
-        }
-
-        $user = User::create([
-            'email' => $data['email'],
-            'username' => $data['user'],
-            'password' => Hash::make($data['pass']),
-            'id_utype' => 3,
-            'account_balance' => 0,
-            'id' => $id,
-        ]);
-
-        $student = Student::create([
-            'name' => $data['name'],
-            'phone'=> $data['phone'],
-            'address' => $data['address'],
-            'id' => $id,
-            'gender' => 'Nam',
-            'avatar' => 'male-define_iogxda',
-            'birthday' => Carbon::now(),
-        ]);
-    }
 
     public function register(Request $request)
     {
@@ -115,7 +88,29 @@ class RegisterController extends Controller
             return redirect()->back()->with(['openRegister'=> true, 'errors'=>$validator->errors(), 'regfail'=>true]);
         } else {
 
-            event(new Registered($user = $this->create($request->all())));
+            $id = mt_rand(100000,999999);
+            while (User::where('id', $id)->exists()){
+                $id = mt_rand(100000,999999);
+            }
+
+            User::create([
+                'email' => $request->email,
+                'username' => $request->user,
+                'password' => Hash::make($request->pass),
+                'id_utype' => 3,
+                'account_balance' => 0,
+                'id' => $id,
+            ]);
+
+            Student::create([
+                'name' => $request->name,
+                'phone'=> $request->phone,
+                'address' => $request->address,
+                'id' => $id,
+                'gender' => 'Nam',
+                'avatar' => 'male-define_iogxda',
+                'birthday' => Carbon::now(),
+            ]);
 
             return redirect($this->redirectPath())->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);
         }
