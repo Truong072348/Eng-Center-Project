@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
+use App\Student;
+use App\User;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -73,7 +74,7 @@ class RegisterController extends Controller
             'id' => $id,
             'gender' => 'Nam',
             'avatar' => 'male-define_iogxda',
-            'birthday' => Carbon\Carbon::now(),
+            'birthday' => Carbon::now(),
         ]);
     }
 
