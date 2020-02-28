@@ -23,15 +23,15 @@
 <div class="container-search">
 	@if($course->status == 'opening')
 	<div class="active-course">
-		<a href="admin/course/close/{{$course->id}}">Opening</a>
+		<a href="{{route('update.open', $course->id)}}">Opening</a>
 	</div>
 	@elseif($course->status == 'waitting')
 	<div class="active-course">
-		<a href="admin/course/active/{{$course->id}}">Waitting</a>
+		<a href="{{route('update.wait', $course->id)}}">Waitting</a>
 	</div>
 	@else 
 	<div class="active-course">
-		<a href="admin/course/waitting/{{$course->id}}">Closed</a>
+		<a href="{{route('update.close', $course->id)}}">Closed</a>
 	</div>
 	@endif
 	<div class="add">
@@ -62,7 +62,7 @@
 				@endif
 			</div>
 			<div class="form-group">
-				<input type="name" name="shortdesc" placeholder="Giới thiệu ngắn" value="{{$course->short_description}}">
+				<input type="name" name="short_description" placeholder="Giới thiệu ngắn" value="{{$course->short_description}}">
 				@if($errors->has('shortdesc'))
 				<div class="notify-error">
 					{{$errors->first('shortdesc')}}
@@ -71,7 +71,7 @@
 			</div>
 			<div class="form-group">
 				<label>Giới thiệu khóa học</label>
-				<textarea name="txtContent" class="form-control " id="editor1">{{$course->description}}</textarea>
+				<textarea name="description" class="form-control " id="editor1">{{$course->description}}</textarea>
 				@if($errors->has('txtContent'))
 				<div class="notify-error">
 					{{$errors->first('txtContent')}}
@@ -81,8 +81,8 @@
 			<div class="form-group select-style">
 				<i class="fas fa-chevron-down"></i>
 				<select name="category" id="category" required>
-					@if(isset($categoryList))
-					@foreach($categoryList as $c)
+					@if(isset($categories))
+					@foreach($categories as $c)
 					<option value="{{$c->id}}" {{$c->id == $category->id ? 'selected=selected ' : ''}}>{{$c->name}}</option>
 					@endforeach
 					@endif
@@ -90,10 +90,10 @@
 			</div>
 			<div class="form-group select-style">
 				<i class="fas fa-chevron-down"></i>
-				<select name="level" value="{{$course->id_ctype}}" id="level">
+				<select name="id_ctype" value="{{$course->id_ctype}}" id="level">
 					
-					@if(isset($type, $typeList))
-					@foreach($typeList as $tl)
+					@if(isset($type, $types))
+					@foreach($types as $tl)
 					@if($tl->id_category == $category->id)
 					<option value="{{$tl->id}}" {{$type->id == $tl->id ? 'selected=selected' : ''}}>{{$tl->level}}</option>
 					@endif
@@ -102,22 +102,22 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<input type="number" name="fee" value="{{$course->price}}" placeholder="Học phí">
-				@if($errors->has('fee'))
+				<input type="number" name="price" value="{{$course->price}}" placeholder="Học phí">
+				@if($errors->has('price'))
 				<div class="notify-error">
-					{{$errors->first('fee')}}
+					{{$errors->first('price')}}
 				</div>
 				@endif
 			</div>
 			<div class="form-group">
 				<label>Giáo viên</label>
-				@foreach($teacher as $tc)
+				@foreach($teachers as $tc)
 				@if($tc->id == $course->id_teacher)
 				
 				<input id="teacher" disabled value="{{$tc->name}} - {{$course->id_teacher}}">
 				@endif
 				@endforeach
-				<input type="hidden" name="idteacher" id="idteacher" value="{{$course->id_teacher}}">
+				<input type="hidden" name="id_teacher" id="idteacher" value="{{$course->id_teacher}}">
 				@if($errors->has('idteacher'))
 				<div class="notify-error">
 					{{$errors->first('idteacher')}}
@@ -127,10 +127,10 @@
 		</div>
 		<div class="form-right">
 			<div class="img-wr-right">
-				<img src="Images/{{$course->image}}" id="preview">
+				<img src="{{$course->image}}" id="preview">
 			</div>
 			<div class="form-group input-group">
-				<label><img src="./Images/download-1.png">
+				<label><img src="Images/download-1.png">
 					<p>
 						Drop image here or click to upload </br>
 						
@@ -145,7 +145,7 @@
 			@endif
 			<div class="form-group">
 				<label>Ngày bắt đầu</label>
-				<input type="date" name="start" value="{{$course->date_start}}">
+				<input type="date" name="date_start" value="{{$course->date_start}}">
 				@if($errors->has('start'))
 				<div class="notify-error">
 					{{$errors->first('start')}}
@@ -154,7 +154,7 @@
 			</div>
 			<div class="form-group">
 				<label>Ngày kết thúc</label>
-				<input type="date" name="finish" value="{{$course->date_finish}}">
+				<input type="date" name="date_finish" value="{{$course->date_finish}}">
 			</div>
 		</div>
 		<!-------------------------table------------------------------>
@@ -181,20 +181,19 @@
 						</tr>
 					</thead>
 					<tbody id="table-q">
-						@if(isset($teacher))
-						@foreach($teacher as $tch)
+						@if(isset($teachers))
+						@foreach($teachers as $tch)
 						<tr>
-							<td class="av"><img src="Images/{{$tch->avatar}}"></td>
+							<td class="av"><img src="{{$tch->avatar}}"></td>
 							<td class="n"><a href="admin/teacher/edit/{{$tch->id}}">{{$tch->name}}</a></td>
 							<td class="de" style="text-transform: capitalize;">{{$tch->degree}}</td>
 							<td class="cr">
-								@if(isset($courseList))
+								@if(isset($courses))
 								@php ($i = 0)
-								@foreach($courseList as $kc=>$crs)
-								
+								@foreach($courses as $course)
 								<ul>
-									@if($crs->id_teacher == $tch->id)
-									<li>{{$crs->name}}</li>
+									@if($course->id_teacher == $tch->id)
+									<li>{{$course->name}}</li>
 									@php ($i = $i + 1)
 									@endif
 								</ul>

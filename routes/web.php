@@ -96,7 +96,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 		Route::get('list/{id}', 'CourseController@getListCate');
 
-		Route::get('edit/{id}', 'CourseController@getEdit');
+		Route::get('edit/{id}', 'CourseController@getEdit')->name('updateCourse');
 
 		Route::post('edit/{id}', 'CourseController@postEdit');
 
@@ -113,11 +113,24 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 		Route::post('search', 'CourseController@postSearch')->name('searchCourse');
 
-		Route::get('active/{id}', 'CourseController@getActive');
+		Route::get('active/{id}', function($id) {
 
-		Route::get('close/{id}', 'CourseController@getClose');
+			App\Course::where('id', $id)->update(['status' => 'closed']);
+			return redirect()->route('updateCourse', ['id'=>$id]);
 
-		Route::get('waitting/{id}', 'CourseController@getWait');
+		})->name('update.open');
+
+		Route::get('close/{id}', function($id){
+			App\Course::where('id', $id)->update(['status' => 'waitting']);
+
+			return redirect()->route('updateCourse', ['id'=>$id]);
+
+		})->name('update.close');
+
+		Route::get('waitting/{id}', function($id) {
+			App\Course::where('id', $id)->update(['status' => 'opening']);
+			return redirect()->route('updateCourse', ['id'=>$id]);
+		})->name('update.wait');
 
 	});
 
@@ -181,7 +194,7 @@ Route::get('Danh-sach/{keyword}', 'CategoryController@getCourse')->name('list');
 Route::get('Danh-muc/{categoryType}', 'CategoryController@getCourseType');
 
 Route::get('course/{course}', 'PagesController@getIntro')->name('courseintro');
-Route::get('lesson/{id}', 'PagesController@getDesc');
+Route::get('/{lesson}', 'PagesController@getDesc');
 Route::get('download/{name}', 'PagesController@fileDownload');
 
 //PaymentController
@@ -205,7 +218,9 @@ Route::post('replay/{id}', 'PagesController@postReplay');
 Route::post('replayCourse/{id}', 'PagesController@postReplayCourse');
 
 Route::post('studylesson', 'PagesController@postStudyLesson');
+
 Route::get('overview/{id}', 'PagesController@getOverview')->name('overview');
+
 Route::get('test/{id}', ['as'=>'getTest', 'uses'=>'PagesController@getTest']);
 Route::post('postQuiz/{id}', 'PagesController@postQuiz');
 

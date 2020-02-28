@@ -125,6 +125,8 @@
 						</div>
 				
 						@endforeach
+						@else
+						<div class="course-null"></div>
 						@endif
 						
 					</div>

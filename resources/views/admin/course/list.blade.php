@@ -54,9 +54,11 @@
 					<li>Select Type</li>
 					<li class="dropdown-child">
 						<ul>
-							@foreach($listcategory as $cate)
+							@if(!empty($categories))
+							@foreach($categories as $cate)
 							<li><a href="admin/course/list/{{$cate->id}}">{{$cate->name}}</a></li>
 							@endforeach
+							@endif
 						</ul>
 					</li>
 				</ul>
@@ -81,13 +83,13 @@
 						<tr>
 							<td class="">{{$crs->name}}</td>
 							<td class="c_cate">
-								@if(isset($listcategory, $type))
-								@foreach($type as $t)
+								@if(isset($categories, $types))
+								@foreach($types as $t)
 								@if($crs->id_ctype == $t->id)
 								
 								{{$t->level}}
 								
-								@foreach($listcategory as $c)
+								@foreach($categories as $c)
 								@if($t->id_category == $c->id)
 								
 								 {{$c->name}}
@@ -101,9 +103,9 @@
 								@endif
 							</td>
 							<td class="c_n_s">
-								@if(isset($lesson))
+								@if(isset($lessons))
 								@php($count_lesson = 0)
-								@foreach($lesson as $l)
+								@foreach($lessons as $l)
 								@if($l->id_course == $crs->id)
 								@php($count_lesson = $count_lesson + 1)
 								@endif
@@ -112,9 +114,9 @@
 								@endif
 							</td>
 							<td class="c_n_t">
-								@if(isset($test))
+								@if(isset($tests))
 								@php($count_test = 0)
-								@foreach($test as $t)
+								@foreach($tests as $t)
 								@if($t->id_course == $crs->id)
 								@php($count_test = $count_test + 1)
 								@endif
@@ -123,9 +125,9 @@
 								@endif
 							</td>
 							<td class="c_n_e">
-								@if(isset($register))
+								@if(isset($registers))
 								@php($count_re = 0)
-								@foreach($register as $r)
+								@foreach($registers as $r)
 								@if($r->id_course == $crs->id)
 								@php($count_re = $count_re + 1)
 								@endif

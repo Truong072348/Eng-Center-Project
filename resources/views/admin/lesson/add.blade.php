@@ -120,12 +120,12 @@
 						</tr>
 					</thead>
 					<tbody id="table-q">
-						@if(isset($lesson))
-						@foreach($lesson as $less)
+						@if(isset($lessons))
+						@foreach($lessons as $less)
 						<tr>
 							
 							<td>{{$less->lesson}}</td>
-							<td>{{$less->links_video}}</td>
+							<td>{{$less->links_svideo}}</td>
 							<td>{{$less->links_document}}</td>
 							<td class="laction">
 								<ul class="menu-dropdown">

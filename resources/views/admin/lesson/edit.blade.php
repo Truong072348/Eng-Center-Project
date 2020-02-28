@@ -65,7 +65,7 @@
 		<div class="form-right">
 			<div class="video">
 				<video controls>
-					<source src="upload/video/{{$lesson->links_video}}" id="video_here">
+					<source src="{{$lesson->links_svideo}}" id="video_here">
 					Your browser does not support HTML5 video
 				</video>
 				

@@ -2,8 +2,8 @@
 @section('style')
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-intro.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/page-desc.css') }}">
-<!-- <link rel="stylesheet" type="text/css" href="css/page-intro.css">
-<link rel="stylesheet" type="text/css" href="css/page-desc.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="css/page-intro.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="css/page-desc.css"> -->
 @endsection
 @section('content')
 <div class="wrapper">
@@ -13,7 +13,7 @@
 				<ul class="breadcrumb clear-fix">
 					<li><a href="index"><i class="fas fa-home"></i> Trang chủ</a></li>
 					<li><a href="course">Khóa học</a></li>
-					<li><a href="course/{{$course->id}}">{{$course->name}}</a></li>
+					<li><a href="course/{{$course->slug}}">{{$course->name}}</a></li>
 					<li>{{$lesson->lesson}}</li>
 				</ul>
 			</nav>
@@ -30,12 +30,12 @@
 		</div>
 		<div class="video-content">
 			<video controls>
-				<source src="upload/video/{{$lesson->links_video}}" type="video/mp4">
+				<source src="{{$lesson->links_svideo}}" type="video/mp4">
 			</video>
 		</div>
 		<!---------Course document------->
 		<div class="document">
-			<div class="document-links">Tài liệu: <a href="download/{{$lesson->links_document}}">Download document</a></div>
+			<div class="document-links">Tài liệu: <a href="{{$lesson->links_document}}">Download document</a></div>
 		</div>
 		<!---------Answer and question-------------------------->
 		<div class="comments">
@@ -216,6 +216,8 @@
 					<span id="t">
 					@if($registered == true)
 						{{count($studyTest)}}
+					@else 
+						0
 					@endif
 					</span> / <span id="t-t">{{count($test)}}</span>
 					<div class="progressbar">
@@ -259,7 +261,7 @@
 					@foreach($watched as $w)
 					@if($w->id_lesson == $lesson->id)
 					<div class="watched">
-						<a href="lesson/{{$lesson->id}}">Again</a>
+						<a href="{{$lesson->slug}}">Again</a>
 					</div>
 					@php($check = 1)
 					@endif
@@ -267,7 +269,7 @@
 
 					@if($check == 0)
 					<div class="watch">
-						<a href="lesson/{{$lesson->id}}">Watch</a>
+						<a href="{{$lesson->slug}}">Watch</a>
 					</div>
 					@endif
 
@@ -275,7 +277,7 @@
 					@if($l < 2)
 					@if(Auth::check())
 					<div class="link-test">
-						<a href="lesson/{{$lesson->id}}">Free</a>
+						<a href="{{$lesson->slug}}">Free</a>
 					</div>
 					@else
 					<div class="link-test">

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -115,9 +114,12 @@ class PagesController extends Controller
 
                         $img = Cloudder::show('english-Center/avatar/'.$student->avatar); 
                         $key->setAttribute('img', $img);
-                    } else {
-                        $teacher = Teacher::find($$user->id);
+                    } elseif ($user->id_utype == 2) {
+                        $teacher = Teacher::find($user->id);
                         $img = Cloudder::show('english-Center/avatar/'.$teacher->avatar); 
+                        $key->setAttribute('img', $img);
+                    } else {
+                        $img = Cloudder::show('english-Center/avatar/42gkM_f0Arl_my-avatar_sfxb8c'); 
                         $key->setAttribute('img', $img);
                     }
                 } 
@@ -142,11 +144,14 @@ class PagesController extends Controller
                     $student = Student::find($type->id);
                     $img = Cloudder::show('english-Center/avatar/'.$student->avatar); 
                     $f->setAttribute('img', $img);
-                } else {
+                } elseif ($user->id_utype == 2) {
                     $teacher = Teacher::find($type->id);
                     $img = Cloudder::show('english-Center/avatar/'.$teacher->avatar); 
                     $f->setAttribute('img', $img);
-                } 
+                } else {
+                    $img = Cloudder::show('english-Center/avatar/42gkM_f0Arl_my-avatar_sfxb8c'); 
+                    $key->setAttribute('img', $img);
+                }
 
                 $date = $f->created_at;
                 $time = $date->diffForHumans($now);
@@ -168,30 +173,35 @@ class PagesController extends Controller
         return view('pages.intro', ['intro'=>$courseIntro, 'teacher'=>$teacherCourse, 'lessons'=>$lessonCourse, 'video'=>$video, 'refs'=>$courseReference, 'tests'=>$test, 'comments'=>$comment, 'feedback'=>$feedback,'registered'=>$register]);
     }
 
-    function getDesc($id){
-        $lesson = Lesson::find($id);
-        $course = Course::where('id', $lesson->id_course)->first();
+    function getDesc($lesson){
+        
+        if(Lesson::where('slug', $lesson)->exists()) {
+            $lesson = Lesson::where('slug', $lesson)->firstOrFail();
+            $course = Course::where('id', $lesson->id_course)->first();
 
-        $lessonList = Lesson::where('id_course', $course->id)->get();
-        $teacher = Teacher::where('id', $course->id_teacher)->first();
-        $test = CourseTest::where('id_course', $course->id)->get();
-        $comment = Comment::where('id_course', $course->id)->where('local', 1)->orderBy('created_at', 'DESC')->paginate(10);
-        $feedback = Feedback::where('local', 1)->orderBy('created_at', 'DESC') ->get();
-        $register = false;
-        $studyTest = '';
-        if(Auth::check()){
-            if(Register::where('id_student', Auth::user()->id)->where('id_course', $course->id)->exists()){
-                $register = true;
-                $re = Register::where('id_student', Auth::user()->id)->where('id_course', $course->id)->first();
-                $studyTest = StudyTest::where('id_register', $re->id)->get();
+            $lessonList = Lesson::where('id_course', $course->id)->get();
+            $teacher = Teacher::where('id', $course->id_teacher)->first();
+            $test = CourseTest::where('id_course', $course->id)->get();
+            $comment = Comment::where('id_course', $course->id)->where('local', 1)->orderBy('created_at', 'DESC')->paginate(10);
+            $feedback = Feedback::where('local', 1)->orderBy('created_at', 'DESC') ->get();
+            $register = false;
+            $studyTest = '';
+            if(Auth::check()){
+                if(Register::where('id_student', Auth::user()->id)->where('id_course', $course->id)->exists()){
+                    $register = true;
+                    $re = Register::where('id_student', Auth::user()->id)->where('id_course', $course->id)->first();
+                    $studyTest = StudyTest::where('id_register', $re->id)->get();
 
+                }
             }
+
+            $watched = StudyLesson::where('id_users', Auth::user()->id)->get();
+
+
+            return view('pages.desc', ['lesson'=>$lesson, 'course'=>$course, 'teacher'=>$teacher, 'lessonList'=>$lessonList, 'test'=>$test, 'comments'=>$comment, 'feedback'=>$feedback, 'registered'=>$register, 'watched'=>$watched, 'studyTest'=>$studyTest]);
+        } else {
+            return view('pages.listnone');
         }
-
-        $watched = StudyLesson::where('id_user', Auth::user()->id)->get();
-
-
-        return view('pages.desc', ['lesson'=>$lesson, 'course'=>$course, 'teacher'=>$teacher, 'lessonList'=>$lessonList, 'test'=>$test, 'comments'=>$comment, 'feedback'=>$feedback, 'registered'=>$register, 'watched'=>$watched, 'studyTest'=>$studyTest]);
     }
 
     function fileDownload($filename){

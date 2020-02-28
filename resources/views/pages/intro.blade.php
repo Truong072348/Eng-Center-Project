@@ -155,13 +155,13 @@
 							<div class="st-cr-test">
 								@if($registered == true)
 								<div class="link-test">
-									<a href="lesson/{{$l->id}}">Watch</a>
+									<a href="{{$l->slug}}">Watch</a>
 								</div>
 								@else
 								@if($t < 2)
 								@if(Auth::check())
 								<div class="link-test">
-									<a href="lesson/{{$l->id}}">Free</a>
+									<a href="{{$l->slug}}">Free</a>
 								</div>
 								@else
 								<div class="link-test">
@@ -233,6 +233,9 @@
 							<li>
 								<div class="comment-his-ac">
 									<div class="comment-acc">
+										@if($comment->id_user == 100000)
+											<img src="{{$comment->img}}">
+										@else
 										@foreach($studentList as $student)
 										@if($student->id == $comment->id_user)
 										<img src="{{$comment->img}}">
@@ -243,11 +246,13 @@
 										<img src="{{$comment->img}}">
 										@endif
 										@endforeach
+										@endif
 									</div>
 									
 									<div class="comment-info">
 										<input type="hidden" class="idcomment" value="{{$comment->id}}">
 										<div class="comment-time">
+
 											@foreach($studentList as $student)
 											@if($student->id == $comment->id_user)
 											<span class="name">{{$student->name}}</span>
@@ -277,12 +282,15 @@
 								</div>
 								@if(isset($feedback))
 								<ul class="comments-history-answer clear-fix">
-									
+											
 									@foreach($feedback as $feed)
 									@if($feed->id_comment == $comment->id)
 									<li>
 										<div class="comment-his-ac">
 											<div class="comment-acc">
+												@if($feed->id_utype == 1)
+												<img src="{{$feed->img}}">
+												@else
 												@foreach($studentList as $student)
 												@if($student->id == $feed->id_users)
 												<img src="{{$feed->img}}">
@@ -293,6 +301,7 @@
 												<img src="{{$feed->img}}">
 												@endif
 												@endforeach
+												@endif
 											</div>
 											<div class="comment-info">
 												<div class="comment-time">
@@ -303,10 +312,10 @@
 														Học viên
 													</span>
 													<span class="time">
-														@endif
-														@endforeach
-														@foreach($teacherList as $teacher)
-														@if($teacher->id == $feed->id_users)
+													@endif
+													@endforeach
+													@foreach($teacherList as $teacher)
+													@if($teacher->id == $feed->id_users)
 													</span>
 													<span class="name">{{$teacher->name}}</span>
 													<span class="power teacher">

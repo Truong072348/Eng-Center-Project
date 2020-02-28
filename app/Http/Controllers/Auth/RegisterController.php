@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -48,13 +49,15 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(Request $data)
+    protected function create(array $data)
     {
 
         $id = mt_rand(100000,999999);
         while (User::where('id', $id)->exists()){
             $id = mt_rand(100000,999999);
         }
+
+        return json_encode($data);
 
         $user = User::create([
             'email' => $data['email'],
@@ -112,11 +115,12 @@ class RegisterController extends Controller
         if ($validator->fails())
         {
             return redirect()->back()->with(['openRegister'=> true, 'errors'=>$validator->errors(), 'regfail'=>true]);
+        } else {
+
+            event(new Registered($user = $this->create($request->all())));
+
+            return redirect($this->redirectPath())->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);
         }
-
-        event(new Registered($user = $this->create($request->all())));
-
-        return redirect($this->redirectPath())->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);
     }
 
 

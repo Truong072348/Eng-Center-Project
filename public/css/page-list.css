@@ -238,6 +238,11 @@
 	.course-title, .course-teacher, .course-price {
 		font-size: 1.65vw;
 	}
+
+	.course-null {
+		height: 12em;
+		width: 100%;
+	}
 }
 
 @media screen and (max-width: 768px){

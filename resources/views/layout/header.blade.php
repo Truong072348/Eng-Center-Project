@@ -55,6 +55,7 @@
 										</div>
 									</div>
 									<form action="login" method="POST" class="tab-form form-login" id="tab1C">
+										@csrf
 										@if(session('message'))
 										<div class="notify-error">
 											{{session('message')}}
@@ -65,7 +66,6 @@
 											{{session('regSuccess')}}
 										</div>
 										@endif
-										<input type="hidden" name="_token" value="{{csrf_token()}}">
 										<div class="form-group-l">
 											<label>
 												<p>Tài khoản</p>
@@ -162,7 +162,7 @@
 											<label>
 												<p>Mật khẩu</p>
 											</label>
-											<input type="password" name="pass" placeholder="Mật khẩu từ 3 đến 32 ký tự">
+											<input type="password" name="pass" placeholder="Nhập mật khẩu">
 											@if($errors->has('pass'))
 											<div class="notify-error">
 												{{$errors->first('pass')}}

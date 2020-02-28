@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\addCourseRequest;
+use App\Http\Requests\addLessonRequest;
 use App\Category;
 use App\CategoryType;
 use App\Teacher;
@@ -18,88 +19,192 @@ use App\StudyLesson;
 use App\StudyTest;
 use Cloudder;
 use Validator;
+use Storage;
 
 class CourseController extends Controller
 {
-    public function getAdd(){
+    function __construct() {
+        $teachers = Teacher::all();
+        $categories = Category::all();
+        $types = CategoryType::all();
+        $tests = CourseTest::all();
+        $lessons = Lesson::all();
+        $registers = Register::all();
+        $courses = Course::all();
 
-    	$category = Category::all();
-    	$teacher = Teacher::all();
-    	$course = Course::all();
-    	return view('admin/course/add',['category'=>$category, 'teacher'=>$teacher, 'course'=>$course]);
-    }
-
-
-    public function postAdd(addCourseRequest $request){
-
-        $id = mt_rand(1000,9999);
-		while (Course::where('id', $id)->exists()) {
-         	$id = mt_rand(100000,999999);
-    	}
-
-        $data = request()->all();
-        $data->status = 'watting';
-        $data->id = $id;
-
-    	if($request->hasFile('avatar')){
-            $file = $request->file('avatar');
-            $name = $file->getClientOriginalName();
+        if(!empty($teachers)) {
+            foreach ($teachers as $key) {
+                $img = Cloudder::show('english-Center/avatar/'.$key->avatar);
+                $key->setAttribute('avatar', $img);
+            }
             
-            $img = str_random(5)."_".$name;
-            Cloudder::upload($file, 'english-Center/course-image/'.$img);
-            $data->image = $img;
-        } else {
-            $data->image = 'hahaha';
         }
 
-    	Course::create($data);
-        
-        $register->tuition = null;
-        $register->id_student = $request->idteacher;
-        $register->id_course = $id;
-        $register->save();
-
-    	return redirect('admin/course/add')->with(['notify'=>'Successfully Added']);
+        view()->share('teachers', $teachers);
+        view()->share('categories', $categories);
+        view()->share('types', $types);
+        view()->share('tests', $tests);
+        view()->share('lessons', $lessons);
+        view()->share('registers', $registers);
+        view()->share('courses', $courses);
     }
-
 
     public function getList(Request $request){
-    	
-        $teacher = Teacher::all();
-        $type = CategoryType::all();
-        $category = Category::all();
-        $lesson = Lesson::all();
-        $test = CourseTest::all();
-        $register =Register::all();
 
         if($request->query('keyword')){
-            $keyword = $request->query('keyword');
-            
-            $course = Course::where('name', 'like', "%$keyword%")->paginate(25);
-           
-            return view('admin/course/list', ['course'=>$course, 'teacher'=>$teacher, 'type'=>$type, 'listcategory'=>$category, 'lesson'=>$lesson, 'test'=>$test, 'register'=>$register]);
+            $keyword = $request->query('keyword');    
+            $course = Course::where('name', 'like', "%$keyword%")->paginate(25);        
+            return view('admin/course/list');
         }
 
-
-    	$course = Course::Paginate(5);
-    	
+        $course = Course::Paginate(5);
         
         if($request->ajax()){
             $record = $request->input('_record');
         
             $course = Course::paginate($record);
-            return response(view('admin/course/list', ['course'=>$course, 'teacher'=>$teacher, 'type'=>$type, 'listcategory'=>$category, 'lesson'=>$lesson, 'test'=>$test, 'register'=>$register]));
+            return response(view('admin/course/list', ['course'=>$course]));
         }
 
-
-
-    	return view('admin/course/list', ['course'=>$course, 'teacher'=>$teacher, 'type'=>$type, 'listcategory'=>$category, 'lesson'=>$lesson, 'test'=>$test, 'register'=>$register]);
+        return view('admin/course/list', ['course'=>$course]);
     }
 
+    public function getAdd(){
+    	return view('admin/course/add');
+    }
+
+
+    //course function: add course, edit, delete
+
+    public function postAdd(addCourseRequest $request){
+
+       
+        $data = request()->all();
+        $data['status'] = 'watting';
+        $data['id'] = mt_rand(100000,999999);
+
+        while (Course::where('id', $data['id'])->exists()) {
+            $data['id'] = mt_rand(100000,999999);
+        }
+
+    	if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $name = $file->getClientOriginalName(); 
+            $img = str_random(5)."_".$name;
+            Cloudder::upload($file, 'english-Center/course-image/'.$img);
+
+            $data['image'] = $img;
+        } else {
+            $data['image'] = 's32N4_6h2u8_banner-5.png_j2owbo';
+        }
+ 
+    	$course = Course::create($data);
+        Register::create([
+            'tuition' => -1,
+            'course_price' => $course->price,
+            'id_student' => $request->id_teacher,
+            'id_course' => $course->id
+
+        ]);
+
+    	return redirect('admin/course/add')->with(['notify'=>'Successfully Added']);
+    }
+
+    public function getEdit($id){
+
+
+        $course = Course::find($id);
+        $type = CategoryType::find($course->id_ctype);
+        $category = Category::find($type->id_category);
+ 
+        if(!empty($course)) {
+            $img = Cloudder::show('english-Center/course-image/'.$course->image);
+            $course->setAttribute('image', $img);
+        }
+
+        return view('admin/course/edit', ['course'=>$course, 'category'=>$category, 'type'=>$type]);
+    }
+
+    public function postEdit(Request $request, $id){
+
+        $course = Course::find($id);
+
+        if($course->id_teacher != $request->id_teacher) {
+            
+            Register::create([
+                'tuition' => -1,
+                'course_price' => $course->price,
+                'id_student' => $request->id_teacher,
+                'id_course' => $id
+            ]);
+
+            Register::where('id_student', $course->id_teacher)->delete();
+        }
+
+        if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $name = $file->getClientOriginalName(); 
+            $img = str_random(5)."_".$name;
+            Cloudder::upload($file, 'english-Center/course-image/'.$img);
+
+            $course->image = $img;
+        } 
+
+        $course->fill($request->all())->save();
+
+        return redirect('admin/course/edit/'.$id)->with(['notify'=>'Successfully Edited']);
+    }
+
+
+    
+    public function getAddLesson($id){
+
+        $course = Course::find($id);   
+        $lesson = Lesson::where('id_course', $id)->paginate(10);
+
+        return view('admin/lesson/add', ['lesson'=>$lesson, 'course'=>$course]);
+    }
+
+    public function postAddLesson(addLessonRequest $request, $id){
+
+        $lesson = new Lesson;
+
+        if($request->hasFile('video')){
+
+            $name = $request->file('video')->getClientOriginalName();
+
+            $file = $request->file('video')->getRealPath();
+
+            $videoUpload = Cloudder::uploadVideo($file, 'english-Center/course-video/'.$name."_".str_random(5), ['resource_type' => 'video']);
+
+            $video_url = Cloudder::secureShow(Cloudder::getPublicId(), ['resource_type' => 'video', 'format' => 'mp4', "width" =>  null, "height"=> null, "crop" => null]);
+
+            $lesson->links_svideo = $video_url;  
+        }
+
+        if($request->hasFile('document')){
+                $name = $request->file('document')->getClientOriginalName();
+
+                $file = $request->file('document')->getRealPath();
+
+                Cloudder::upload($file, 'english-Center/course-document/'.$name."_".str_random(5), ['resource_type' => 'raw']);
+
+                $document_url = Cloudder::secureShow(Cloudder::getPublicId());
+
+                $lesson->links_document = $document_url;
+
+        }
+
+        $lesson->lesson = $request->name;
+        $lesson->id_course = $id;
+        $lesson->save();
+
+        return redirect('admin/lesson/add/'.$id)->with(['notify'=>'Successfully Added']);
+    }
+
+
     public function getListCate($id){
-        $teacher = Teacher::all();
-        $type = CategoryType::all();
-        $category = Category::all();
+
         $lesson = Lesson::all();
         $test = CourseTest::all();
         $register =Register::all();
@@ -116,7 +221,7 @@ class CourseController extends Controller
         $course = $listcourse[0]->course;
         // return $course;
         // return $course->paginate(5);
-        return view('admin/course/list', ['course'=>$course, 'teacher'=>$teacher, 'type'=>$type, 'listcategory'=>$category, 'lesson'=>$lesson, 'test'=>$test, 'register'=>$register]);
+        return view('admin/course/list', ['course'=>$course, 'lesson'=>$lesson, 'test'=>$test, 'register'=>$register]);
     }
 
     public function postSearch(Request $request){
@@ -126,98 +231,6 @@ class CourseController extends Controller
     }
 
 
-    public function getEdit($id){
-
-
-        $course = Course::find($id);
-        $courseList = Course::all();
-        $categoryList = Category::all();
-        $typeList = CategoryType::all();
- 
-        $type = CategoryType::find($course->id_ctype);
-
-        $category = Category::find($type->id_category);
-        
-
-        $teacher = Teacher::all();
-        return view('admin/course/edit', ['course'=>$course, 'category'=>$category, 'type'=>$type, 'typeList'=>$typeList ,'teacher'=>$teacher, 'courseList'=>$courseList, 'categoryList'=>$categoryList]);
-    }
-
-    public function postEdit(Request $request, $id){
-
-        $this->validate($request, 
-            [
-                'name'=>'required|min:2|max:100',
-                'shortdesc'=>'required',
-                'txtContent'=>'required',
-                'fee'=>'required|numeric',
-                'start'=>'required',
-                'idteacher'=>'required' 
-                
-            ], 
-            [
-                'name.required'=>'Vui lòng nhập tên khóa học',
-                'name.min'=>'Tên khóa học quá ngắn',
-                'name.max'=>'Tên khóa học quá dài',
-                'shortdesc.required'=>'Vui lòng nhập thông tin',
-                'txtContent.required'=>'Vui lòng nhập thông tin',
-                'fee.required'=>'Vui lòng nhập học phí',
-                'fee.numeric'=>'Học phí phải là số',
-                'start'=>'Vui lòng chọn ngày bắt đầu',
-                'idteacher'=>'Vui lòng chọn giáo viên'
-            ]);
-
-        $course = Course::find($id);
-
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $name = $file->getClientOriginalName();
-            
-            $img = str_random(5)."_".$name;
-            while (file_exists("Images/".$img)) {
-                $img = str_random(5)."_".$name;
-            }
-
-            $file->move("Images", $img);
-
-            $course->image = $img;
-        }
-
-        $course->name = $request->name;
-        $course->price = $request->fee;
-        $course->date_start = $request->start;
-        $course->date_finish = $request->finish;
-        $course->short_description = $request->shortdesc;
-        $course->description = $request->txtContent;
-        // $course->status = $course->status;
-        $course->id_ctype = $request->level;
-
-        $register = new Register;
-        $register->id = mt_rand(100000,999999);
-        while (Register::where('id', $register->id)->exists()) {
-            $register->id = mt_rand(100000,999999);
-        }
-
-        $register->price = 0;
-        $register->id_student = $request->idteacher;
-        $register->id_course = $id;
-        $register->save();
-
-
-        $course->save();
-
-        return redirect('admin/course/edit/'.$id)->with(['notify'=>'Successfully Edited']);
-    }
-
-
-    public function getAddLesson($id){
-
-        $course = Course::find($id);
-        
-        $lesson = Lesson::where('id_course', $id)->paginate(10);
-
-        return view('admin/lesson/add', ['lesson'=>$lesson, 'course'=>$course]);
-    }
 
     public function getSearchLesson(Request $request){
 
@@ -232,60 +245,6 @@ class CourseController extends Controller
         $keyword = $request->search;
         $id = $request->id_course;
         return redirect()->route('getAddLesson', ['id'=>$id, 'keyword'=>$keyword]);
-    }
-
-    public function postAddLesson(Request $request, $id){
-
-         $this->validate($request, 
-            [
-                'name'=>'required|min:2|max:100',
-                'video'=>'required',
-                'document'=>'required'
-            ], 
-            [   
-                'name.required'=>'Vui lòng nhập tên bài giảng',
-                'name.max'=>'Tên quá dài',
-                'name.min'=>'Tên quá ngắn',
-                'video.required'=>'Vui lòng thêm video',
-                'document.required'=>'Vui lòng thêm tài liệu'
-            ]);
-
-         $lesson = new Lesson;
-          if($request->hasFile('video')){
-                $file = $request->file('video');
-                $name = $file->getClientOriginalName();
-                
-                $video = str_random(5)."_".$name;
-                while (file_exists("upload/video/".$video)) {
-                    $video = str_random(5)."_".$video;
-                }
-
-                $file->move("upload/video", $video);
-
-                $lesson->links_video = $video;
-
-            }
-
-        if($request->hasFile('document')){
-                $file = $request->file('document');
-                $name = $file->getClientOriginalName();
-                
-                $document = str_random(5)."_".$name;
-                while (file_exists("upload/document/".$document)) {
-                    $document = str_random(5)."_".$document;
-                }
-
-                $file->move("upload/document", $document);
-
-                $lesson->links_document = $document;
-
-        }
-
-        $lesson->lesson = $request->name;
-        $lesson->id_course = $id;
-        $lesson->save();
-
-        return redirect('admin/lesson/add/'.$id)->with(['notify'=>'Successfully Added']);
     }
 
 
@@ -370,16 +329,15 @@ class CourseController extends Controller
 
             $testList = Test::paginate($record);
         
-            return response(view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail, 'category'=>$category]));
+            return response(view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail]));
         }
 
 
-        return view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail, 'category'=>$category]);
+        return view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail]);
     }
 
     public function getSearchTest(Request $request){
         $course = Course::find($request->id);
-        $category = Category::all();
         $testDetail = TestDetail::all();
 
         $key = $request->keyword;
@@ -393,10 +351,10 @@ class CourseController extends Controller
 
             $testList = Test::paginate($record);
         
-            return response(view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail, 'category'=>$category]));
+            return response(view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail]));
         }
 
-        return view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail, 'category'=>$category]);
+        return view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail]);
     }
 
     public function searchTestLesson(Request $request){
@@ -445,62 +403,6 @@ class CourseController extends Controller
         return redirect('admin/course/test/'.$course->id)->with('notify', 'Successfully Deleted');
     }
 
-    public function getActive($id){
-
-        $course = Course::find($id);
-        $course->status = 'opening';
-        $course->save();
-
-        $courseList = Course::all();
-        $categoryList = Category::all();
-        $typeList = CategoryType::all();
- 
-        $type = CategoryType::find($course->id_ctype);
-
-        $category = Category::find($type->id_category);
-        
-
-        $teacher = Teacher::all();
-        return view('admin/course/edit', ['course'=>$course, 'category'=>$category, 'type'=>$type, 'typeList'=>$typeList ,'teacher'=>$teacher, 'courseList'=>$courseList, 'categoryList'=>$categoryList]);
-    }
-
-    public function getClose($id){
-
-        $course = Course::find($id);
-        $course->status = 'closed';
-        $course->save();
-
-        $courseList = Course::all();
-        $categoryList = Category::all();
-        $typeList = CategoryType::all();
- 
-        $type = CategoryType::find($course->id_ctype);
-
-        $category = Category::find($type->id_category);
-        
-
-        $teacher = Teacher::all();
-        return view('admin/course/edit', ['course'=>$course, 'category'=>$category, 'type'=>$type, 'typeList'=>$typeList ,'teacher'=>$teacher, 'courseList'=>$courseList, 'categoryList'=>$categoryList]);
-    }
-
-    public function getWait($id){
-
-        $course = Course::find($id);
-        $course->status = 'waitting';
-        $course->save();
-
-        $courseList = Course::all();
-        $categoryList = Category::all();
-        $typeList = CategoryType::all();
- 
-        $type = CategoryType::find($course->id_ctype);
-
-        $category = Category::find($type->id_category);
-        
-
-        $teacher = Teacher::all();
-        return view('admin/course/edit', ['course'=>$course, 'category'=>$category, 'type'=>$type, 'typeList'=>$typeList ,'teacher'=>$teacher, 'courseList'=>$courseList, 'categoryList'=>$categoryList]);
-    }
 
     public function getComment($id){
         $course = Course::find($id);

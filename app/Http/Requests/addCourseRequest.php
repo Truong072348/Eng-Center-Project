@@ -29,9 +29,9 @@ class addCourseRequest extends FormRequest
             'name'=>'required|min:2|max:191',
             'shortdesc'=>'required',
             'txtContent'=>'required',
-            'fee'=>'required|numeric',
+            'price'=>'required|numeric',
             'avatar'=>'required',
-            'start'=>'required',
+            'date_start'=>'required',
             'idteacher'=>'required' 
         ];
     }
@@ -45,10 +45,10 @@ class addCourseRequest extends FormRequest
             'name.max'=>'Tên khóa học quá dài',
             'shortdesc.required'=>'Vui lòng nhập thông tin',
             'txtContent.required'=>'Vui lòng nhập thông tin',
-            'fee.required'=>'Vui lòng nhập học phí',
-            'fee.numeric'=>'Học phí phải là số',
-            'avatar.required'=>'Vui lòng chọn ảnh khóa học',
-            'start.required'=>'Vui lòng chọn ngày bắt đầu',
+            'price.required'=>'Vui lòng nhập học phí',
+            'price.numeric'=>'Học phí phải là số',
+            'avatar.required' => 'Chon hinh anh',
+            'date_start.required'=>'Vui lòng chọn ngày bắt đầu',
             'idteacher'=>'Vui lòng chọn giáo viên'
         ];
     }

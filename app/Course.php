@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 
+
 class Course extends Model
 {
     //
@@ -27,7 +28,7 @@ class Course extends Model
     protected $table = "course";
 
     protected $fillable = [
-        'name','price','date_start','date_finish', 'short_description','description','id_ctype','id_teacher'
+        'name', 'price','date_start','date_finish', 'short_description','description','id_ctype','id_teacher','status','image'
     ];
 
 

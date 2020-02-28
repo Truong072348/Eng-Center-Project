@@ -34,7 +34,7 @@ class CategoryController extends Controller
             }
 
             $cate = CategoryType::where('id', $type->id_category)->first();
-            if(count($cate) > 0){
+            if(!empty($cate)){
                 $name = Category::where('id', $cate->id_category)->first();
                 return view('pages.list', ['courseList'=>$courseList, 'key'=>$type->id, 'name'=>$name]);
             }
