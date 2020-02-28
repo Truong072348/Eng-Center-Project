@@ -57,8 +57,6 @@ class RegisterController extends Controller
             $id = mt_rand(100000,999999);
         }
 
-        return json_encode($data);
-
         $user = User::create([
             'email' => $data['email'],
             'username' => $data['user'],
@@ -81,7 +79,6 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        // $this->validator($request->all())->validate();
         
         $validator = \Validator::make($request->all(),[
             'user'=>['required','unique:users,username','max:191'],
