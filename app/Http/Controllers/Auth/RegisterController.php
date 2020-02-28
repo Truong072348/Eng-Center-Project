@@ -75,11 +75,11 @@ class RegisterController extends Controller
             'phone.min'=>'Số điện thoại không hợp lệ',
             'phone.max'=>'Số điện thoại không hợp lệ',
             'address.required'=>'Vui lòng nhập địa chỉ',
-            'address.string'=>'',
+            'address.string'=>'Dia chi khong hop le',
             'address.max'=>'Địa chỉ quá dài',
             'email.required'=>'Vui lòng nhập email',
             'email.max'=>'Email quá dài',
-            'email.string'=>'',
+            'email.string'=>'Email khong hop le',
             'email.unique'=>'Email đã tồn tại',     
         ]);
 
