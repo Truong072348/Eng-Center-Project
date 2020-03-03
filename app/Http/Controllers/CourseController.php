@@ -80,6 +80,7 @@ class CourseController extends Controller
 
        
         $data = request()->all();
+
         $data['status'] = 'watting';
         $data['id'] = mt_rand(100000,999999);
 
