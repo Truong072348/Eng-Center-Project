@@ -47,32 +47,33 @@
 				<div class="form-group">
 					<i class="fas fa-chevron-down"></i>
 					<select id="type" required disabled="">
-						@foreach($type as $t)
+						@foreach($qtype as $t)
 						<option value="{{$t->id}}" {{$question->id_qtype == $t->id ? 'selected=selected' : ''}}>{{$t->name}}</option>
 						@endforeach
 					</select>
 				</div>
 			</div>
 		</div>
-		@if($question->id_qtype != 3)
+		@if($question->id_qtype < 3)
 		<div class="form-group contentQ">
 			@if($question->id_qtype == 1)
 			<textarea id="editor1" name="content" required>{{$question->content}}</textarea>
-			@if($errors->has('content'))
-				<div class="notify-error">
-					{{$errors->first('content')}}
-				</div>
-			@endif
-			@else
+				@if($errors->has('content'))
+					<div class="notify-error">
+						{{$errors->first('content')}}
+					</div>
+				@endif
+			@elseif($question->id_qtype == 2)
 			<audio controls>
-			  <source src="upload/audio/{{$question->content}}" type="audio/mp4">
+			  <source src="{{$question->content}}">
 			Your browser does not support the audio element.
 			</audio>
 			@endif
 		</div>
 		@endif
 		<div class="qa-wr">
-			@if($question->id_qtype == 3)
+
+			@if($question->id_category == 3)
 			<div class="qa-group">
 				<h3 class="title">Question </h3>
 				<span>/<a class="deleteQ">Delete</a></span>
@@ -82,7 +83,7 @@
 				<div class="qa-group-wr">
 					<div class="qa-g-left">
 						<div class="form-group">
-							<input type="text" name="cransewr1" value="{{$question->correctAnswer}}" style="border: 2px solid #ecc">
+							<input type="text" name="cransewr1" value="{{$question->correct}}" style="border: 2px solid #ecc">
 						</div>
 						<div class="form-group">
 							<input type="text" name="as1_1" value="{{$question->answer1}}">
@@ -111,7 +112,7 @@
 				<div class="qa-group-wr">
 					<div class="qa-g-left">
 						<div class="form-group">
-							<input type="text" name="cransewr{{$key+1}}" value="{{$qd->correctAnswer}}" style="border: 2px solid #ecc">
+							<input type="text" name="cransewr{{$key+1}}" value="{{$qd->correct}}" style="border: 2px solid #ecc">
 						</div>
 						<div class="form-group">
 							<input type="text" name="as{{$key+1}}_1" value="{{$qd->answer1}}">

@@ -6,9 +6,10 @@
 <!-- <link rel="stylesheet" type="text/css" href="css/page-desc.css"> -->
 @endsection
 @section('content')
-<div class="wrapper">
+<div class="wr">
+	<div class="wrapper">
 	<div class="row">
-		<div class="sm-col-span-12 lg-col-span-4">
+	
 			<nav>
 				<ul class="breadcrumb clear-fix">
 					<li><a href="index"><i class="fas fa-home"></i> Trang chủ</a></li>
@@ -17,10 +18,9 @@
 					<li>{{$lesson->lesson}}</li>
 				</ul>
 			</nav>
-		</div>
+
 	</div>
 </div>
-<div class="wr">
 	<!-----Video and comments about course----->
 	<div class="content-left">
 		<div class="course-name">

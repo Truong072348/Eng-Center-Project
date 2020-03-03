@@ -68,7 +68,7 @@ video {
 }
 
 .document-links {
-	margin-left: 15px; 
+	margin-left: 0px; 
 }
 
 /*------------Q&A--------------*/
@@ -286,12 +286,20 @@ video {
 	}
 
 	.comments {
-		margin: 5px;
+		margin: 5px 0;
 	}
 
-}
+	.course-name {
+		margin: 0;
+	}
 
-@media screen and (max-width: 767px) {
+	 .video-content {
+	 	padding: 10px 0;
+	 }
+
+	.document {
+		margin-top: 10px;
+	}
 
 	.course-buy {
 		width: 40%;
@@ -304,6 +312,7 @@ video {
 
 	.wr {
 		flex-wrap: wrap;
+		margin-bottom: 50px;
 	}
 	.content-wr, .content-left {
 		width: 100%;
@@ -311,6 +320,7 @@ video {
 
 	.content-left {
 		padding: 0;
+		margin-bottom: 10px;
 	}
 
 }

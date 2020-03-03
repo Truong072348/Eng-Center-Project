@@ -37,7 +37,7 @@
 <div class="box">
 	<div class="box-img">
 		<div class="img">
-			<a href="admin/teacher/edit/{{$tc->id}}"><img src="./Images/{{$tc->avatar}}"></a>	
+			<a href="admin/teacher/edit/{{$tc->id}}"><img src="{{$tc->avatar}}"></a>	
 		</div>
 		<div class="social-wr">
 			<ul class="social clear-fix">

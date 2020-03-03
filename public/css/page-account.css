@@ -6,6 +6,7 @@
     width: 100vw;
 }
 
+
 footer .wrapper, header .wrapper {
 	padding-left: 15px;
     padding-right: 15px;
@@ -370,6 +371,7 @@ footer {
 	.acc-func-wr {
 		display: block;
 		font-size: 13px;
+		padding-bottom: 0;
 	}
 
 	/*-------------account function left--------------------*/
@@ -391,12 +393,19 @@ footer {
 	.acc-info-right {
 		width: 100%;
 		max-width: 60em;
-		margin: 15px 0;
+		min-height: 10em;
+		margin: 0;
+		margin-bottom: 3em;
 	}
 
 	.acc-info-right h3 {
 		text-align: center;
 		font-size: 16px;
+	}
+
+
+	.acc-func-left {
+		width: 100%;
 	}
 
 	/*------------btn aline center--------------------------*/
@@ -550,9 +559,6 @@ footer {
 		padding-left: 0;	
 	}
 
-	.acc-func-left{
-		width: 36%;
-	}
 }
 
 

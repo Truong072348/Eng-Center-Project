@@ -89,7 +89,7 @@
 						<tr>
 							<td class="id"></td>
 							<td class="question">{{$qas->question}}</td>
-							<td class="answer">{{$qas->correctAnswer}}</td>
+							<td class="answer">{{$qas->correct}}</td>
 							<!-- <td class="parafuc"><a href="#" class="EditTo">Edit</a></td> -->
 						</tr>
 						@endif
@@ -130,7 +130,7 @@
 							<td class="id">{{$key + 1}}</td>
 							<td class="content"><audio controls>
 								<!-- <source src="horse.ogg" type="audio/ogg"> -->
-								<source src="upload/audio/{{$q->content}}" type="audio/mpeg">
+								<source src="{{$q->content}}">
 							</audio></td>
 							@foreach($category as $k=>$c)
 							@if($category[$k]->id == $q->id_category)
@@ -150,7 +150,7 @@
 						<tr>
 							<td class="id"></td>
 							<td class="question">{{$qas->question}}</td>
-							<td class="answer">{{$qas->correctAnswer}}</td>
+							<td class="answer">{{$qas->correct}}</td>
 							<!-- <td class="parafuc"><a href="#" class="EditTo">Edit</a></td> -->
 						</tr>
 						@endif
@@ -196,7 +196,7 @@
 								@endif
 								@endforeach
 								<td>{{$bs->question}}</td>
-								<td>{{$bs->correctAnswer}}</td>
+								<td>{{$bs->correct}}</td>
 								<td class="fuc"><a href="admin/question/edit/{{$bs->id}}" class="EditTo">Edit</a></td>
 							</tr>
 							@endforeach

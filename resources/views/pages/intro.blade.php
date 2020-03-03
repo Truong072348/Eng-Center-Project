@@ -146,22 +146,22 @@
 							LESSONS
 						</div>
 					</div>
-					<div class="course-st-b">
-						@if(isset($lessons))
-						@foreach($lessons as $t=>$l)
-						<div class="course-st-row">
-							<div class="st-less"><b>Bài {{$t + 1}} </b></div>
-							<div class="st-name">{{$l->lesson}}</div>
-							<div class="st-cr-test">
-								@if($registered == true)
-								<div class="link-test">
-									<a href="{{$l->slug}}">Watch</a>
-								</div>
-								@else
-								@if($t < 2)
+					@if(!empty($lessons))
+					@php($p = 0)
+					@foreach($lessons as $lesson)
+					<div class="course-st-row">
+						<div class="st-less"><b>Bài {{$p + 1}}@php($p += 1) </b></div>
+						<div class="st-name">{{$lesson->lesson}}</div>
+						<div class="st-cr-test">
+							@if($registered == 1)
+							<div class="link-test">
+								<a href="{{$lesson->slug}}">Watch</a>
+							</div>
+							@else
+								@if($p < 2)
 								@if(Auth::check())
 								<div class="link-test">
-									<a href="{{$l->slug}}">Free</a>
+									<a href="{{$lesson->slug}}">Free</a>
 								</div>
 								@else
 								<div class="link-test">
@@ -169,12 +169,11 @@
 								</div>
 								@endif
 								@endif
-								@endif
-							</div>
+							@endif
 						</div>
-						@endforeach
-						@endif
 					</div>
+					@endforeach
+					@endif
 				</div>
 				<div class="course-struct">
 					<div class="course-st-head">
@@ -183,15 +182,16 @@
 						</div>
 					</div>
 					<div class="course-st-b">
-						@if(isset($tests))
-						@foreach($tests as $t=>$test)
+						@if(!empty($tests))
+						@php($i = 0)
+						@foreach($tests as $test)
 						<div class="course-st-row">
-							<div class="st-less"><b>Test {{$t + 1}}</b></div>
+							<div class="st-less"><b>Test {{$i + 1}} @php($i += 1)</b></div>
 							<div class="st-name">{{$test->name}}</div>
 							<div class="st-cr-test">
 								@if($registered == true)
 								<div class="link-test">
-									<a href="lesson/{{$l->id}}">Work</a>
+									<a href="overview/{{$test->id_test}}">Work</a>
 								</div>
 								@endif
 							</div>
@@ -226,7 +226,7 @@
 					</div>
 					@endif
 					<!-----------------comment of student--------------------------->
-					@if(count($comments) > 0)
+					@if(!empty($comments))
 					<div class="comments-history">
 						<ul class="comments-history-qa clear-fix">
 							@foreach($comments as $comment)
@@ -280,7 +280,7 @@
 										</div>
 									</div>
 								</div>
-								@if(isset($feedback))
+								@if(!empty($feedback))
 								<ul class="comments-history-answer clear-fix">
 											
 									@foreach($feedback as $feed)

@@ -117,11 +117,11 @@ $(document).ready(function(){
 		},
 		error: function(e){
 			$('.acc-info-right').html('<p>Load Error!!!<p>');
-									console.log(e.message);
-								}
-						});
-					});
-				});
+				console.log(e.message);
+			}
+		});
+	});
+});
 </script>
 <script src="{{ secure_asset('js/page-index.js') }}"></script>
 <!-- <script src="js/page-index.js"></script> -->

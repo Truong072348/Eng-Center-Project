@@ -106,13 +106,17 @@
 	padding: 10px 15px 0 15px;
 	width: calc(100% - 140px);
 	border-radius: 3px;
-	border: 1.5px solid #2d98da;
+	border: 1px solid #50b4f2;
 	box-sizing: border-box;
 }
 
 
 .answer {
 	padding: 10px 0;
+}
+
+.content {
+	max-width: 60em;
 }
 
 .nextQuestion {
@@ -310,7 +314,9 @@
 	}
 
 	.btn-login button {
-		margin-left: 0 !important;
+		/*margin-left: 0 !important;*/
+		width: 7em;
+		margin: 0 auto;
 	}
 
 	.test-content-question {
@@ -323,6 +329,8 @@
 		margin-right: 0;
 		padding: 5px;
 		border: none;
+		text-align: left;
+		font-weight: 700;
 	}
 
 	.c-question-content {

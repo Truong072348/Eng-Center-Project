@@ -5,6 +5,7 @@ $(document).ready(function(){
 		CKEDITOR.replace('editor1');
 	}
 
+
 	$('#addQ').on("click", function(){
 		var listQ = $('.qa-group');
 		var legend = listQ.length;
@@ -16,6 +17,7 @@ $(document).ready(function(){
 			alert('Không thể thêm câu hỏi');
 		}
 	})
+
 
 	$(document).on('change', '#type', function(){
 		var typeQ = $(this).val();

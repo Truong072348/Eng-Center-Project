@@ -39,16 +39,10 @@
 				<h3>Test Content</h3>
 				<a class="deleteAll">Delete All</a>
 			</div>
-			<!-- 	<div class="form-group select-style">
-					<i class="fas fa-chevron-down"></i>
-					<select name="level" value="{{old('category')}}" id="level">
-										
-					</select>
-			</div> -->
 		</div>
 		<div class="form-right">
 			<div class="form-group">
-				<input type="text" name="name" placeholder="Test name" value="{{old('name')}}">
+				<input type="text" name="name" placeholder="Test name">
 				@if($errors->has('name'))
 				<div class="notify-error">
 					{{$errors->first('name')}}
@@ -149,7 +143,7 @@
 						<tr>
 							<td class="id"></td>
 							<td class="question">{{$qas->question}}</td>
-							<td class="answer">{{$qas->correctAnswer}}</td>
+							<td class="answer">{{$qas->correct}}</td>
 							
 						</tr>
 						@endif
@@ -212,7 +206,7 @@
 						<tr>
 							<td class="id"></td>
 							<td class="question">{{$qas->question}}</td>
-							<td class="answer">{{$qas->correctAnswer}}</td>
+							<td class="answer">{{$qas->correct}}</td>
 							
 						</tr>
 						@endif
@@ -257,7 +251,7 @@
 								@endif
 								@endforeach
 								<td class="bqes">{{$bs->question}}</td>
-								<td class="asw">{{$bs->correctAnswer}}</td>
+								<td class="asw">{{$bs->correct}}</td>
 								<td class="bfunc"><a class="SelectTo" style="cursor: pointer;">Select</a></td>
 							</tr>
 							@endforeach

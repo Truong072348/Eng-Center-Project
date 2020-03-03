@@ -1,32 +1,26 @@
-.wr {
-	height: auto;
-	margin-bottom: 20px;
+.container {
+	height: 100%;
+	margin: 0 auto;
 }
 
-.paywr {
-	width: 100%;
-	padding: 10px 10%;
-	margin: 0 auto;
-	height: 18.5em;
-	box-sizing: border-box;
+.course-introduct {
+	min-height: 20em;
 	background-color: #343a40;
 }
 
-.pay-head {
+
+.wr-left {
 	float: left;
-	width: 70%;
-	color: #fff;
+	width: 55%;
+	padding-left: 10%;
 }
 
-.payment {
-	width: 30%;
+.wr-right {
 	float: right;
-	margin-top: 2em;
-	background-color: #fff;
-	border-radius: 5px;
-	border: 1.5px solid #e1e8ed;
-	box-sizing: border-box;
+	width: 25%;
+	padding-right: 10%;
 }
+
 
 .img-course {
 	padding: 5px;
@@ -46,10 +40,11 @@
 	text-decoration: none;
 	text-transform: capitalize;
 }
-/**/
+
 .course-content-wr {
 	padding: 10px;
 	padding-top: 2em;
+	color: #f1f1f1;
 }
 .course-t {
 	text-align: left;
@@ -95,7 +90,7 @@
 	font-weight: 700;
 }
 
-.sale {
+.sale, .coup {
 	padding: 0 10%;
 	text-transform: capitalize;
 	display: block;
@@ -123,6 +118,12 @@
 	display: block;
 }
 
+.coup p  {
+	padding-left: 1em;
+	padding-top: 2em;
+	color: #c23616;
+}
+
 .form-group-1 label {
 	padding-right: 5px;
 }
@@ -133,7 +134,7 @@
 }
 
 .btn-group-1 button {
-	width: 3em;
+	width: 5em;
 	padding: 3px;
 	border-radius: 3px;
 	border: 0;
@@ -222,57 +223,60 @@ table tr td {
 }
 
 
+.pay {
+	border: 1px solid #f1f1f1;
+	border-radius: 5px;
+	margin-top: 10px;
+	background-color: #fff;
+}
+
 @media screen and (max-width: 991px){
 
-	.pay-head {
-		float: none;
-		width: 100%;
-	
-	}
-
-	.payment {
-		display: block;
-		width: 100%;
-		float: none;
-		margin-top: 2em;
-		background-color: #fff;
-		border-radius: 5px;
-		border: 1px solid #e1e8ed;
-		box-sizing: border-box;
-	}
-
-	.img-course {
-		box-sizing: border-box;
-	}
-
-	.img-course img {
-		height: 20em;
-	}
-	
 	.container {
-		height: 55em;
+		
+	}
+
+	.wr-left, .wr-right {
+		width: 90%;
+		padding: 0 5%;
+	}
+
+	.course-introduct {
+		min-height: 45em;
+	}
+
+	.course-content-wr {
+		padding: 0.5em;
+	}
+
+	.wr-right {
+		margin-bottom: 1em;
+	}
+
+	.coup, .sale {
+		padding: 0 5%;
 	}
 
 	.sale form {
 		width: 100%;
-		padding: 10px;
-		height: 7em;
-		border: 1px solid #dcdde1;
-		min-height: 0 !important;
-		margin: 15px 0;
-		border-radius: 5px;
+		margin: 10px 0;
+		padding: 1em 0.5em;
 		box-sizing: border-box;
-		display: block;
 	}
+
+	.sale .alert-error, .sale .alert-success {
+		margin: 1em 0;
+		width: 100%;
+	}
+
+	.sale-row-2 {
+		margin: 3em 0;
+	}
+
+
 }
 
-@media screen and (max-width: 768px){
-	.paywr {
-		height: 30em;
-	}
+@media screen and (max-width: 767px){
 
-	.container {
-		height: 63em;
-	}
 
 }

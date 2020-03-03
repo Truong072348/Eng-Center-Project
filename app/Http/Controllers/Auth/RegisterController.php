@@ -88,46 +88,42 @@ class RegisterController extends Controller
             return redirect()->back()->with(['openRegister'=> true, 'errors'=>$validator->errors(), 'regfail'=>true]);
         }
 
-        if($request->has('username') && $request->has('email') && $request->has('password') && $request->has('name') && $request->has('phone') && $request->has('address')) {
+      
 
-                $id = mt_rand(100000,999999);
-                while (User::where('id', $id)->exists()){
-                    $id = mt_rand(100000,999999);
-                }
-
-                $password = Hash::make($request->password);
-                $id_utype = 3;
-                $account_balance = 0;
-                $gender = 'Nam';
-                $avatar = 'male-define_iogxda';
-                $birthday = Carbon::now();
-                
-                User::create([
-                    'email' => $request->email,
-                    'username' => $request->username,
-                    'password' => $password,
-                    'id_utype' => $id_utype,
-                    'account_balance' => $account_balance,
-                    'id' => $id,
-                ]);
-
-                Student::create([
-                    'name' => $request->name,
-                    'phone'=> $request->phone,
-                    'address' => $request->address,
-                    'id' => $id,
-                    'gender' => $gender,
-                    'avatar' => $avatar,
-                    'birthday' => $birthday,
-                ]);
-
-                return redirect($this->redirectPath())->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);
-
-        } else {
-
-            return redirect()->back()->with(['openRegister'=> true, 'errors'=>$validator->errors(), 'regfail'=>true]);
+        $id = mt_rand(100000,999999);
+        while (User::where('id', $id)->exists()){
+            $id = mt_rand(100000,999999);
         }
-                
+
+        $password = Hash::make($request->password);
+        $id_utype = 3;
+        $account_balance = 0;
+        $gender = 'Nam';
+        $avatar = 'male-define_iogxda';
+        $birthday = Carbon::now();
+        
+        User::create([
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => $password,
+            'id_utype' => $id_utype,
+            'account_balance' => $account_balance,
+            'id' => $id,
+        ]);
+
+        Student::create([
+            'name' => $request->name,
+            'phone'=> $request->phone,
+            'address' => $request->address,
+            'id' => $id,
+            'gender' => $gender,
+            'avatar' => $avatar,
+            'birthday' => $birthday,
+        ]);
+
+        return redirect($this->redirectPath())->with(['openSuccessReg'=>true, 'regSuccess'=>'Đăng ký thành công. Đăng nhập ngay!!']);
+
+     
     }
 
 

@@ -1,63 +1,56 @@
-    <?php
-
+<?php
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\addStudentRequest;
 use App\Student;
 use App\User;
 use App\Register;
 use App\CategoryType;
 use App\Course;
 use App\Category;
+use App\Teacher;
 use Validator;
 use Cloudder;
+use Hash;
 
 class StudentController extends Controller
 {
 
     function __construct(){
-        $teacherList = Teacher::all();
-        $course = Course::all();
-        $type = CategoryType::all();
-        $category = Category::all();
 
-        view()->share('course', $course);
-        view()->share('category', $category);
-        view()->share('type', $type);
+        $courses = Course::all();
+        $types = CategoryType::all();
+        $categories = Category::all();
+        $registers = Register::all();
+        $accounts = User::where('id_utype', 3)->join('student', 'users.id', '=', 'student.id')->get();
+        foreach ($accounts as $key) {
+            $img = Cloudder::show('english-Center/avatar/'.$key->avatar);
+            $key->setAttribute('avatar', $img);
+        }
+
+        view()->share('course', $courses);
+        view()->share('category', $categories);
+        view()->share('type', $types);
+        view()->share('registers', $registers);
+        view()->share('account', $accounts);
     }
 
     public function getList(Request $request){
 
-        $register = Register::all();
-        $account = User::all();
-
         if($request->query('keyword')){
             $keyword = $request->query('keyword');
-            $student = Student::where('name', 'like', "%$keyword%")->paginate(15);
- 
-            return view('admin/student/list', ['student'=>$student, 'register'=>$register, 'account'=>$account, 'course'=>$course, 'account'=>$account]);
-        }
+            $student = Student::where('name', 'like', "%$keyword%")->paginate(10);
 
-
-    	$student = Student::Paginate(5);
-
-        if($request->ajax()){
+        } else if ($request->ajax()) {
             $record = $request->input('_record');
-
             $student = Student::paginate($record);
-        
-            return response(view('admin/student/list', ['student'=>$student, 'register'=>$register, 'account'=>$account, 'course'=>$course, 'account'=>$account]));
+
+        } else {
+            $student = Student::Paginate(10);
         }
 
-    	
-
-    	return view('admin/student/list', ['student'=>$student, 'register'=>$register, 'account'=>$account, 'course'=>$course, 'account'=>$account]);
-    }
-
-    public function postSearch(Request $request){
-        $search = $request->search;
-        return redirect()->route('listStudent', ['keyword'=>$search]);
-
+    	return view('admin/student/list', ['student'=>$student]);
     }
 
     public function getAdd(){
@@ -65,52 +58,62 @@ class StudentController extends Controller
     	return view('admin/student/add');
     }
 
-    public function postAdd(Request $request){
-    	
-        Validator::addStudentRequest($request);
+    public function postAdd(addStudentRequest $request){
 
-    	$student = new Student;
+        $id = mt_rand(100000,999999);
 
-        $student->id = mt_rand(100000,999999);
-        $request->gender = 1;
-
-        while (User::where('id', $student->id)->exists()) {
-             $student->id = mt_rand(100000,999999);
+        while (User::where('id', $id)->exists()) {
+             $id = mt_rand(100000,999999);
         }
+
+        $input['id'] = $id;
+        $input['name'] = $request->name;
+        $input['phone'] = $request->phone;
+        $input['address'] = $request->address;
+        $input['birthday'] = $request->birthday;
+
 
         if($request->hasFile('avatar')){
             $file = $request->file('avatar');
             $name = $file->getClientOriginalName();
             
-            $img = str_random(5)."_".$name;
+            $rand_name = str_random(5)."_".$name;
 
-            Cloudder::upload($file, 'english-Center/avatar/'.$img);
+            Cloudder::upload($file, 'english-Center/avatar/'.$rand_name);
 
-            $file->move("Images", $img);
+            $input['avatar'] = $rand_name;
 
-            $student->avatar = $img;
         } else {
-            $student->avatar = $request->gender == 0 ? 'male-define_iogxda' : 'female-define_dkudqx'; 
+            $input['avatar'] = $request->gender == 0 ? 'male-define_iogxda' : 'female-define_dkudqx'; 
         }
 
-        $student->name = $request->name;
-        $student->phone = $request->phone;
-        $student->birthday = $request->date;
-        $student->gender = $request->gender == 0 ? 'Nam' : 'Nữ';
-        $student->address = $request->address;
+        $input['gender'] = $request->genderr == 0 ? 'Nam' : 'Nữ';
+        
+        Student::create($input);
 
-        $user = new User;
-        $user->id = $student->id;
-        $user->username = $request->user;
-        $user->password = $request->pass;
-        $user->account_balance = 0;
-        $user->id_utype = 3;
-        $user->email = $request->email;
+        $input_user['id'] = $id; 
+        $input_user['username'] = $request->username; 
+        $input_user['password'] = Hash::make($request->password); 
+        $input_user['account_balance'] = 100000000; 
+        $input_user['email'] = $request->email; 
+        $input_user['id_utype'] = 3; 
 
-        $user->save();
-        $student->save();
+        User::create($input_user);
 
     	return redirect('admin/student/add')->with(['notify'=>'Thêm thành công']);
     }
 
+    public function getProfile($id) {
+        if(Student::where('id', $id)->exists()) {
+            $student = Student::where('student.id', $id)->join('users', 'users.id', '=', 'student.id')->firstOrFail();
+
+            $avatar = Cloudder::show('english-Center/avatar/'.$student->avatar);
+            $student->setAttribute('avatar', $avatar);
+
+            return view('admin/student/profile', ['student' => $student]);
+        } else {
+            return redirect()->route('listStudent');
+        }
+    }
+}
 

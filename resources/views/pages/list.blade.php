@@ -120,7 +120,7 @@
 								<p class="course-title"><span>{{$course->name}}</span></p>
 								
 								<p class="course-desc">{{$course->short_description}}</p>
-								<a href="course-detail.php">Learn more</a>
+								<a href="course/{{$course->slug}}">Learn more</a>
 							</div>
 						</div>
 				

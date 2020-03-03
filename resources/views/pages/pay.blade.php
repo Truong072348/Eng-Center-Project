@@ -6,33 +6,34 @@
 <!-- <link rel="stylesheet" type="text/css" href="css/page-pay.css"> -->
 @endsection
 @section('content')
-<div class="wr">
-	<div class="container">
-		<div class="paywr">
-		<div class="pay-head">
-			<div class="course">
-				<div class="course-content-wr">
-					<h1 class="course-title-wr">{{$course->name}}</h1>
-					<div class="course-category">
-						@foreach($typeCList as $type)
-						@if($type->id == $course->id_ctype)
-						@foreach($categoryList as $cate)
-						@if($cate->id == $type->id_category)
-						<span>{{$cate->name}}</span> ||
-						@endif
-						@endforeach
-						<span>{{$type->level}}</span>
-						@endif
-						@endforeach
-					</div>
-					<p class="course-intro">{{$course->description}}</p>
-					<div class="course-teacher">
-						Giáo viên: <a href="giao-vien/{{$teacher->id}}">{{$teacher->name}}</a>
+<div class="container">
+	<div class="course-introduct">
+		<div class="row-course">
+			<div class="wr-left">
+				<div class="course">
+					<div class="course-content-wr">
+						<h1 class="course-title-wr">{{$course->name}}</h1>
+						<div class="course-category">
+							@foreach($typeCList as $type)
+							@if($type->id == $course->id_ctype)
+							@foreach($categoryList as $cate)
+							@if($cate->id == $type->id_category)
+							<span>{{$cate->name}}</span> ||
+							@endif
+							@endforeach
+							<span>{{$type->level}}</span>
+							@endif
+							@endforeach
+						</div>
+						<p class="course-intro">{{$course->description}}</p>
+						<div class="course-teacher">
+							Giáo viên: <a href="giao-vien/{{$teacher->id}}">{{$teacher->name}}</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="payment">
+		<div class="wr-right">
 			<div class="pay">
 				<div class="img-course">
 					<img src="{{$course->img}}">
@@ -64,6 +65,8 @@
 			</div>
 		</div>
 	</div>
+	<div class="coup">
+		<p>Nhập mã giảm giá để nhận các ưu đãi khóa học</p>
 	</div>
 	<div class="sale">
 		@if(session('sale'))

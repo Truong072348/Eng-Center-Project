@@ -108,7 +108,7 @@
 						<tr>
 							<td>{{$t->name}}</td>
 							<td class="c_cate">
-								@foreach($category as $cate)
+								@foreach($categories as $cate)
 								@if($cate->id == $t->id_category)
 									{{$cate->name}}
 								@endif

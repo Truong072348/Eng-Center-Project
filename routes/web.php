@@ -21,7 +21,6 @@ Route::get('/', function () {
 Route::get('admin/login', 'Auth\LoginController@getLoginAdmin');
 Route::post('admin/login', 'Auth\LoginController@postLoginAdmin');
 Route::get('admin/logout', ['as'=>'logoutAdmin', 'uses'=>'Auth\LogoutController@getAdminLogout']);
-
 Route::get('admin/dashboard', 'PagesController@getAdminIndex')->middleware('checkadmin');
 
 Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
@@ -37,7 +36,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 		Route::post('edit/{id}','TeacherController@postEdit');
 		
-		Route::post('search', 'TeacherController@postSearch')->name('searchTeacher');
+		Route::post('search', 'SearchController@postSearchTeacher')->name('searchTeacher');
 
 	});
 
@@ -68,7 +67,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 		Route::get('list', 'AccountController@getList')->name('listUser');
 
-		Route::post('search', 'AccountController@postSearch')->name('searchUser');
+		Route::post('search', 'SearchController@postSearchAccount')->name('searchUser');
 
 	});
 
@@ -83,7 +82,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 		Route::get('profile/{id}','StudentController@getProfile');
 
-		Route::post('search', 'StudentController@postSearch')->name('searchStudent');
+		Route::post('search', 'SearchController@postSearchStudent')->name('searchStudent');
 	});
 
 
@@ -100,18 +99,18 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 		Route::post('edit/{id}', 'CourseController@postEdit');
 
-		Route::get('test/{id}', 'CourseController@getAddTest');
+		Route::get('test/{id}', 'TestController@getAddTestToCourse');
 
-		Route::get('test/{id}/{keyword}', 'CourseController@getSearchTest')->name('getTestLesson');
+		Route::get('test/{id}/{keyword}', 'SearchController@getSearchTest')->name('getTestLesson');
 
-		Route::post('test/{id}', 'CourseController@postAddTest');
+		Route::post('test/{id}', 'TestController@postAddTestToCourse');
 
-		Route::post('searchTest', 'CourseController@searchTestLesson')->name('searchTestLesson');
+		Route::post('searchTest', 'SearchController@searchTestLesson')->name('searchTestLesson');
 
 
 		Route::get('comment/{id}', 'CourseController@getComment');
 
-		Route::post('search', 'CourseController@postSearch')->name('searchCourse');
+		Route::post('search', 'SearchController@postSearchCourse')->name('searchCourse');
 
 		Route::get('active/{id}', function($id) {
 
@@ -138,7 +137,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 		Route::get('add/{id}', 'CourseController@getAddLesson');
 
-		Route::get('add/{id}/{keyword}', 'CourseController@getSearchLesson')->name('getAddLesson');
+		Route::get('add/{id}/{keyword}', 'SearchController@getSearchLesson')->name('getAddLesson');
 
 		Route::post('add/{id}', 'CourseController@postAddLesson');
 
@@ -148,7 +147,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 		Route::get('delete/{id}/{lesson}', 'CourseController@getDeleteLesson');
 
-		Route::post('search', 'CourseController@postSearchLesson')->name('searchLesson');
+		Route::post('search', 'SearchController@postSearchLesson')->name('searchLesson');
 
 	});
 
@@ -172,7 +171,7 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 		Route::get('delete/{id}', 'CourseController@deleteTest');
 
-		Route::post('search', 'TestController@searchTest')->name('searchTest');
+		Route::post('search', 'SearchController@searchTest')->name('searchTest');
 
 		Route::get('deletelist/{id}', 'TestController@deleteTestList');
 
@@ -192,6 +191,8 @@ Route::get('Home', 'PagesController@getIndex')->name('index');
 //CategoryController
 Route::get('Danh-sach/{keyword}', 'CategoryController@getCourse')->name('list');
 Route::get('Danh-muc/{categoryType}', 'CategoryController@getCourseType');
+//---------------------------------------------------------------------------------
+
 
 Route::get('course/{course}', 'PagesController@getIntro')->name('courseintro');
 Route::get('/{lesson}', 'PagesController@getDesc');
@@ -201,14 +202,9 @@ Route::get('download/{name}', 'PagesController@fileDownload');
 Route::get('payment/{id}', 'PaymentController@payment');
 Route::post('payment/{id}', 'PaymentController@postPayment');
 Route::post('discount', 'PaymentController@postDiscount');
+//---------------------------------------------------------------------------------
 
-Route::get('login', function () {
-    return redirect()->route('index')->with(['openLogin' => true, 'regSuccess'=>'Vui lòng đăng nhập']);
-})->name('login');
-
-
-Route::post('login', ['as'=>'login', 'uses'=>'Auth\LoginController@postLogin']);
-Route::get('logout', ['as'=>'logout', 'uses'=>'Auth\LogoutController@getLogout']);
+Route::get('Home/logout', ['as'=>'logout', 'uses'=>'Auth\LogoutController@getLogout']);
 
 Route::post('register', ['as'=>'register','uses'=>'Auth\RegisterController@register']);
 
@@ -219,13 +215,28 @@ Route::post('replayCourse/{id}', 'PagesController@postReplayCourse');
 
 Route::post('studylesson', 'PagesController@postStudyLesson');
 
-Route::get('overview/{id}', 'PagesController@getOverview')->name('overview');
 
-Route::get('test/{id}', ['as'=>'getTest', 'uses'=>'PagesController@getTest']);
-Route::post('postQuiz/{id}', 'PagesController@postQuiz');
+//QUIZ FUNCTION (QuizController)
+Route::get('overview/{id}', 'QuizController@getOverview')->name('overview');
+Route::get('review/{id}', 'QuizController@getReview');
+Route::get('test/{id}', ['as'=>'getTest', 'uses'=>'QuizController@getTest']);
+Route::post('postQuiz/{id}', 'QuizController@postQuiz');
+//---------------------------------------------------------------------------------------------------
 
+
+//USERS FUNCTON (AccountController)
 Route::get('profile/{id}', 'PagesController@getProfile')->middleware('auth')->name('getProfile');
 Route::post('profile/{id}','PagesController@postProfile');
+
+//LoginController
+Route::get('login', function () {
+    return redirect()->route('index')->with(['openLogin' => true, 'regSuccess'=>'Vui lòng đăng nhập']);
+})->name('login');
+
+
+Route::post('login', ['as'=>'login', 'uses'=>'Auth\LoginController@postLogin']);
+//-------------------------------------------------------------------------------
+
 
 Route::get('danh-sach-giao-vien','PagesController@listTeacher');
 Route::get('giao-vien/{teacher}','PagesController@showTeacher')->middleware('auth');
@@ -234,7 +245,6 @@ Route::post('changepassword/{id}', 'PagesController@postChangePass');
 
 Route::get('account/{id}', 'PagesController@getAccount')->middleware('auth');
 Route::post('account/{id}','PagesController@postAccount');
-Route::post('search', 'PagesController@postSearch');
-Route::get('review/{id}', 'PagesController@getReview');
 
+Route::post('search', 'SearchController@postSearchCourse');
 Route::post('nap-tien/{id}','PagesController@rechargeAccount')->middleware('auth');

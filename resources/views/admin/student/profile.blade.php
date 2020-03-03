@@ -18,7 +18,6 @@
 </div>
 @endsection
 @section('content')
-@section('content')
 <fieldset>
 	<legend>Thông tin học viên</legend>
 	@if(session('errorpass'))
@@ -36,14 +35,12 @@
 		@if(isset($student))
 		<div class="profile-wr-left">
 			<div class="profile-img">
-				<img src="Images/{{$student->avatar}}">
+				<img src="{{$student->avatar}}">
 			</div>
 			<div class="profile-intro">
-				@if(isset($user))
-				<p>ID User {{$user->id}}</p>
-				<p>{{$user->username}}</p>
-				<p>Số dư {{$user->account_balance}} VND</p>
-				@endif
+				<p>ID User: {{$student->id}}</p>
+				<p>{{$student->username}}</p>
+				<p>Số dư {{$student->account_balance}} VND</p>
 				<a href="#">+ Nạp tiền vào tài khoản</a>
 			</div>
 		</div>
@@ -71,7 +68,7 @@
 				</tr>
 				<tr>
 					<td class="pro-t">Email Address</td>
-					<td>{{$user->email}}</td>
+					<td>{{$student->email}}</td>
 				</tr>
 			</table>
 		</div>
@@ -100,45 +97,46 @@
 					</tr>
 				</thead>
 				<tbody id="table-q">
-					@if(isset($regcourse))
-					@foreach($regcourse as $key=>$reg)
-					@if($reg->id_student == $student->id)
-					<tr>
-						@foreach($course as $c)
-						@if($c->id == $reg->id_course)
-						<td class="code">{{$key + 1}}</td>
-						<td  class="i_crs">{{$c->id}}</td>
-						<td>{{$c->name}}</td>
-						<td>
-							@foreach($type as $t)
-							@if($t->id == $c->id_ctype)
-								@foreach($category as $cate)
-								@if($cate->id == $t->id_category)
-									{{$cate->name}}
-								@endif
-								@endforeach
+					@if(!empty($registers) && !empty($category) && !empty($type))
+						@php($key = 0)
+						@foreach($registers as $regist)
+						@if($regist->id_student == $student->id)
+						<tr>
+							@foreach($course as $c)
+							@if($c->id == $regist->id_course)
+							<td class="code">{{$key + 1}}</td>
+							<td  class="i_crs">{{$c->id}}</td>
+							<td>{{$c->name}}</td>
+							<td>
+								@foreach($type as $t)
+								@if($t->id == $c->id_ctype)
+									@foreach($category as $cate)
+									@if($cate->id == $t->id_category)
+										{{$cate->name}}
+									@endif
+									@endforeach
 
-								{{$t->level}}
+									{{$t->level}}
+								@endif
+								@endforeach 
+							</td>
+							<td class="status">{{$c->status}}</td>
+							<td>
+								<ul class="menu-dropdown">
+								    <li class="taction">Action</li>
+									<li class="dropdown-child">
+										<ul>
+											<li><a href="admin/course/edit/{{$c->id}}">Detail</a></li>
+										</ul>
+									</li>
+								</ul>
+							</td>
+							
 							@endif
-							@endforeach 
-						</td>
-						<td class="status">{{$c->status}}</td>
-						<td>
-							<ul class="menu-dropdown">
-							    <li class="taction">Action</li>
-								<li class="dropdown-child">
-									<ul>
-										<li><a href="admin/course/edit/{{$c->id}}">Detail</a></li>
-									</ul>
-								</li>
-							</ul>
-						</td>
-						
+							@endforeach
+						</tr>
 						@endif
 						@endforeach
-					</tr>
-					@endif
-					@endforeach
 					@endif
 				</tbody>
 			</table>

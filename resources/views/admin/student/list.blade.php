@@ -41,7 +41,6 @@
 		<div class="row_q">
 			<span id="show_row">{{$student->count()}}</span> of
 			<select id="select-record">
-				<option value="5">5</option>
 				<option value="10">10</option>
 				<option value="15">15</option>
 			</select>
@@ -61,32 +60,31 @@
 						</tr>
 					</thead>
 					<tbody id="table-q">
-						
-						@foreach($student as $key=>$st)
+
+						@if(!empty($account) && !empty($student))
+						@foreach($student as $st)
+						@foreach($account as $acc)
+						@if($st->id == $acc->id)
 						<tr>
-							<td class="av"><img src="Images/{{$st->avatar}}"></td>
-							<td>{{$st->name}}</td>
-							@if(isset($account))
-							@foreach($account as $acc)
-							@if($acc->id == $st->id)
+						
+							<td class="av"><img src="{{$acc->avatar}}"></td>
+							<td>{{$acc->name}}</td>
+							
 							<td class="mail">{{$acc->email}}</td>
 							<td class="dateadd">
 								{{$acc->created_at}}
 							</td>
-							@endif
-							@endforeach
-							@endif
 							<td class="enrol">
 								<ul>
-									@if(isset($register))
-									@foreach($register as $rs)
-									@if($rs->id_student == $st->id)
-									@foreach($course as $c)
-									@if($c->id == $rs->id_course)
-									<li>{{$c->name}}</li>
-									@endif
-									@endforeach
-									@endif
+									@if(!empty($registers))
+									@foreach($registers as $register)
+										@if($register->id_student == $acc->id)
+										@foreach($course as $c)
+											@if($c->id == $register->id_course)
+												{{$c->name}}
+											@endif
+										@endforeach
+										@endif
 									@endforeach
 									@endif
 								</ul>
@@ -96,14 +94,16 @@
 									<li class="taction">Action</li>
 									<li class="dropdown-child">
 										<ul>
-											<li><a href="admin/student/profile/{{$st->id}}">Chi tiết</a></li>
+											<li><a href="admin/student/profile/{{$acc->id}}">Chi tiết</a></li>
 										</ul>
 									</li>
 								</ul>
 							</td>
 						</tr>
+						@endif
 						@endforeach
-						
+						@endforeach
+						@endif
 					</tbody>
 				</table>
 			</div>

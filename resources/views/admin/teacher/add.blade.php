@@ -85,6 +85,22 @@
 				</div>
 				@endif
 			</div>
+			<div id="img-view">
+				<div class="img-preview">
+					<img src="Images/male-define.jpg" id="preview">
+				</div>
+				<div class="form-group input-group">
+					<label><img src="./Images/download-1.png">
+						<p>
+							Drop image here or click to upload </br>
+							(Review the image in the beside frame)
+						</p>
+					</label>
+					<input type="file"  accept="image/*" name="avatar" value="{{old('avatar')}}" id="imgInput">
+				</div>
+			</div>
+		</div>
+		<div class="form-right">
 			<div class="account-w">
 				<div class="title-wr">
 					<h3>Account Information</h3>
@@ -114,23 +130,6 @@
 					@endif
 				</div>
 			</div>
-		</div>
-		<div class="form-right">
-			<div id="img-view">
-				<div class="img-preview">
-					<img src="Images/male-define.jpg" id="preview">
-				</div>
-				<div class="form-group input-group">
-					<label><img src="./Images/download-1.png">
-						<p>
-							Drop image here or click to upload </br>
-							(Review the image in the beside frame)
-						</p>
-					</label>
-					<input type="file"  accept="image/*" name="avatar" value="{{old('avatar')}}" id="imgInput">
-				</div>
-			</div>
-			
 		</div>
 		<div class="btn-group">
 			<button type="submit">Submit</button>

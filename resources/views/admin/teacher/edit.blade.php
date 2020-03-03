@@ -18,7 +18,6 @@
 </div>
 @endsection
 @section('content')
-@section('content')
 <fieldset>
 	<legend>Thông tin cá nhân</legend>
 	@if(session('errorpass'))
@@ -37,16 +36,16 @@
 			<div class="img-wr">
 				@if(isset($teacher))
 				<div class="img-wr-left">
-					<img src="Images/{{$teacher->avatar}}" id="preview">	
+					<img src="{{$teacher->avatar}}" id="preview">	
 				</div>
-				@if(isset($account))
+				
 				<div class="img-wr-right">
-					<p>Username: <span>{{$account->username}}</span></p>
-					<p>ID Account: <span>{{$account->id}}</span></p>
-					<p>Surplus: <span>{{$account->account_balance}}</span><span> VND </span><a href="#">Nạp thêm</a></p>
-					<p>Date Register: <span>{{$account->created_at}}</span></p>
+					<p>Username: <span>{{$teacher->username}}</span></p>
+					<p>ID Account: <span>{{$teacher->id}}</span></p>
+					<p>Surplus: <span>{{$teacher->account_balance}}</span><span> VND </span><a href="#">Nạp thêm</a></p>
+					<p>Date Register: <span>{{$teacher->created_at}}</span></p>
 				</div>
-				@endif
+		
 				@endif
 			</div>
 			<div class="form-group">
@@ -66,10 +65,10 @@
 				@endif
 			</div>
 			<div class="form-group">
-				<input type="tel" name="tel" value="{{$teacher->phone}}" placeholder="Số điện thoại">
-				@if($errors->has('tel'))
+				<input type="tel" name="phone" value="{{$teacher->phone}}" placeholder="Số điện thoại">
+				@if($errors->has('phone'))
 				<div class="notify-error">
-					{{$errors->first('tel')}}
+					{{$errors->first('phone')}}
 				</div>
 				@endif
 			</div>
@@ -118,11 +117,11 @@
 		</div>
 		<div class="form-right">
 			<div class="form-group">
-				<input type="email" name="email" placeholder="Email" value="{{$account->email}}" disabled>
+				<input type="email" name="email" placeholder="Email" value="{{$teacher->email}}" disabled>
 			</div>
 			<div class="form-group select-style">
 				<i class="fas fa-chevron-down"></i>
-				<select id="sex" name="sex">
+				<select id="sex" name="gender">
 					@if($teacher->gender == "Nam")
 					<option value="0" selected>Nam</option>
 					<option value="1">Nữ</option>
@@ -141,7 +140,7 @@
 				@endif
 			</div>
 			<div class="form-group">
-				<textarea id="desc" name="intro" placeholder="Giới thiệu">{{$teacher->introduction}}</textarea>
+				<textarea id="desc" name="introduction" placeholder="Giới thiệu">{{$teacher->introduction}}</textarea>
 			</div>
 		</div>
 		<div class="btn-group">
@@ -178,20 +177,9 @@
 						<td class="code">{{$key + 1}}</td>
 						<td class="i_crs">{{$cr->id}}</td>
 						<td>{{$cr->name}}</td>
-
-						@if(isset($type, $category))
-						
-						@foreach($type as $t)
-						@php($level = $t->level)
+						@foreach($cr->level as $level)
+						<td>{{$level->name}} {{$level->level}}</td>
 						@endforeach
-						@foreach($category as $c)
-						@php($name = $c->name)
-						@endforeach
-
-						<td>{{$name}} {{$level}}</td>
-						@else
-						<td></td>
-						@endif
 						<td class="status green">{{$cr->status}}</td>
 						<td class="f_crs"> <a href="admin/course/edit/{{$cr->id}}">Chi tiết</a></td>
 					</tr>

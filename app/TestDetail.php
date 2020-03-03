@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class TestDetail extends Model
 {
-    //
+
     protected $table = "test_detail";
+
+    protected $fillable = ['id_test', 'id_question'];
+
     public $timestamps = false;
 
 

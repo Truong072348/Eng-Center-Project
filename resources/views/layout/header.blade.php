@@ -26,7 +26,7 @@
 									<li><a href="profile/{{Auth::user()->id}}">Hồ sơ</a></li>
 									<li><a href="account/{{Auth::user()->id}}">Lịch sử giao dịch</a></li>
 									@endif
-									<li><a href="logout">Thoát tài khoản</a></li>
+									<li><a href="Home/logout">Thoát tài khoản</a></li>
 									
 								</ul>
 							</li>
@@ -81,7 +81,7 @@
 											<label>
 												<p>Mật khẩu</p>
 											</label>
-											<input type="password" name="password" placeholder="Mật khẩu từ 3 đến 32 ký tự">
+											<input type="password" name="password" placeholder="Nhập mật khẩu">
 											@if($errors->has('password'))
 											<div class="notify-error">
 												{{$errors->first('password')}}
@@ -230,7 +230,7 @@
 										<li><a href="profile/{{Auth::user()->id}}">Hồ sơ</a></li>
 										<li><a href="account/{{Auth::user()->id}}">Lịch sử giao dịch</a></li>
 										@endif
-										<li><a href="logout">Thoát tài khoản</a></li>
+										<li><a href="Home/logout">Thoát tài khoản</a></li>
 									</ul>
 								</li>
 								@else

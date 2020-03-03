@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionBasic extends Model
 {
     protected $table = "question_basic";
+
+    protected $fillable = ['question', 'answer1', 'answer2', 'answer3', 'correct','id_category'];
+
     public $timestamps = false;
 
     public function category(){
@@ -14,16 +17,16 @@ class QuestionBasic extends Model
     }
 
 
-    public function createQuestion($qs, $cr, $a1, $a2, $a3, $idcate){
-    	$question = new QuestionBasic;
-    	$question->question = $qs;
-    	$question->correctAnswer = $cr;
-    	$question->answer1 = $a1;
-    	$question->answer2 = $a2;
-    	$question->answer3 = $a3;
-    	$question->id_category = $idcate;
-    	$question->id_qtype = 3;
-    	$question->save();
+    public function createQuestion($question, $correct, $answer1, $answer2, $answer3, $idcate){
+    	
+        QuestionBasic::create([
+            'question' => $question,
+            'correct' => $correct,
+            'answer1' => $answer1,
+            'answer2' => $answer2,
+            'answer3' => $answer3,
+            'id_category' => $idcate,
 
+        ]);
     }
 }

@@ -628,12 +628,16 @@ form {
 
 	.video-content {
 		width: 100%;
-	
+		max-width: 70em;
 	}
 
 	.course-buy {
-		width: 20vw;
+		width: 30vw;
 		font-size: 70%;
+	}
+
+	.course-buy a {
+		font-size: 14px;
 	}
 
 	.course-detail {
@@ -650,6 +654,14 @@ form {
 	.coures-description, .course-struct {
 		max-width: 100%;
 		margin-top: 30px;
+	}
+
+	.course-st-title {
+		padding: 2px 12px;
+	}
+
+	.st-less {
+		width: 20%;
 	}
 
 	.st-cr-test {
@@ -672,6 +684,17 @@ form {
 
 	.comment-acc {
 		width: 5em;
+	}
+	.power {
+		margin-left: 10px;
+	}
+
+	.wrapper {
+		margin-bottom: 10px;
+	}
+
+	.breadcrumb {
+		padding-left: 0;
 	}
 }
 

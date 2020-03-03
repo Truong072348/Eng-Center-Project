@@ -27,7 +27,7 @@
 				<td colspan="1"><div class="ts-info-title">{{$test->name}}</div></td>
 			</tr>
 			<tr>
-				<td>Tổng số câu:  <span>{{count($listQuestion)*4 + count($listquestionBasic)}}</span></td>
+				<td>Tổng số câu:  <span>{{count($listQuestion) + count($listquestionBasic)}}</span></td>
 			</tr>
 			<tr>
 				<td>Điểm số tối đa <span>10</span></td>

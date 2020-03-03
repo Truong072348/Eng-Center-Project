@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\updateTeacherRequest;
+use App\Http\Requests\addTeacherRequest;
 use App\Teacher;
 use App\User;
 use App\Course;
@@ -24,208 +25,116 @@ class TeacherController extends Controller
         if($request->query('keyword')){
             $keyword = $request->query('keyword');
             $teacher = Teacher::where('name', 'like', "%$keyword%")->paginate(9);
- 
-            return view('admin.teacher.list',['teacher'=>$teacher]);
+        } else {
+    	   $teacher = Teacher::paginate(8);
+        }
+    	   
+        if(!empty($teacher)) {
+            foreach ($teacher as $key) {
+                $img = Cloudder::show('english-Center/avatar/'.$key->avatar);
+                $key->setAttribute('avatar', $img);
+            }
         }
 
-    	$teacher = Teacher::paginate(8);
-    	return view('admin.teacher.list',['teacher'=>$teacher]);
-    }
-
-    public function postSearch(Request $request){
-        $search = $request->search;
-        return redirect()->route('listTeacher', ['keyword'=>$search]);
+        return view('admin.teacher.list',['teacher'=>$teacher]);
     }
 
     public function getAdd(){
     	return view('admin.teacher.add');
     }
 
-    public function getEdit($id){
-        $teacher = Teacher::find($id);
-        $course = Course::where('id_teacher', $id)->get();
-        $account = User::find($id);
-
-        $type = '';
-        $category = '';
+    public function postAdd(addTeacherRequest $request){
         
-        foreach($course as $c){
-            $type = CategoryType::where('id',$c->id_ctype)->get();
-        }
-        if($type != '') {
-            foreach($type as $t){
-                $category = Category::where('id', $t->id_category)->get();
-            }
-        }
-        
-    	return view('admin.teacher.edit', ['teacher'=>$teacher, 'course'=>$course, 'account'=>$account,'type'=>$type, 'category'=>$category]);
-    }
-
-
-    public function postEdit(updateTeacherRequest $request, $id){
-        
-
-        $passerr = 1;
-        $user = User::find($id);
-        if($request->oldpass != '' || $request->pass != '' || $request->cfpass != ''){ 
-
-            if (Hash::check($request->pass, $user->password)){
-                $user->password = bcrypt($request->pass);
-                $user->save();
-
-                $teacher = Teacher::find($id);
-                $teacher->name = $request->name;
-                $teacher->birth = $request->birth;
-                $teacher->phone = $request->tel;
-                $teacher->address = $request->address;
-                $teacher->slogan = $request->slogan;
-
-                if($request->hasFile('avatar')){
-                    $file = $request->file('avatar');
-                    $name = $file->getClientOriginalName();
-                    
-                    $img = str_random(5)."_".$name;
-                    while (file_exists("Images/".$img)) {
-                        $img = str_random(5)."_".$name;
-                    }
-
-                    echo $file;
-                    $file->move("Images", $img);
-
-                    $teacher->avatar = $img;
-                } 
-
-
-                $teacher->degree = $request->degree;
-                $teacher->introduction = $request->intro;
-                $teacher->gender = $request->sex == 0 ? 'Nam' : 'Nữ';
-                $teacher->save();
-
-            } else {
-                return redirect('admin/teacher/edit/'.$id)->with(['errorpass'=>'Mật khẩu không chính xác', 'passerr'=>true]);
-            }
-
-        }else {
-
-            $teacher = Teacher::find($id);
-            $teacher->name = $request->name;
-            $teacher->birth = $request->birth;
-            $teacher->phone = $request->tel;
-            $teacher->address = $request->address;
-            $teacher->slogan = $request->slogan;
-
-            if($request->hasFile('avatar')){
-                $file = $request->file('avatar');
-                $name = $file->getClientOriginalName();
-                
-                $img = str_random(5)."_".$name;
-                while (file_exists("Images/".$img)) {
-                    $img = str_random(5)."_".$name;
-                }
-
-                echo $file;
-                $file->move("Images", $img);
-
-                $teacher->avatar = $img;
-            }
-
-             
-
-            echo $teacher->avatar;
-
-            $teacher->degree = $request->degree;
-            $teacher->introduction = $request->intro;
-            $teacher->gender = $request->sex == 0 ? 'Nam' : 'Nữ';
-            $teacher->save();
-
+        $id = mt_rand(100000,999999);
+        while (User::where('id', $id)->exists()){
+            $id = mt_rand(100000,999999);
         }
 
-
-        return redirect('admin/teacher/edit/'.$id)->with(['notify'=>'Successfully Updated']);
-
-    }
-
-    public function postAdd(Request $request){
-        $this->validate($request, 
-            [
-                'name'=>'required|min:2|max:100',
-                'tel'=>'required|min:9|max:11',
-                'birth'=>'required',
-                'address'=>'required',
-                'email'=>'required|unique:users',
-                'user'=>'required|min:3|unique:users,username',
-                'pass'=>'required',
-                'cfpass'=>'required|same:pass',
-                'degree'=>'required' 
-
-            ], 
-            [
-                'name.required'=>'Vui lòng nhập họ tên',
-                'name.min'=>'Tên quá ngắn',
-                'name.max'=>'Tên quá dài',
-                'tel.required'=>'Vui lòng nhập số điện thoại',
-                'tel.min'=>'Số điện thoại không hợp lệ',
-                'tel.max'=>'Số điện thoại không hợp lệ',
-                'birth.required'=>'Vui lòng nhập thông tin',
-                'email.required'=>'Vui lòng nhập email',
-                'email.unique'=>'Email đã tồn tại',
-                'address.required'=>'Vui lòng nhập địa chỉ',
-                'user.required'=>'Vui lòng nhập tên đăng nhập',
-                'user.min'=>'Tên đăng nhập quá ngắn',
-                'user.unique'=>'Tên tài khoản đã tồn tại',
-                'pass.required'=>'Vui lòng nhập mật khẩu',
-                'cfpass.required'=>'Vui lòng xác nhận lại mật khẩu',
-                'cfpass.same'=>'Xác nhận lại mật khẩu',
-                'degree.required'=>'Vui lòng nhập thông tin'
-            ]);
-
-        $teacher = new Teacher;
-        $teacher->id = mt_rand(100000,999999);
-
-
-        while (User::where('id', $teacher->id)->exists()){
-            $teacher->id = mt_rand(100000,999999);
-        }
-
-        $teacher->name = $request->name;
-        $teacher->birth = $request->birth;
-        $teacher->phone = $request->tel;
-        $teacher->address = $request->address;
-        $teacher->slogan = $request->slogan;
         if($request->hasFile('avatar')){
             $file = $request->file('avatar');
             $name = $file->getClientOriginalName();
             
             $img = str_random(5)."_".$name;
-            while (file_exists("Images/".$img)) {
-                $img = str_random(5)."_".$name;
-            }
-
-            $file->move("Images", $img);
-
-            $teacher->avatar = $img;
+            Cloudder::upload($file, 'english-Center/avatar/'.$img);
         } else {
-            $teacher->avatar = $request->sex == 0 ? 'male-define.jpg' : 'female-define.jpg'; 
+            $img = $request->sex == 0 ? 'male-define.jpg' : 'female-define.jpg'; 
         }
+
+        Teacher::create([
+            'id' => $id,
+            'name' => $request->name,
+            'birth' => $request->birth,
+            'phone' => $request->tel,
+            'address' => $request->address,
+            'slogan' => $request->slogan,
+            'degree' => $request->degree,
+            'introduction' => $request->intro,
+            'avatar' => $img,
+            'gender' => $request->sex == 0 ? 'Nam' : 'Nữ'
+        ]);
         
-
-        $teacher->degree = $request->degree;
-        $teacher->introduction = $request->intro;
-        $teacher->gender = $request->sex == 0 ? 'Nam' : 'Nữ';
-        
-        $user = new User;
-        $user->id = $teacher->id;
-        $user->email = $request->email;
-        $user->username = $request->user;
-        $user->password = bcrypt($request->pass);
-        $user->account_balance = 0;
-        $user->id_utype = 2;
-
-
-        $user->save();
-        $teacher->save();
-
+        User::create([
+            'id'=> $id,
+            'email' => $request->email,
+            'username' => $request->user,
+            'password' => Hash::make($request->pass),
+            'account_balance' => 100000000,
+            'id_utype' => 2
+        ]);
 
         return redirect('admin/teacher/add')->with('notify','Successfully Added');
+    }
+
+    public function getEdit($id){
+
+        $teacher = Teacher::where('teacher.id', $id)->join('users', 'users.id', '=', 'teacher.id')->firstOrFail();
+        $teacher->setAttribute('avatar', Cloudder::show('english-Center/avatar/'.$teacher->avatar));
+
+        $course = Course::where('id_teacher', $id)->get();
+        
+        if(!empty($course)) {
+            foreach ($course as $key) {
+                $level = Course::select('category.name', 'category_type.level')->where('course.id', $key->id)->join('category_type', 'category_type.id', '=', 'course.id_ctype')->join('category', 'category.id', '=', 'category_type.id_category')->groupBy('category.name', 'category_type.level')->get();
+                $key->setAttribute('level', $level);
+            }
+            
+        }
+
+    	return view('admin.teacher.edit', ['teacher'=>$teacher, 'course'=>$course]);
+    }
+
+
+    public function postEdit(updateTeacherRequest $request, $id){
+        
+        $user = User::find($id);
+        if(!empty($request->oldpass) || !empty($request->pass) || !empty($request->cfpass)){ 
+
+            if (Hash::check($request->oldpass, $user->password)){
+                
+                $user->password = Hash::make($request->pass);
+                $user->save();
+
+            } else {
+                return redirect('admin/teacher/edit/'.$id)->with(['errorpass'=>'Mật khẩu không chính xác', 'passerr'=>true]);
+            }
+
+        } 
+
+        $teacher = Teacher::find($id);
+
+        if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $name = $file->getClientOriginalName();
+            
+            $img = str_random(5)."_".$name;
+            Cloudder::upload($file, 'english-Center/avatar/'.$img);
+            $request->avatar = $img;
+        }
+
+        $request->gender = $request->gender == 0 ? 'Nam' : 'Nữ';
+        $teacher->fill($request->all())->save();
+        
+        return redirect('admin/teacher/edit/'.$id)->with(['notify'=>'Successfully Updated']);
+
     }
 }

@@ -23,7 +23,7 @@
 			<h3>Danh sách tài khoản</h3>
 		</div>
 		<div class="fill" id="b_col">
-			<form method="POST" action="{{Route('searchUser')}}">
+			<form>
 				<input type="hidden" name="_token" value="{{csrf_token()}}">
 				<div class="fill-left">
 					<input type= "text" class="searchFil" name="search" id="searchFill" placeholder="Search for name">
@@ -34,7 +34,6 @@
 		<div class="row_q">
 			<span id="show_row">{{$account->count()}}</span> of 
 			<select id="select-record">
-				<option value="5">5</option>
 				<option value="10">10</option>
 				<option value="15">15</option>
 			</select>
@@ -55,62 +54,38 @@
 					</tr>
 				</thead>
 				<tbody id="table-q">
-					@foreach($account as $key=>$acc)
+					@php($value = 0)
+					@foreach($account as $key)
 					<tr>
-						@if($acc->id_utype == 2)
-						@foreach($teacher as $tk => $tch)
-						@if($tch->id == $acc->id)
-						<td>{{$key + 1}}</td>
-						<td class="id">{{$acc->id}}</td>
-						<td class="avatar"><img src="./Images/{{$tch->avatar}}"><span class="name"><a href="admin/teacher/edit/{{$acc->id}}">{{$tch->name}}</a></span></td>
-						<td class="type blue">teacher</td>
-						<td class="mail">{{$acc->email}}</td>
-						<td class="tel">{{$acc->created_at}}</td>
+						
+						<td></td>
+						<td class="id">{{$key->id}}</td>
+						<td class="avatar"><img src="{{$key->avatar}}">
+						@if($key->id_utype == 2)
+						<span class="name"><a href="admin/teacher/edit/{{$key->id}}">{{$key->t_name}}</a></span></td>
+						<td class="type green">teacher</td>
+						@elseif($key->id_utype == 3)
+						<span class="name"><a href="admin/teacher/edit/{{$key->id}}">{{$key->st_name}}</a></span></td>
+						<td class="type blue">student</td>
+						@else 
+						<span class="name">DLD.com</span></td>
+						<td class="type red">admin</td>
+						@endif
+						<td class="mail">{{$key->email}}</td>
+						<td class="tel">{{$key->created_at}}</td>
 						<td>
+							@if($key->id_utype > 1)
 							<ul class="menu-dropdown">
 							    <li class="taction">Action</li>
 								<li class="dropdown-child">
 									<ul>
-										<li><a href="admin/teacher/edit/{{$acc->id}}">Detail</a></li>
+										<li><a href="admin/teacher/edit/{{$key->id}}">Detail</a></li>
 									</ul>
 								</li>
 							</ul>
+							@endif
 						</td>
-						@endif
-						@endforeach
-						@elseif($acc->id_utype == 3)
-						@foreach($student as $sk=>$st)
-						@if($st->id == $acc->id)
-						<td>{{$key + 1}}</td>
-						<td class="id">{{$acc->id}}</td>
-						<td class="avatar"><img src="./Images/{{$st->avatar}}"> <span><a href="#">{{$st->name}}</a></span></td>
-						<td class="type green">student</td>
-						<td class="mail">{{$acc->email}}</td>
-						<td class="tel">{{$acc->created_at}}</td>
-						<td>
-							<ul class="menu-dropdown">
-							    <li class="taction">Action</li>
-								<li class="dropdown-child">
-									<ul>
-										<li><a href="admin/student/profile/{{$acc->id}}">Detail</a></li>
-									</ul>
-								</li>
-							</ul>
-						</td>
-						@endif
-						@endforeach
-						@else
-						@if($s == 0)
-						<td>{{$key + 1}}</td>
-						<td class="id">{{$acc->id}}</td>
-						<td class="avatar"><img src="./Images/book.png"> <span><a>admin</a></span></td>
-						<td class="type red">administrator</td>
-						<td class="mail">{{$acc->email}}</td>
-						<td class="tel">{{$acc->created_at}}</td>
-						<td>
-						</td>
-						@endif
-						@endif
+						
 					</tr>
 					@endforeach
 				</tbody>
@@ -199,7 +174,7 @@ var table = $('#mytable');
 </script> -->
 @endsection
 
-<form class="">
+<!-- <form class="">
 	<label>Location</label>
 	<div class="form-group">
 		<input type="text" class="form-control" placeholder="Nha Trang">
@@ -225,4 +200,4 @@ var table = $('#mytable');
 	<div class="form-group col-ms-6">
 		<input type="text" class="form-control" placeholder="Nha Trang">
 	</div>
-</form>
+</form> -->

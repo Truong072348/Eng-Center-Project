@@ -7,39 +7,41 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionDetail extends Model
 {
     protected $table = "question_detail";
+
+    protected $fillable = ['id', 'id_question', 'correct', 'answer1', 'answer2', 'answer3', 'question'];
+
     public $timestamps = false;
 
     public function question(){
     	return $this->belongsTo('App\Question','id_question');
     }
 
-    public function createDetailQuestion($qs, $tas, $as1, $as2, $as3, $idq){
+    public function createDetailQuestion($question, $correct, $answer1, $answer2, $answer3, $idquest){
     	
-    	$table = new QuestionDetail;
-
-        $table->question = $qs;
-        $table->correctAnswer = $tas;
-        $table->answer1 = $as1;
-        $table->answer2 = $as2;
-        $table->answer3 = $as3;
-        $table->id_question = $idq;
-
-        $table->save();
+    	QuestionDetail::create([
+            'question' => $question,
+            'correct' => $correct,
+            'answer1' => $answer1,
+            'answer2' => $answer2,
+            'answer3' => $answer3,
+            'id_question' => $idquest
+        ]);
     }
 
-    public function editDetailQuestion($idq,$id, $ques, $cr, $as1, $as2, $as3){
+    public function editDetailQuestion($idquest, $id, $question, $correct, $answer1, $answer2, $answer3){
+        
         if(QuestionDetail::where('id', $id)->exists()){
             $detail = QuestionDetail::find($id);
-        }else {
+        } else {
             $detail = new QuestionDetail;
-        } 
+        }
 
-        $detail->id_question = $idq;
-        $detail->question = $ques;
-        $detail->correctAnswer = $cr;
-        $detail->answer1 = $as1;
-        $detail->answer2 = $as2;
-        $detail->answer3 = $as3;
+        $detail->id_question = $idquest;
+        $detail->question = $question;
+        $detail->correct = $correct;
+        $detail->answer1 = $answer1;
+        $detail->answer2 = $answer2;
+        $detail->answer3 = $answer3;
         $detail->save();   
     }
 

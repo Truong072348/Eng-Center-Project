@@ -8,6 +8,9 @@ class CourseTest extends Model
 {
     //
     protected $table = "course_test";
+
+    protected $fillable = ['name', 'id_course', 'id_test'];
+
     public $timestamps = false;
 
     public function test(){

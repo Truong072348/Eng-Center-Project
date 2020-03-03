@@ -37,6 +37,7 @@
 					<select id="typecate" name="category" required>
 						@foreach($category as $c)
 						<option value="{{$c->id}}">{{$c->name}}</option>
+						
 						@endforeach
 					</select>
 				</div>
@@ -48,13 +49,33 @@
 				<div class="form-group">
 					<i class="fas fa-chevron-down"></i>
 					<select id="type" name="type" required>
-						@foreach($type as $t)
+						@foreach($qtype as $t)
+						@if(session('page'))
+						<option @if(session('page') == $t->id) selected @endif value="{{$t->id}}">{{$t->name}}</option>
+						@else
 						<option value="{{$t->id}}">{{$t->name}}</option>
+						@endif
 						@endforeach
 					</select>
 				</div>
 			</div>
 		</div>
+		@if(session('page'))
+		<div class="form-group contentQ">
+			@if(session('page') == 2)
+			<input type="file" accept="audio/*" name="audio" required>
+			@elseif(session('page') == 3)
+
+			@else
+			<textarea name="content" class="form-control " id="editor1"></textarea>
+			@if($errors->has('content'))
+			<div class="notify-error">
+				{{$errors->first('content')}}
+			</div>
+			@endif
+			@endif
+		</div>
+		@else
 		<div class="form-group contentQ">
 			<textarea name="content" class="form-control " id="editor1"></textarea>
 			@if($errors->has('content'))
@@ -63,6 +84,7 @@
 			</div>
 			@endif
 		</div>
+		@endif
 		<div class="qa-wr">
 			<div class="qa-group">
 				<h3>Question 1</h3>

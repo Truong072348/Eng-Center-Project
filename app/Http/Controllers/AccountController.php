@@ -10,44 +10,45 @@ use App\UserType;
 use App\Teacher;
 use App\Student;
 use Validator;
+use Cloudder;
 
 
 class AccountController extends Controller
 {
+    
+    // FUNCTION ACCOUNT ADMIN
     public function getList(Request $request){
 
-        if($request->query('keyword')){
-            $keyword = $request->query('keyword');
-            $account = User::paginate(25);
-            $tAcc = UserType::all();
-            $student = Student::where('name', 'like', "%$keyword%")->get();
-            $teacher = Teacher::where('name', 'like', "%$keyword%")->get();
-            $s = 1;
-           
-            return view('admin/account/list',['account'=>$account, 'type'=>$tAcc, 'teacher'=>$teacher, 'student'=>$student, 's'=>$s]);
-        }
+       if ($request->ajax()) {
 
-        $s = 0;
-    	$account = User::paginate(5);
-    	$tAcc = UserType::all();
-    	$student = Student::all();
-    	$teacher = Teacher::all();
-
-    	if($request->ajax()){
-    		$record = $request->input('_record');
-
-    		$accounts = User::paginate($record);
+            $record = $request->input('_record');
+            $accounts = User::paginate($record);
         
-            return response(view('admin/account/list',['account'=>$accounts, 'type'=>$tAcc, 'teacher'=>$teacher, 'student'=>$student, 's'=>$s]));
-    	} else {
+        } else {
+        	$account = User::select('users.*','student.avatar as st_ava','teacher.avatar as t_ava', 'student.name as st_name', 'teacher.name as t_name')->leftJoin('student','student.id','=','users.id')->leftJoin('teacher','teacher.id','=','users.id')->paginate(10);
+        	$tAcc = UserType::all();
 
-    	   return view('admin/account/list',['account'=>$account, 'type'=>$tAcc, 'teacher'=>$teacher, 'student'=>$student, 's'=>$s]);
         }
+
+        if(!empty($account)) {
+            foreach ($account as $key) {
+                if($key->id_utype == 2) {
+                    $img = Cloudder::show('english-Center/avatar/'.$key->t_ava);
+                } elseif ($key->id_utype == 3) {
+                    $img = Cloudder::show('english-Center/avatar/'.$key->st_ava);
+                } else {
+                    $img = Cloudder::show('english-Center/avatar/42gkM_f0Arl_my-avatar_sfxb8c');
+                }
+
+                $key->setAttribute('avatar', $img);
+            }
+        }
+
+    	return view('admin/account/list',['account'=>$account, 'type'=>$tAcc]);
     }
 
-    public function postSearch(Request $request){
-        $search = $request->search;
-        return redirect()->route('listUser', ['keyword'=>$search]);
-    }
+    // FUNCTION ACCOUNT USERS
+    
+    
 
 }

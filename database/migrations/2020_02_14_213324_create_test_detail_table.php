@@ -19,7 +19,7 @@ class CreateTestDetailTable extends Migration
                 $table->unsignedBigInteger('id_test');
                 $table->unsignedBigInteger('id_question');
                 $table->foreign('id_test')->references('id')->on('test');
-                $table->foreign('id_question')->references('id')->on('question');
+                // $table->foreign('id_question')->references('id')->on('question');
             });
         }
     }

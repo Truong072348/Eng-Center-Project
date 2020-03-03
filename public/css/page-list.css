@@ -1,6 +1,6 @@
 
 .course-img  .price:after {
-	border-color: #FFC300 #fff transparent #fff;
+	border-color: #FFC300 #fff transparent #fff !important;
 }
 
 

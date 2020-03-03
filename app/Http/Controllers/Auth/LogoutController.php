@@ -14,7 +14,7 @@ class LogoutController extends Controller
 
     public function getLogout() {
     	Auth::logout();
-    	return redirect('/Home');
+    	return redirect()->back();
     }
 
     public function getAdminLogout() {

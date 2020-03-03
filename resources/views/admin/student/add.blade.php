@@ -40,16 +40,16 @@
 				@endif
 			</div>
 			<div class="form-group">
-				<input type="date" name="date"  value="{{old('date')}}">
-				@if($errors->has('date'))
+				<input type="date" name="birthday"  value="{{old('birthday')}}">
+				@if($errors->has('birthday'))
 				<div class="notify-error">
-					{{$errors->first('date')}}
+					{{$errors->first('birthday')}}
 				</div>
 				@endif
 			</div>
 			<div class="form-group select-style">
 				<i class="fas fa-chevron-down"></i>
-				<select id="sex" name="sex" value="{{old('sex')}}">
+				<select id="sex" name="gender" value="{{old('gender')}}">
 					<option value="0">Nam</option>
 					<option value="1">Nữ</option>
 				</select>
@@ -83,7 +83,7 @@
 					<h3>Account Information</h3>
 				</div>
 				<div class="form-group">
-					<input type="text" name="user" placeholder="Username" value="{{old('user')}}" >
+					<input type="text" name="username" placeholder="username" value="{{old('username')}}" >
 					@if($errors->has('user'))
 					<div class="notify-error">
 						{{$errors->first('user')}}
@@ -91,7 +91,7 @@
 					@endif
 				</div>
 				<div class="form-group">
-					<input type="password" name="pass" placeholder="Password" value="{{old('pass')}}">
+					<input type="password" name="password" placeholder="Ppssword" value="{{old('password')}}">
 					@if($errors->has('pass'))
 					<div class="notify-error">
 						{{$errors->first('pass')}}
@@ -114,7 +114,7 @@
 			</div>
 			
 			<div class="form-group input-group">
-				<label><img src="./Images/download-1.png">
+				<label><img src="Images/download-1.png">
 					<p>
 						Drop image here or click to upload </br>
 						

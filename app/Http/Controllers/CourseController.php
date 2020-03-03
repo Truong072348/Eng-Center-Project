@@ -54,7 +54,7 @@ class CourseController extends Controller
         if($request->query('keyword')){
             $keyword = $request->query('keyword');    
             $course = Course::where('name', 'like', "%$keyword%")->paginate(25);        
-            return view('admin/course/list');
+            return view('admin/course/list', ['course'=>$course]);
         }
 
         $course = Course::Paginate(5);
@@ -224,30 +224,6 @@ class CourseController extends Controller
         return view('admin/course/list', ['course'=>$course, 'lesson'=>$lesson, 'test'=>$test, 'register'=>$register]);
     }
 
-    public function postSearch(Request $request){
-
-        $keyword = $request->search;
-        return redirect()->route('listCourse', ['keyword'=>$keyword]);
-    }
-
-
-
-    public function getSearchLesson(Request $request){
-
-       $course = Course::find($request->id);
-       $key = $request->keyword;
-       $lesson = Lesson::where('lesson', 'like', "%$key%")->where('id_course', $course->id)->paginate(10);
-       return view('admin/lesson/add', ['lesson'=>$lesson, 'course'=>$course]);
-
-    }
-
-    public function postSearchLesson(Request $request){
-        $keyword = $request->search;
-        $id = $request->id_course;
-        return redirect()->route('getAddLesson', ['id'=>$id, 'keyword'=>$keyword]);
-    }
-
-
     public function getEditLesson($id){
         $lesson = Lesson::find($id);
         $course = Course::where('id', $lesson->id_course)->get();
@@ -316,92 +292,11 @@ class CourseController extends Controller
         return redirect('admin/lesson/add/'.$id)->with('notify', 'Successfully Deleted');
     }
 
-    public function getAddTest($id, Request $request){
-
-        $course = Course::find($id);
-        $testDetail = TestDetail::all();
-        $testList = Test::paginate(5);
-        $category = Category::all();
-        $test = CourseTest::where('id_course', $course->id)->paginate(10);
-
-         if($request->ajax()){
-            $record = $request->input('_record');
-
-            $testList = Test::paginate($record);
-        
-            return response(view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail]));
-        }
-
-
-        return view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail]);
-    }
-
-    public function getSearchTest(Request $request){
-        $course = Course::find($request->id);
-        $testDetail = TestDetail::all();
-
-        $key = $request->keyword;
-
-        $testList = Test::where('name', 'like', "%$key%")->paginate(5);
-
-        $test = CourseTest::where('id_course', $course->id)->paginate(10);
-
-         if($request->ajax()){
-            $record = $request->input('_record');
-
-            $testList = Test::paginate($record);
-        
-            return response(view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail]));
-        }
-
-        return view('admin/course/addTest', ['course'=>$course, 'testList'=>$testList, 'test'=>$test, 'detail'=>$testDetail]);
-    }
-
-    public function searchTestLesson(Request $request){
-        $keyword = $request->search;
-        $id = $request->id_course;
-        return redirect()->route('getTestLesson', ['id'=>$id, 'keyword'=>$keyword]);
-    }
-
-
-    public function postAddTest($id, Request $request){
-        $this->validate($request, 
-        [
-            'name'=>'required',
-            'idtest'=>'required'
-        ], 
-        [   
-            'name.required'=>'Vui lòng nhập tên bài kiểm tra',
-            'idtest.required'=>'Vui lòng chọn bài kiểm tra'
-        ]);
-        $courseTest = new CourseTest;
-        $courseTest->id = mt_rand(1000,9999);
-        while (CourseTest::where('id', $courseTest->id)->exists()) {
-            $courseTest->id = mt_rand(1000,9999);
-        }
-
-        $courseTest->name = $request->name;
-        $courseTest->id_course = $id;
-        $courseTest->id_test = $request->idtest;
-        $courseTest->save();
-
-        return redirect('admin/course/test/'.$id)->with('notify', 'Successfully Added');
-    }
-
-
-    public function deleteTest($id){
-        $courseTest = CourseTest::find($id);
-        $course = Course::where('id', $courseTest->id_course)->first();
-        if(StudyTest::where('id_test', $courseTest->id)->exists()){
-    
-            return redirect('admin/course/test/'.$course->id)->with('deleteLessonTestFail', true);
-        } else {
-
-            $courseTest->delete();
-        }
-
-        return redirect('admin/course/test/'.$course->id)->with('notify', 'Successfully Deleted');
-    }
+    // public function searchTestLesson(Request $request){
+    //     $keyword = $request->search;
+    //     $id = $request->id_course;
+    //     return redirect()->route('getTestLesson', ['id'=>$id, 'keyword'=>$keyword]);
+    // }
 
 
     public function getComment($id){
