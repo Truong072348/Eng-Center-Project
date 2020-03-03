@@ -107,6 +107,7 @@ class TeacherController extends Controller
     public function postEdit(updateTeacherRequest $request, $id){
         
         $user = User::find($id);
+
         if(!empty($request->oldpass) || !empty($request->pass) || !empty($request->cfpass)){ 
 
             if (Hash::check($request->oldpass, $user->password)){
@@ -121,6 +122,7 @@ class TeacherController extends Controller
         } 
 
         $teacher = Teacher::find($id);
+        $teacher->gender = $request->gender == 0 ? 'Nam' : 'Nữ';
 
         if($request->hasFile('avatar')){
             $file = $request->file('avatar');
@@ -128,11 +130,19 @@ class TeacherController extends Controller
             
             $img = str_random(5)."_".$name;
             Cloudder::upload($file, 'english-Center/avatar/'.$img);
-            $request->avatar = $img;
+            $teacher->avatar = $img;
         }
 
-        $request->gender = $request->gender == 0 ? 'Nam' : 'Nữ';
-        $teacher->fill($request->all())->save();
+
+        $teacher->gender = $request->gender == 0 ? 'Nam' : 'Nữ';
+        $teacher->slogan = $request->slogan;
+        $teacher->name = $request->name;
+        $teacher->birth = $request->birth;
+        $teacher->phone = $request->phone;
+        $teacher->address = $request->address;
+        $teacher->introduction = $request->introduction;
+        $teacher->degree = $request->degree;
+        $teacher->save();
         
         return redirect('admin/teacher/edit/'.$id)->with(['notify'=>'Successfully Updated']);
 

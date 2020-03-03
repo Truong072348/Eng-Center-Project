@@ -186,8 +186,10 @@ Route::group(['prefix'=>'admin', 'middleware' => 'checkadmin'], function() {
 
 });
 
+
 Route::get('Home', 'PagesController@getIndex')->name('index');
 
+Route::get('danh-sach-giao-vien','PagesController@listTeacher');
 //CategoryController
 Route::get('Danh-sach/{keyword}', 'CategoryController@getCourse')->name('list');
 Route::get('Danh-muc/{categoryType}', 'CategoryController@getCourseType');
@@ -237,8 +239,6 @@ Route::get('login', function () {
 Route::post('login', ['as'=>'login', 'uses'=>'Auth\LoginController@postLogin']);
 //-------------------------------------------------------------------------------
 
-
-Route::get('danh-sach-giao-vien','PagesController@listTeacher');
 Route::get('giao-vien/{teacher}','PagesController@showTeacher')->middleware('auth');
 
 Route::post('changepassword/{id}', 'PagesController@postChangePass');

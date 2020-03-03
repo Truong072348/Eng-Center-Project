@@ -502,9 +502,10 @@ class PagesController extends Controller
     }
 
     public function listTeacher() {
+
         $lsteacher = Teacher::all();
         if(count($lsteacher) > 0) {
-            foreach ($lsteacher as $key) { 
+            foreach($lsteacher as $key) { 
                 $img = Cloudder::show('english-Center/avatar/'.$key->avatar); 
                 $key->setAttribute('img', $img);
             }

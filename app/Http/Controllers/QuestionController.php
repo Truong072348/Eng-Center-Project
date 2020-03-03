@@ -82,24 +82,27 @@ class QuestionController extends Controller
         }
 
         if($request->type == 3){
-
-            $question = new QuestionBasic;
+            
             if(!empty($request->ques1)){
+
+                $question = new QuestionBasic;
                  $question->createQuestion(
                     $request->ques1,$request->cransewr1, $request->as1_1, $request->as1_2,$request->as1_3, $request->category);
             } 
 
-            if(!empty($request->ques2) && !empty($request->as2_1) && !empty($request->cransewr2) && !empty($request->s2_2) && !empty($request->as2_3)) {
 
+            if(!empty($request->ques2) && !empty($request->as2_1) && !empty($request->cransewr2) && !empty(
+                $request->as2_2) && !empty($request->as2_3)) {
+                $question = new QuestionBasic;
                 $question->createQuestion($request->ques2,$request->cransewr2, $request->as2_1, $request->as2_2,$request->as2_3, $request->category);
             }
 
-            if(!empty($request->ques3) && !empty($request->as3_1) && !empty($request->cransewr3) && !empty($request->s3_2) && !empty($request->as3_3)) {
+            if(!empty($request->ques3) && !empty($request->as3_1) && !empty($request->cransewr3) && !empty($request->as3_2) && !empty($request->as3_3)) {
 
                 $question->createQuestion($request->ques3,$request->cransewr3, $request->as3_1, $request->as3_2,$request->as3_3, $request->category);
             }
             
-            if(!empty($request->ques4) && !empty($request->as4_1) && !empty($request->cransewr4) && !empty($request->s4_2) && !empty($request->as4_3)) {
+            if(!empty($request->ques4) && !empty($request->as4_1) && !empty($request->cransewr4) && !empty($request->as4_2) && !empty($request->as4_3)) {
 
                $question->createQuestion($request->ques4,$request->cransewr4, $request->as4_1, $request->as4_2,$request->as4_3, $request->category);
             }
@@ -133,15 +136,15 @@ class QuestionController extends Controller
                  $detail->createDetailQuestion($request->ques1,$request->cransewr1, $request->as1_1, $request->as1_2,$request->as1_3, $question->id);
             }
 
-            if(!empty($request->ques2) && !empty($request->as2_1) && !empty($request->cransewr2) && !empty($request->s2_2)) {
+            if(!empty($request->ques2) && !empty($request->as2_1) && !empty($request->cransewr2) && !empty($request->as2_2)) {
                 $detail->createDetailQuestion($request->ques2,$request->cransewr2, $request->as2_1, $request->as2_2,$request->as2_3, $question->id);
             }
 
-            if(!empty($request->ques3) && !empty($request->as3_1) && !empty($request->cransewr3) && !empty($request->s3_2)) {
+            if(!empty($request->ques3) && !empty($request->as3_1) && !empty($request->cransewr3) && !empty($request->as3_2)) {
               $detail->createDetailQuestion($request->ques3,$request->cransewr3, $request->as3_1, $request->as3_2,$request->as3_3, $question->id);
             }
             
-            if(!empty($request->ques4) && !empty($request->as4_1) && !empty($request->cransewr4) && !empty($request->s4_2)) {
+            if(!empty($request->ques4) && !empty($request->as4_1) && !empty($request->cransewr4) && !empty($request->as4_2)) {
                $detail->createDetailQuestion($request->ques4,$request->cransewr4, $request->as4_1, $request->as4_2,$request->as4_3, $question->id);
             }
         }
@@ -199,7 +202,7 @@ class QuestionController extends Controller
 
         } else { 
             
-            if(!empty($request->ques1) && !empty($request->as1_1) && !empty($request->cransewr1) && !empty($request->s1_2)){
+            if(!empty($request->ques1) && !empty($request->as1_1) && !empty($request->cransewr1) && !empty($request->as1_2)){
 
                     $question = QuestionBasic::find($id);
                     $question->correct = $request->cransewr1;
