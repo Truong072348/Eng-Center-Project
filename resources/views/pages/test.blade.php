@@ -233,6 +233,7 @@
 @section('script')
 <script src="{{ secure_asset('js/page-test.js') }}"></script>
 <script src="{{ secure_asset('js/page-index.js') }}"></script>
+<!-- <script src="js/page-test.js"></script> -->
 <!-- <script src="js/page-index.js"></script> -->
 <script>
 	$(document).ready(function($) {

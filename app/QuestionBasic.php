@@ -19,7 +19,13 @@ class QuestionBasic extends Model
 
     public function createQuestion($question, $correct, $answer1, $answer2, $answer3, $idcate){
     	
+        $id = mt_rand(100000,999999);
+        while (QuestionBasic::where('id', $id)->exists()) {
+            $id = mt_rand(100000,999999);
+        }
+
         QuestionBasic::create([
+            'id' => $id,
             'question' => $question,
             'correct' => $correct,
             'answer1' => $answer1,

@@ -40,7 +40,7 @@
 						<div class="cr-rg-head">
 								@foreach($courseTotal as $course)
 								@if($course->id == $re->id_course)
-								<a href="{{$course->slug}}">
+								<a href="course/{{$course->slug}}">
 								
 								{{$course->name}}
 								@endif

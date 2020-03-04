@@ -216,7 +216,7 @@ class TestController extends Controller
             
             foreach($questionList as $question){
                 if(in_array($question->id_question, $listQs)){
-
+                    
                 } else {
                     $questionRemove = TestDetail::where('id_question', $question->id_question)->where('id_test', $id)->first();
                     $questionRemove->delete();

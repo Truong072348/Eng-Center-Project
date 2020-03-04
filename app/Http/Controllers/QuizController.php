@@ -211,8 +211,8 @@ class QuizController extends Controller
             
             $test = CourseTest::where('id_test', $id)->first();
             $testDetail = Test::find($test->id_test);
-            $listquestion = TestDetail::where('id_test', $testDetail->id)->where('id_question', '>', 1000)->get();
-            $listquestionBasic = TestDetail::where('id_test', $testDetail->id)->where('id_question', '<', 1000)->get();
+            $listquestion = TestDetail::where('id_test', $testDetail->id)->where('id_question', '<', 10000)->get();
+            $listquestionBasic = TestDetail::where('id_test', $testDetail->id)->where('id_question', '>', 10000)->get();
             $course = Course::find($test->id_course);
             $info = Test::where('id', $test->id_test)->first();
 
@@ -242,7 +242,8 @@ class QuizController extends Controller
    
         // Lay danh sach dap an tu tb question
         foreach($testDetail as $test) {
-            if($test->id_question < 1500) 
+            return $test;
+            if($test->id_question > 10000) 
             {
                 $arrayQuiz[] = array('answer'=>QuestionBasic::select('correct')->where('id', $test->id_question)->first(),'id'=>$test->id_question, 'type'=>'basic');
             } else{
