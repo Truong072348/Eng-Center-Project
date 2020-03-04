@@ -183,7 +183,7 @@ class PagesController extends Controller
                     if(Register::where('id_student', Auth::user()->id)->where('id_course', $course->id)->exists()){
                         $register = true;
                         $re = Register::where('id_student', Auth::user()->id)->where('id_course', $course->id)->first();
-                        $studyTest = StudyTest::where('id_register', $re->id)->get();
+                        $studyTest = StudyTest::where('id', $re->id)->get();
 
                     }
                 }

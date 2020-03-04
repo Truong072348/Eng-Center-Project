@@ -6,8 +6,7 @@
 <!-- <link rel="stylesheet" type="text/css" href="css/page-desc.css"> -->
 @endsection
 @section('content')
-<div class="wr">
-	<div class="wrapper">
+<div class="wrapper">
 	<div class="row">
 	
 			<nav>
@@ -21,6 +20,7 @@
 
 	</div>
 </div>
+<div class="wr">
 	<!-----Video and comments about course----->
 	<div class="content-left">
 		<div class="course-name">
