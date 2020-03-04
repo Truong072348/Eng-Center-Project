@@ -40,7 +40,7 @@
 						<div class="cr-rg-head">
 								@foreach($courseTotal as $course)
 								@if($course->id == $re->id_course)
-								<a href="course/{{$course->id}}">
+								<a href="{{$course->slug}}">
 								
 								{{$course->name}}
 								@endif
@@ -52,7 +52,7 @@
 									@if($course->id == $re->id_course)
 									@foreach($teacherList as $teacher)
 									@if($teacher->id == $course->id_teacher)
-									<a href="teacher/{{$teacher->id}}">
+									<a href="giao-vien/{{$teacher->id}}">
 										
 										{{$teacher->name}}
 										

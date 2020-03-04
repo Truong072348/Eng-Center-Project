@@ -166,7 +166,7 @@ class PagesController extends Controller
     }
 
     function getDesc($lesson){
-        
+
         if(Auth::check()) {
             if(Lesson::where('slug', $lesson)->exists()) {
                 $lesson = Lesson::where('slug', $lesson)->firstOrFail();
@@ -176,6 +176,37 @@ class PagesController extends Controller
                 $teacher = Teacher::where('id', $course->id_teacher)->first();
                 $test = CourseTest::where('id_course', $course->id)->get();
                 $comment = Comment::where('id_course', $course->id)->where('local', 1)->orderBy('created_at', 'DESC')->paginate(10);
+
+                $now = Carbon::now();
+                
+                if(!empty($comment)) {
+                    foreach ($comment as $key) {
+                        if(User::where('id', $key->id_user)->exists()){
+                            $user = User::find($key->id_user);
+
+                            if($user->id_utype == 3) {
+                                $student = Student::find($user->id);
+
+                                $img = Cloudder::show('english-Center/avatar/'.$student->avatar); 
+                                $key->setAttribute('img', $img);
+                            } elseif ($user->id_utype == 2) {
+                                $teacher = Teacher::find($user->id);
+                                $img = Cloudder::show('english-Center/avatar/'.$teacher->avatar); 
+                                $key->setAttribute('img', $img);
+                            } else {
+                                $img = Cloudder::show('english-Center/avatar/42gkM_f0Arl_my-avatar_sfxb8c'); 
+                                $key->setAttribute('img', $img);
+                            }
+                        } 
+                      
+                        $date = $key->created_at;
+                        $time = $date->diffForHumans($now);
+
+                        $key->setAttribute('time', $time);        
+                        }
+                }
+
+
                 $feedback = Feedback::where('local', 1)->orderBy('created_at', 'DESC') ->get();
                 $register = false;
                 $studyTest = '';

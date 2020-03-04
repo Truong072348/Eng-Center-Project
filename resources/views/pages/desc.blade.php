@@ -79,12 +79,12 @@
 							<div class="comment-acc">
 								@foreach($studentList as $student)
 								@if($student->id == $comment->id_user)
-								<img src="Images/{{$student->avatar}}">
+								<img src="{{$comment->img}}">
 								@endif
 								@endforeach
 								@foreach($teacherList as $teacher)
 								@if($teacher->id == $comment->id_user)
-								<img src="Images/{{$teacher->avatar}}">
+								<img src="{{$comment->img}}">
 								@endif
 								@endforeach
 							</div>
@@ -107,7 +107,7 @@
 									<span class="time">
 										@endif
 										@endforeach
-										{{$comment->created_at}}
+										{{$comment->time}}
 									</span>
 								</div>
 								<div class="comment-ques">
