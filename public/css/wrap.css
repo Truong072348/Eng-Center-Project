@@ -966,6 +966,7 @@ header .wrapper {
 } 
 
 .nav-top {
+    height: 30px;
     padding: 0 15px;
 }
 
@@ -974,7 +975,6 @@ header .wrapper {
     position: fixed;
     background-color: #fff;
     display: none;
-    top: 80px;
     left: 50px;
     /*min-height: 150px;*/
     box-shadow: 0 2px 4px rgb(0,0,0,.19);
@@ -1015,11 +1015,12 @@ header .wrapper {
 }
 /*------------------header bottom-----------------*/
 .header-bottom {
+    width: 100vw;
+    height: 50px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     position: relative;
-
 }
 
 /*------------icon menu--------------------------*/
@@ -1099,7 +1100,7 @@ header .wrapper {
     cursor: pointer;
     width: 10%;
     display: block;
-}
+    height: 30px;
 
 .dropdown-acc a{
     display: inline-block;
