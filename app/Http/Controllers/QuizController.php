@@ -242,7 +242,6 @@ class QuizController extends Controller
    
         // Lay danh sach dap an tu tb question
         foreach($testDetail as $test) {
-            return $test;
             if($test->id_question > 10000) 
             {
                 $arrayQuiz[] = array('answer'=>QuestionBasic::select('correct')->where('id', $test->id_question)->first(),'id'=>$test->id_question, 'type'=>'basic');
