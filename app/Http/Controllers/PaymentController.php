@@ -56,6 +56,7 @@ class PaymentController extends Controller
 
         ]);
 
+
         if ($validator->fails())
         {
             return redirect()->back()->with(['errors'=>$validator->errors()]);
@@ -77,7 +78,14 @@ class PaymentController extends Controller
             	return redirect()->back()->with(['err'=>'Mã giảm giá đã được sử dụng']);
             }
 
-            return redirect()->back()->with(['sale'=>$discount->reduce, 'name'=>$request->coupon]);
+            $course = Course::find($request->id_course);
+            if($course->price < $discount->reduce) {
+                $sale = $course->price;
+            } else {
+                $sale = $discount->reduce;
+            }
+
+            return redirect()->back()->with(['sale'=>$sale, 'name'=>$request->coupon]);
         } else {
             return redirect()->back()->with(['err'=>'Mã không tồn tại']);
         }
@@ -100,42 +108,48 @@ class PaymentController extends Controller
     function postPayment(Request $request, $id){
 
         if(Course::where('id', $id)->exists()) {
-        	if(Auth::user()->account_balance < $request->price){
-            	return redirect('payment/'.$id)->with(['pushCard'=>true]);
 
-	        } else {
+            $course = Course::find($id);
+            if(Discount::where('code', $request->idcoupon)->exists()) {
+                $code = Discount::where('code', $request->idcoupon)->first();
+                if($course->price < $code->reduce) {
+                    $sale = $course->price;
+                } else {
+                    $sale = $code->reduce;
+                }
 
-	        	$course = Course::find($id);
-	        	if(Register::where('id_course', $course->id)->where('id_student', Auth::id())->exists()) {
-	        		return redirect()->route('courseintro',['course'=>$course->slug]);
-	        	} else {
+                $price = $course->price - $sale;
 
-	        		if(Discount::where('code', $request->idcoupon)->exists()){
-			            $code = Discount::where('code', $request->idcoupon)->first();
-			            $price = $course->price - $code->reduce;
+            } else {
+                if(Auth::user()->account_balance < $request->price){
+                    return redirect('payment/'.$id)->with(['pushCard'=>true]);
+                
+                } else {
+                    $price = $course->price;
+                }
+            }
 
-	        		} else {
+        	if(Register::where('id_course', $course->id)->where('id_student', Auth::id())->exists()) {
+        		return redirect()->route('courseintro',['course'=>$course->slug]);
+        	} else {
 
-	        			$price = $course->price;
-	        		}
+        		$register = Register::create([
+		            'tuition' => $price,
+		            'course_price' => $course->price,
+		            'id_student' => Auth::id(),
+		            'id_course' => $id,
+		            'id_discount' => $request->idcoupon
+	        	]);
 
-	        		$register = Register::create([
-			            'tuition' => $price,
-			            'course_price' => $course->price,
-			            'id_student' => Auth::id(),
-			            'id_course' => $id,
-			            'id_discount' => $request->idcoupon
-		        	]);
+	        	$balance = Auth::user()->account_balance - $price;
+	        	
+	        	Discount::where('code', $request->idcoupon)->decrement('quantity', 1);
 
-		        	$balance = Auth::user()->account_balance - $price;
-		        	
-		        	Discount::where('code', $request->idcoupon)->decrement('quantity', 1);
+	        	\Auth::user()->update(['account_balance'=>$balance]);
+        	}
 
-		        	\Auth::user()->update(['account_balance'=>$balance]);
-	        	}
-
-	        	return redirect('course/'.$course->slug)->with(['success'=>'Đăng ký khóa học thành công']);
-	        }
+        	return redirect('course/'.$course->slug)->with(['success'=>'Đăng ký khóa học thành công']);
+	
 
         } else {
 

@@ -17,12 +17,14 @@ $(document).ready(function(){
 		if(exsist == false) {
 			$arrAnswer.push({answer: $answer, id: $idq});
 		}
-});
 
-$(document).on('click','.nextQuestion', function(){
+	});
+
+	$(document).on('click','.nextQuestion', function(){
 	var $type = $('input[name=type]').val();
 	var $id = $('input[name=idtest]').val();
 	var $time = $('input[name=time]').val();
+	var $token = $('input[name=_token]').val();
 	
 		$.ajax({
 		url: 'test/' + $id,
@@ -45,14 +47,14 @@ $(document).on('click','.nextQuestion', function(){
 			url: 'postQuiz/' + $id,
 			type: 'post',
 			data: {
-				"_token": "{{ csrf_token() }}",
+				"_token": $token,
 				_arrAnswer: $arrAnswer,
 				_time: $time, 
 				_type: $type
 			},
-				
+			
+
 			success: function(data){
-				console.log(data);
 			}
 		});
 	});
@@ -116,3 +118,4 @@ $(document).on('click','.nextQuestion', function(){
 		$('.list-q ul').append(number);
 	}
 });
+

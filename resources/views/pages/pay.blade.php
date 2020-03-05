@@ -46,6 +46,7 @@
 						<p class="course-hp">Giá: <span id="price">{{$price}}</span></p>
 						@if(session('sale'))
 						@php($sale = number_format(session('sale'), 0, '', '.'))
+
 						<p id="sale">Giảm giá: <span>{{$sale}}</span></p>
 						@endif
 						<p id="total">Tổng: <span></span></p>
@@ -66,7 +67,9 @@
 		</div>
 	</div>
 	<div class="coup">
-		<p>Nhập mã giảm giá để nhận các ưu đãi khóa học</p>
+		<p>Nhập mã giảm giá để nhận các ưu đãi khóa học <br>
+		Nhập mã "NEWSTUDENT" để nhận ưu đãi 100% khóa học bất kỳ	
+		</p>
 	</div>
 	<div class="sale">
 		@if(session('sale'))
@@ -85,6 +88,7 @@
 			<div class="form-group-1">
 				<label>Mã giảm giá</label>
 				<input type="text" name="coupon">
+				<input type="hidden" name="id_course" value="{{$course->id}}">
 				@if($errors->has('coupon'))
 				<div class="notify-error">
 					{{$errors->first('coupon')}}

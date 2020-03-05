@@ -145,7 +145,7 @@ class TestController extends Controller
 
             if($idT == 3){
                 
-                $basic = QuestionBasic::paginate(10);
+                $basic = QuestionBasic::paginate(30);
                
                 return response(view('admin/test/add',['idT' => $idT, 'basic'=>$basic]));
 
