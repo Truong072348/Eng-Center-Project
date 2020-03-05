@@ -11,11 +11,6 @@ use App\TestDetail;
 
 class SearchController extends Controller
 {
-    // public function postSearchCourse(Request $request){
-    //     $keyword = $request->search;
-        
-    //     return redirect()->route('list', ['keyword'=>$keyword]);
-    // }
 
     public function postSearchTeacher(Request $request){
         $search = $request->search;
@@ -36,7 +31,7 @@ class SearchController extends Controller
     public function postSearchCourse(Request $request){
 
         $keyword = $request->search;
-        return redirect()->route('listCourse', ['keyword'=>$keyword]);
+        return redirect()->route('list', ['keyword'=>$keyword]);
     }
 
     public function getSearchLesson(Request $request){
