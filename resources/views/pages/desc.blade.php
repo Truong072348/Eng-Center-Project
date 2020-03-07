@@ -312,7 +312,7 @@
 						@foreach($studyTest as $study)
 						@if($study->id_test == $t->id)
 						<div class="tested">
-							<a href="overview/{{$t->id}}">Review</a>
+							<a href="overview/{{$t->id_test}}">Review</a>
 						</div>
 						@php($testCheck = 1)
 						@endif
@@ -321,7 +321,7 @@
 
 						@if($testCheck == 0)
 						<div class="test">
-							<a href="overview/{{$t->id}}">Test</a>
+							<a href="overview/{{$t->id_test}}">Test</a>
 						</div>
 						@endif
 

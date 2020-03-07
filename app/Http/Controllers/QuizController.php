@@ -195,7 +195,7 @@ class QuizController extends Controller
         //get test list result
         $tested = false;
         $register = Register::where('id_student', Auth::user()->id)->where('id_course', $courseAndTest->id_course)->first();
-        $studyTest = StudyTest::where('id_test', $courseAndTest->id_test)->first();
+        $studyTest = StudyTest::where('id_test', $courseAndTest->id_test)->where('id_users', Auth::id())->first();
         $studyTestDetail = StudyTestDetail::where('id_study_test', $studyTest->id)->get();
         //get answer list
         
