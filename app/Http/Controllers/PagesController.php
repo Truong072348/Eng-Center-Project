@@ -152,7 +152,6 @@ class PagesController extends Controller
                 $f->setAttribute('time', $time);      
             }
         }
-
         $register = 0;
 
         if(Auth::check()){

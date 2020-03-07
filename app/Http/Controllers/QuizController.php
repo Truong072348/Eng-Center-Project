@@ -218,7 +218,7 @@ class QuizController extends Controller
 
             $register = Register::where('id_student', Auth::user()->id)->where('id_course', $course->id)->first();
             $tested = false;
-            $studyTest = StudyTest::where('id_test', $id)->first();
+            $studyTest = StudyTest::where('id_test', $id)->where('id_users', Auth::id())->first();
             if(!empty($studyTest)){
                 $tested = true;
             }
